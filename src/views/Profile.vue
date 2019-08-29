@@ -80,38 +80,6 @@
             </a>
           </div>
         </div>
-        <div class="content_3">
-          <div>
-            <a href="#">
-              <img src="@/assets/images/home/스마트폰-사진.jpg" />
-            </a>
-          </div>
-          <div>
-            <a href="#">
-              <img src="@/assets/images/home/스마트폰-사진.jpg" />
-            </a>
-          </div>
-          <div>
-            <a href="#">
-              <img src="@/assets/images/home/스마트폰-사진.jpg" />
-            </a>
-          </div>
-          <div>
-            <a href="#">
-              <img src="@/assets/images/home/스마트폰-사진.jpg" />
-            </a>
-          </div>
-          <div>
-            <a href="#">
-              <img src="@/assets/images/home/스마트폰-사진.jpg" />
-            </a>
-          </div>
-          <div>
-            <a href="#">
-              <img src="@/assets/images/home/스마트폰-사진.jpg" />
-            </a>
-          </div>
-        </div>
       </div>
     </div>
   </div>
