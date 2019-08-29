@@ -39,8 +39,6 @@
       <label for="rd1">내가푼문제</label>
       <input type="radio" name="rd" id="rd2" />
       <label for="rd2">내가만든 문제</label>
-      <input type="radio" name="rd" id="rd3" />
-      <label for="rd3">통계</label>
       <div class="content">
         <div class="content_1">
           <div v-for="(results, i) in userInfo.resultData" :key="i">
