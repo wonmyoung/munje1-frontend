@@ -351,7 +351,8 @@ export default {
 }
 .conWrap .left article header h2 {
   padding: 10px;
-  font-size: 1.6rem;
+  font-size: 1.3rem;
+  font-weight: bold;
 }
 .conWrap .left article header a {
   padding: 10px;
