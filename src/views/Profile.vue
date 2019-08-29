@@ -5,7 +5,9 @@
         <div class="thumbnail">
           <img src="../assets/images/home/스마트폰-사진.jpg" />
         </div>
-        <md-button class="editBtn" @click="edit('Modalpop')">프로필편집</md-button>
+        <md-button class="editBtn" @click="edit('Modalpop')"
+          >프로필편집</md-button
+        >
       </div>
       <section class="sec1">
         <header>
@@ -50,7 +52,7 @@
         </div>
         <div class="content_2">
           <div v-for="(exam, i) in userInfo.myExam" :key="i">
-            <a @click="moveToResult(exam._id)">
+            <a @click="moveToExam(exam._id)">
               <h3>{{ exam.title }}</h3>
               <img :src="exam.thumbnail" />
             </a>
@@ -59,7 +61,10 @@
       </div>
     </div>
 
-    <div id="background" :class="{ on: displayBackground == true ? true : false }">
+    <div
+      id="background"
+      :class="{ on: displayBackground == true ? true : false }"
+    >
       <component v-bind:is="currentComponent"></component>
       <!-- <Modalpop /> -->
     </div>

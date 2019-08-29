@@ -51,12 +51,11 @@
         </div>
         <article>
           <header>
-            <h2>New</h2>
-            <a href="#">See all</a>
+            <h2>택트</h2>
           </header>
           <ul class="newWrap">
             <li
-              v-for="(exam, i) in examlist"
+              v-for="(exam, i) in tExamList"
               :key="exam.id"
               @click="moveToDetail(exam.id)"
             >
@@ -66,14 +65,17 @@
               <b>{{ exam.title }}</b>
               <p>{{ exam.description }}</p>
               <div class="inner_box">
-                <div class="star">
-                  <span class="on"></span>
-                  <span class="half"></span>
-                  <span></span>
-                  <span></span>
-                  <span></span>
+                <div class>
+                  <div class="text-center">
+                    <v-rating
+                      small
+                      half-increments
+                      color="orange"
+                      v-model="exam.rating"
+                    ></v-rating>
+                  </div>
                 </div>
-                <div class="count">33</div>
+                <!-- <div class="count">33</div> -->
               </div>
             </li>
           </ul>
@@ -81,186 +83,155 @@
 
         <article>
           <header>
-            <h2>Hot</h2>
-            <a href="#">See all</a>
+            <h2>청자반응</h2>
           </header>
-          <ul>
-            <li>
+          <ul class="newWrap">
+            <li
+              v-for="(exam, i) in cExamList"
+              :key="exam.id"
+              @click="moveToDetail(exam.id)"
+            >
               <div class="thumbnail">
-                <img src="../assets/images/home/스마트폰-사진.jpg" />
+                <img :src="exam.thumbnail" />
               </div>
-              <b>The letter A and B</b>
-              <p>reading</p>
+              <b>{{ exam.title }}</b>
+              <p>{{ exam.description }}</p>
               <div class="inner_box">
-                <div class="star">
-                  <span class="on"></span>
-                  <span class="on"></span>
-                  <span class="on"></span>
-                  <span></span>
-                  <span></span>
+                <div class>
+                  <div class="text-center">
+                    <v-rating
+                      small
+                      half-increments
+                      color="orange"
+                      v-model="exam.rating"
+                    ></v-rating>
+                  </div>
                 </div>
-                <div class="count">33</div>
-              </div>
-            </li>
-            <li>
-              <div class="thumbnail">
-                <img src="../assets/images/home/스마트폰-사진.jpg" />
-              </div>
-              <b>The letter A and Bdddddd</b>
-              <p>reading</p>
-              <div class="inner_box">
-                <div class="star">
-                  <span class="on"></span>
-                  <span class="half"></span>
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                </div>
-                <div class="count">33</div>
-              </div>
-            </li>
-            <li>
-              <div class="thumbnail">
-                <img src="../assets/images/home/스마트폰-사진.jpg" />
-              </div>
-              <b>The letter A and Bdddddd</b>
-              <p>reading</p>
-              <div class="inner_box">
-                <div class="star">
-                  <span class="on"></span>
-                  <span class="half"></span>
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                </div>
-                <div class="count">33</div>
-              </div>
-            </li>
-            <li>
-              <div class="thumbnail">
-                <img src="../assets/images/home/스마트폰-사진.jpg" />
-              </div>
-              <b>The letter A and Bdddddd</b>
-              <p>reading</p>
-              <div class="inner_box">
-                <div class="star">
-                  <span class="on"></span>
-                  <span class="half"></span>
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                </div>
-                <div class="count">33</div>
-              </div>
-            </li>
-            <li>
-              <div class="thumbnail">
-                <img src="../assets/images/home/스마트폰-사진.jpg" />
-              </div>
-              <b>The letter A and Bdddddd</b>
-              <p>reading</p>
-              <div class="inner_box">
-                <div class="star">
-                  <span class="on"></span>
-                  <span class="half"></span>
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                </div>
-                <div class="count">33</div>
+                <!-- <div class="count">33</div> -->
               </div>
             </li>
           </ul>
         </article>
         <article>
           <header>
-            <h2>상급문제</h2>
-            <a href="#">See all</a>
+            <h2>매칭</h2>
           </header>
-          <ul>
-            <li>
+          <ul class="newWrap">
+            <li
+              v-for="(exam, i) in mExamList"
+              :key="exam.id"
+              @click="moveToDetail(exam.id)"
+            >
               <div class="thumbnail">
-                <img src="../assets/images/home/스마트폰-사진.jpg" />
+                <img :src="exam.thumbnail" />
               </div>
-              <b>The letter A and B</b>
-              <p>reading</p>
+              <b>{{ exam.title }}</b>
+              <p>{{ exam.description }}</p>
               <div class="inner_box">
-                <div class="star">
-                  <span class="on"></span>
-                  <span class="half"></span>
-                  <span></span>
-                  <span></span>
-                  <span></span>
+                <div class>
+                  <div class="text-center">
+                    <v-rating
+                      small
+                      half-increments
+                      color="orange"
+                      v-model="exam.rating"
+                    ></v-rating>
+                  </div>
                 </div>
-                <div class="count">33</div>
+                <!-- <div class="count">33</div> -->
               </div>
             </li>
-            <li>
+          </ul>
+        </article>
+        <article>
+          <header>
+            <h2>LRFFC</h2>
+          </header>
+          <ul class="newWrap">
+            <li
+              v-for="(exam, i) in lExamList"
+              :key="exam.id"
+              @click="moveToDetail(exam.id)"
+            >
               <div class="thumbnail">
-                <img src="../assets/images/home/스마트폰-사진.jpg" />
+                <img :src="exam.thumbnail" />
               </div>
-              <b>The letter A and Bdddddd</b>
-              <p>reading</p>
+              <b>{{ exam.title }}</b>
+              <p>{{ exam.description }}</p>
               <div class="inner_box">
-                <div class="star">
-                  <span class="on"></span>
-                  <span class="half"></span>
-                  <span></span>
-                  <span></span>
-                  <span></span>
+                <div class>
+                  <div class="text-center">
+                    <v-rating
+                      small
+                      half-increments
+                      color="orange"
+                      v-model="exam.rating"
+                    ></v-rating>
+                  </div>
                 </div>
-                <div class="count">33</div>
+                <!-- <div class="count">33</div> -->
               </div>
             </li>
-            <li>
+          </ul>
+        </article>
+        <article>
+          <header>
+            <h2>인트라버벌</h2>
+          </header>
+          <ul class="newWrap">
+            <li
+              v-for="(exam, i) in iExamList"
+              :key="exam.id"
+              @click="moveToDetail(exam.id)"
+            >
               <div class="thumbnail">
-                <img src="../assets/images/home/스마트폰-사진.jpg" />
+                <img :src="exam.thumbnail" />
               </div>
-              <b>The letter A and Bdddddd</b>
-              <p>reading</p>
+              <b>{{ exam.title }}</b>
+              <p>{{ exam.description }}</p>
               <div class="inner_box">
-                <div class="star">
-                  <span class="on"></span>
-                  <span class="half"></span>
-                  <span></span>
-                  <span></span>
-                  <span></span>
+                <div class>
+                  <div class="text-center">
+                    <v-rating
+                      small
+                      half-increments
+                      color="orange"
+                      v-model="exam.rating"
+                    ></v-rating>
+                  </div>
                 </div>
-                <div class="count">33</div>
+                <!-- <div class="count">33</div> -->
               </div>
             </li>
-            <li>
+          </ul>
+        </article>
+        <article>
+          <header>
+            <h2>읽기</h2>
+          </header>
+          <ul class="newWrap">
+            <li
+              v-for="(exam, i) in rExamList"
+              :key="exam.id"
+              @click="moveToDetail(exam.id)"
+            >
               <div class="thumbnail">
-                <img src="../assets/images/home/스마트폰-사진.jpg" />
+                <img :src="exam.thumbnail" />
               </div>
-              <b>The letter A and Bdddddd</b>
-              <p>reading</p>
+              <b>{{ exam.title }}</b>
+              <p>{{ exam.description }}</p>
               <div class="inner_box">
-                <div class="star">
-                  <span class="on"></span>
-                  <span class="half"></span>
-                  <span></span>
-                  <span></span>
-                  <span></span>
+                <div class>
+                  <div class="text-center">
+                    <v-rating
+                      small
+                      half-increments
+                      color="orange"
+                      v-model="exam.rating"
+                    ></v-rating>
+                  </div>
                 </div>
-                <div class="count">33</div>
-              </div>
-            </li>
-            <li>
-              <div class="thumbnail">
-                <img src="../assets/images/home/스마트폰-사진.jpg" />
-              </div>
-              <b>The letter A and Bdddddd</b>
-              <p>reading</p>
-              <div class="inner_box">
-                <div class="star">
-                  <span class="on"></span>
-                  <span class="half"></span>
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                </div>
-                <div class="count">33</div>
+                <!-- <div class="count">33</div> -->
               </div>
             </li>
           </ul>
@@ -273,6 +244,7 @@
 import axios from "axios";
 import { mapState } from "vuex";
 import { BASE_URL } from "../config/env";
+import _ from "vue-lodash";
 // import Loading from "../components/Loading";
 // axios.defaults.headers = "Access-Control-Allow-Origin: *";
 const header = {
@@ -288,7 +260,13 @@ export default {
     return {
       loading: false,
       images: [],
-      examlist: []
+      examlist: [],
+      tExamList: [],
+      mExamList: [],
+      cExamList: [],
+      lExamList: [],
+      iExamList: [],
+      rExamList: []
     };
   },
   mounted() {
@@ -304,6 +282,12 @@ export default {
       axios.get(BASE_URL + "/exam/examList", { header }).then(res => {
         console.log(res.data.exam);
         this.examlist = res.data.exam;
+        this.tExamList = this.examlist.filter(exam => exam.category == 1);
+        this.mExamList = this.examlist.filter(exam => exam.category == 2);
+        this.cExamList = this.examlist.filter(exam => exam.category == 3);
+        this.lExamList = this.examlist.filter(exam => exam.category == 4);
+        this.iExamList = this.examlist.filter(exam => exam.category == 5);
+        this.rExamList = this.examlist.filter(exam => exam.category == 6);
         this.loading = false;
       });
     },

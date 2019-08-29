@@ -38,8 +38,7 @@
       </div>
       <div v-else-if="index == exam.questions.length" class="text-center">
         <h3>수고하셨습니다. 모든 문제를 푸셨습니다.</h3>
-        <p>문제에 점수를 매겨주세요.</p>
-
+        <p>문제에 점수를 매겨주세요. {{ rating }}</p>
         <v-rating v-model="rating" color="orange"></v-rating>
         <el-button type="primary" class="btn" @click="submit"
           >결과보기</el-button
@@ -87,7 +86,7 @@ export default {
           }
         ]
       },
-      rating: 3
+      rating: null
     };
   },
   mounted() {
@@ -142,7 +141,6 @@ export default {
         } else {
           result = "오답";
         }
-        console.log("rating!!!", this.rating);
 
         let data = {
           id: id,

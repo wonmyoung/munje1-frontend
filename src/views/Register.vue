@@ -6,7 +6,12 @@
     <div class="container">
       <div class="wrap">
         <div class="buttonWrap">
-          <el-button type="primary" class="primary1 location" @click="openSlideMenu">{{ button }}</el-button>
+          <el-button
+            type="primary"
+            class="primary1 location"
+            @click="openSlideMenu"
+            >{{ button }}</el-button
+          >
         </div>
         <div
           v-if="index == 0"
@@ -22,10 +27,12 @@
             </el-form-item>
             <el-form-item label="카테고리">
               <select v-model="category">
-                <option :value="1">1</option>
-                <option :value="2">2</option>
-                <option :value="3">3</option>
-                <option :value="4">4</option>
+                <option :value="1">택스</option>
+                <option :value="2">청자반응</option>
+                <option :value="3">매팅</option>
+                <option :value="4">LRFFC</option>
+                <option :value="5">인트라버벌</option>
+                <option :value="6">읽기</option>
               </select>
             </el-form-item>
 
@@ -42,7 +49,13 @@
                   @drop="OnDrop"
                 >
                   <p>Drag and Drop upload</p>
-                  <input type="file" class="input-file" ref="file" @change="sendFile" multiple />
+                  <input
+                    type="file"
+                    class="input-file"
+                    ref="file"
+                    @change="sendFile"
+                    multiple
+                  />
                 </div>
               </div>
             </div>
@@ -84,8 +97,16 @@
                     @dragover.prevent
                     @drop="OnDrop"
                   >
-                    <p>드래그 앤드랍 혹은 Click을하여 이미지를 업로드 해주세요</p>
-                    <input type="file" class="input-file" ref="file" @change="sendFile" multiple />
+                    <p>
+                      드래그 앤드랍 혹은 Click을하여 이미지를 업로드 해주세요
+                    </p>
+                    <input
+                      type="file"
+                      class="input-file"
+                      ref="file"
+                      @change="sendFile"
+                      multiple
+                    />
                   </div>
                 </div>
               </div>
@@ -94,7 +115,12 @@
                 <ul class="preview">
                   <li class="wrapper" v-for="(image, i) in images" :key="i">
                     <div>
-                      <input id="radio" type="radio" :value="image" v-model="value" />정답
+                      <input
+                        id="radio"
+                        type="radio"
+                        :value="image"
+                        v-model="value"
+                      />정답
                     </div>
                     <img :src="paths[i]" class="questionImage" />
                     <div class="overlay" @click="deleteFile(i)">
