@@ -462,6 +462,7 @@ export default {
   text-align: left;
   font-size: 1.4rem;
   margin: 20px 0 20px 0;
+  font-weight: bold;
 }
 select {
   width: 100%;

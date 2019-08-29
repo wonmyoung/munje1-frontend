@@ -6,36 +6,37 @@
         <el-form-item label="이미지명">
           <el-input v-model="title"></el-input>
         </el-form-item>
-        <el-form-item label="카테고리">
+        <!-- <el-form-item label="카테고리">
           <el-input v-model="category"></el-input>
+        </el-form-item>-->
+
+        <el-form-item label="카테고리">
+          <select v-model="category">
+            <option :value="1">과일</option>
+            <option :value="2">채소</option>
+            <option :value="3">식물</option>
+            <option :value="4">의류</option>
+            <option :value="5">문구</option>
+            <option :value="6">직업</option>
+            <option :value="7">동물</option>
+            <option :value="8">탈것</option>
+            <option :value="9">가구</option>
+            <option :value="10">음식</option>
+          </select>
         </el-form-item>
         <el-form-item label="작성자">
           <el-input :value="userInfo.username"></el-input>
         </el-form-item>
+        <el-upload
+          :action="uploadURL"
+          list-type="picture-card"
+          :on-remove="handleRemove"
+          :on-success="handleAvatarSuccess"
+        >
+          <i class="el-icon-plus"></i>
+        </el-upload>
       </el-form>
-      <el-upload
-        :action="uploadURL"
-        list-type="picture-card"
-        :on-remove="handleRemove"
-        :on-success="handleAvatarSuccess"
-      >
-        <i class="el-icon-plus"></i>
-      </el-upload>
 
-      <!-- <el-upload
-        id="outline"
-        action="http://127.0.0.1:3001/file/upload"
-        :on-preview="handlePictureCardPreview"
-        :on-remove="handleRemove"
-        :on-success="handleAvatarSuccess"
-        drag
-        ref="file"
-      >
-        <i class="el-icon-plus"></i>
-      </el-upload>-->
-      <!-- <div v-if="dialogVisible">
-        <img style="width: 100px;height:100px;" :src="dialogImageUrl" />
-      </div>-->
       <div class="btnWrap">
         <el-button type="primary" class="btn" @click="submit"
           >라이브러리 등록</el-button
@@ -54,6 +55,7 @@ export default {
   data() {
     return {
       title: null,
+      value: null,
       dialogImageUrl: "",
       dialogVisible: false,
       name: null,
@@ -82,6 +84,13 @@ export default {
       }
     },
     submit() {
+      if (this.title == null) {
+        return alert("제목을 입력해주세요");
+      } else if (this.files.length == 0) {
+        return alert("이미지를 업로드 해주세요");
+      } else if (this.category == null) {
+        return alert("카테고리를 선택해주세요");
+      }
       let data = {
         title: this.title,
         category: this.category,
@@ -129,27 +138,15 @@ export default {
   font-weight: bold;
   margin: 1em 0 1em 0;
 }
-#outline {
-  padding: 100px;
-}
-.inputBox {
-  margin: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  width: 70%;
-  height: 40px;
-  padding: 2px 5px 2px 5px;
-}
-.preview {
-  position: absolute;
-  margin: 0;
+
+select {
   width: 100%;
-  height: 100%;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  background-repeat: no-repeat;
-  background-size: cover;
+  border: 1px solid #dcdfe6;
+  background: url("../assets/images/home/select_arrow.png") no-repeat 100% 50%;
+  border-radius: 5px;
+  padding-left: 10px;
 }
+
 .btnWrap {
   text-align: right;
 }

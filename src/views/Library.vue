@@ -2,9 +2,120 @@
   <div v-loading="loading" class="container">
     <div id="page" class="pageWrap">
       <h2 class>라이브러리</h2>
-      <article class="outLinks">
+      <article v-show="fImageInfo.length > 0" class="outLinks">
+        <h3>과일</h3>
         <ul>
-          <li v-for="(image, index) in imageInfo" :key="index">
+          <li v-for="(image, index) in fImageInfo" :key="index">
+            <a href="#">
+              <img :src="image.file" class="image" />
+              <p id="title">{{ image.title }}</p>
+              <p id="author">작성자 : {{ image.author.username }}</p>
+            </a>
+          </li>
+        </ul>
+      </article>
+      <article v-if="aImageInfo.length > 0" class="outLinks">
+        <h3>동물</h3>
+        <ul>
+          <li v-for="(image, index) in aImageInfo" :key="index">
+            <a href="#">
+              <img :src="image.file" class="image" />
+              <!-- <span id="title">{{ image.title }}</span>
+              <span id="author">{{ image.author.username }}</span>-->
+            </a>
+          </li>
+        </ul>
+      </article>
+      <article v-if="vImageInfo.length > 0" class="outLinks">
+        <h3>채소</h3>
+        <ul>
+          <li v-for="(image, index) in vImageInfo" :key="index">
+            <a href="#">
+              <img :src="image.file" class="image" />
+              <p id="title">{{ image.title }}</p>
+              <p id="author">작성자 : {{ JSON.parse(JSON.stringify(image.author)) }}</p>
+            </a>
+          </li>
+        </ul>
+      </article>
+      <article v-if="uImageInfo.length > 0" class="outLinks">
+        <h3>가구</h3>
+        <ul>
+          <li v-for="(image, index) in uImageInfo" :key="index">
+            <a href="#">
+              <img :src="image.file" class="image" />
+              <p id="author">{{ image.title }}</p>
+              <!-- <p id="author">작성자 : {{ JSON.parse(JSON.stringify(image.author)) }}</p> -->
+            </a>
+          </li>
+        </ul>
+      </article>
+      <article v-if="cImageInfo.length > 0" class="outLinks">
+        <h3>의류</h3>
+        <ul>
+          <li v-for="(image, index) in cImageInfo" :key="index">
+            <a href="#">
+              <img :src="image.file" class="image" />
+              <p id="author">{{ image.title }}</p>
+              <!-- <p id="author">작성자 : {{ JSON.parse(JSON.stringify(image.author)) }}</p> -->
+            </a>
+          </li>
+        </ul>
+      </article>
+      <article v-if="vImageInfo.length > 0" class="outLinks">
+        <h3>식물</h3>
+        <ul>
+          <li v-for="(image, index) in vImageInfo" :key="index">
+            <a href="#">
+              <img :src="image.file" class="image" />
+              <p id="author">{{ image.title }}</p>
+              <!-- <p id="author">작성자 : {{ JSON.parse(JSON.stringify(image.author)) }}</p> -->
+            </a>
+          </li>
+        </ul>
+      </article>
+      <article v-if="jImageInfo.length > 0" class="outLinks">
+        <h3>직업</h3>
+        <ul>
+          <li v-for="(image, index) in jImageInfo" :key="index">
+            <a href="#">
+              <img :src="image.file" class="image" />
+              <p id="author">{{ image.title }}</p>
+              <!-- <p id="author">작성자 : {{ JSON.parse(JSON.stringify(image.author)) }}</p> -->
+            </a>
+          </li>
+        </ul>
+      </article>
+
+      <article v-if="hImageInfo.length > 0" class="outLinks">
+        <h3>탈것</h3>
+        <ul>
+          <li v-for="(image, index) in hImageInfo" :key="index">
+            <a href="#">
+              <img :src="image.file" class="image" />
+              <p id="author">{{ image.title }}</p>
+              <!-- <p id="author">작성자 : {{ JSON.parse(JSON.stringify(image.author)) }}</p> -->
+            </a>
+          </li>
+        </ul>
+      </article>
+      <article v-if="sImageInfo.length > 0" class="outLinks">
+        <h3>문구</h3>
+        <ul>
+          <li v-for="(image, index) in sImageInfo" :key="index">
+            <a href="#">
+              <img :src="image.file" class="image" />
+              <p id="author">{{ image.title }}</p>
+              <!-- <p id="author">작성자 : {{ JSON.parse(JSON.stringify(image.author)) }}</p> -->
+            </a>
+          </li>
+        </ul>
+      </article>
+
+      <article v-if="oImageInfo.length > 0" class="outLinks">
+        <h3>음식</h3>
+        <ul>
+          <li v-for="(image, index) in oImageInfo" :key="index">
             <a href="#">
               <img :src="image.file" class="image" />
               <p id="author">{{ image.title }}</p>
@@ -24,7 +135,17 @@ export default {
   data() {
     return {
       loading: false,
-      imageInfo: []
+      imageInfo: [],
+      fImageInfo: [], //과일
+      vImageInfo: [], //채소
+      pImageInfo: [], //식물
+      cImageInfo: [], //의류
+      sImageInfo: [], //문구
+      jImageInfo: [], //직업
+      hImageInfo: [], //탈것
+      aImageInfo: [], //동물
+      oImageInfo: [], //동물
+      uImageInfo: [] //가구
     };
   },
   mounted() {
@@ -36,6 +157,16 @@ export default {
       axios.get(BASE_URL + "/library").then(res => {
         console.log("res > >", res);
         this.imageInfo = JSON.parse(JSON.stringify(res.data.imageInfo));
+        this.fImageInfo = this.imageInfo.filter(item => item.category == "1");
+        this.vImageInfo = this.imageInfo.filter(item => item.category == "2");
+        this.pImageInfo = this.imageInfo.filter(item => item.category == "3");
+        this.cImageInfo = this.imageInfo.filter(item => item.category == "4");
+        this.sImageInfo = this.imageInfo.filter(item => item.category == "5");
+        this.jImageInfo = this.imageInfo.filter(item => item.category == "6");
+        this.aImageInfo = this.imageInfo.filter(item => item.category == "7");
+        this.hImageInfo = this.imageInfo.filter(item => item.category == "8");
+        this.uImageInfo = this.imageInfo.filter(item => item.category == "9");
+        this.oImageInfo = this.imageInfo.filter(item => item.category == "10");
         this.loading = false;
       });
     }
@@ -52,11 +183,13 @@ export default {
 }
 .pageWrap {
   width: 90%;
+  min-height: 80vh;
   margin: 30px auto;
   border: 1px solid #efefef;
   border-radius: 5px;
   max-width: 1200px;
   margin: 30px auto;
+  overflow-y: auto;
 }
 .pageWrap > h2 {
   font-size: 25px;
@@ -88,10 +221,19 @@ export default {
   justify-content: flex-start;
   //   margin: 50px -10px;
   //   text-align: center;
-  overflow-y: scroll;
+  // overflow-y: scroll;
   height: auto;
+  border: 1px solid #ccc;
+  margin: 10px;
+  background: #fff;
+  border-radius: 5px;
 }
-
+#page h3 {
+  text-align: left;
+  font-size: 1.1em;
+  margin-left: 10px;
+  font-weight: bold;
+}
 #page .outLinks li {
   flex: 0 1 auto;
   width: 120px;
@@ -155,5 +297,9 @@ export default {
 #page .outLinks li:hover > a b:after {
   padding-left: 10px;
   color: #80629c;
+}
+#title {
+  font-size: 14px;
+  font-weight: bold;
 }
 </style>
