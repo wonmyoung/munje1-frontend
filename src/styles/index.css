@@ -177,4 +177,24 @@ body {
   /* 모달창에 on클래스 붙으면 나온다 */
   display: block;
 }
+#background .btnClose {
+  position: relative;
+  left: -70px;
+  top: -80px;
+  font-size: 25px;
+  z-index: 199;
+  display: block;
+  width: 35px;
+  height: 35px;
+  line-height: 35px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  text-align: center;
+  border: 1px solid #fff;
+}
+a:hover {
+  cursor: pointer;
+  text-decoration: none;
+}
+
 @import url("https://fonts.googleapis.com/css?family=Noto+Sans+KR|Roboto&display=swap");

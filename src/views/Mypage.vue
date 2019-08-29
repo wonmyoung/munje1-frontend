@@ -59,7 +59,6 @@ export default {
     closeModal() {
       this.currentComponent = null;
       this.displayBackground = false;
-      return;
     }
   }
 };

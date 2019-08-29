@@ -5,7 +5,7 @@
         <div class="thumbnail">
           <img src="../assets/images/home/스마트폰-사진.jpg" />
         </div>
-        <a class="editBtn" @click="edit">프로필편집</a>
+        <md-button class="editBtn" @click="edit('Modalpop')">프로필편집</md-button>
       </div>
       <section class="sec1">
         <header>
@@ -82,38 +82,73 @@
         </div>
       </div>
     </div>
+
+    <div id="background" :class="{ on: displayBackground == true ? true : false }">
+      <component v-bind:is="currentComponent"></component>
+      <!-- <Modalpop /> -->
+    </div>
   </div>
 </template>
 <script>
 import { mapState, mapActions } from "vuex";
 import { BASE_URL } from "../config/env";
 import axios from "axios";
-
+import Modalpop from "./Modalpop";
+import { eventBus } from "../main";
 export default {
+  components: { Modalpop },
   data() {
     return {
-      results: null,
-      activeName: "first"
+      currentComponent: null,
+      displayBackground: false
     };
   },
   computed: {
     ...mapState(["userInfo", "isLogin"])
+  },
+  created() {
+    eventBus.$on("closemodal", () => {
+      this.displayBackground = false;
+      this.currentComponent = null;
+    });
   },
   methods: {
     moveToResult(id) {
       console.log("id > > >", id);
       this.$router.push({ name: "examResult", params: { id: id } });
     },
-    handleClick(tab, event) {
-      console.log(tab, event);
+    edit(view) {
+      console.log("edit !!!", view);
+      this.currentComponent = view;
+      this.displayBackground = true;
+      console.log("this.displayBackground !!!", this.displayBackground);
+    },
+    closeBtn() {
+      this.currentComponent = null;
+      this.displayBackground = false;
     }
   }
 };
 </script>
 
 <style scoped>
+#background {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  left: 0;
+  top: 0;
+  z-index: 11;
+  display: none;
+}
+
+#background.on {
+  /* 모달창에 on클래스 붙으면 나온다 */
+  display: block;
+}
 .container {
-  background: #fafafa;
+  background: #efefef;
 }
 .introduce_box {
   max-width: 1200px;
@@ -151,12 +186,13 @@ export default {
 }
 .editBtn {
   padding: 5px;
-  width: 140px;
+  width: 100px;
   background: #fafafa;
   color: rgb(87, 87, 87);
   border: 1px solid #ddd;
   border-radius: 7px;
   text-decoration: none;
+  background: #fff;
 }
 .sec1 article {
   margin-left: 30px;
@@ -372,7 +408,20 @@ label:first-child {
     border-radius: 12px;
   }
 }
-a:hover {
-  cursor: pointer;
+.btnClose {
+  position: relative;
+  left: 300px;
+  top: -20px;
+  font-size: 25px;
+  z-index: 199;
+  display: block;
+  width: 35px;
+  height: 35px;
+  line-height: 35px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  text-align: center;
+  border: 1px solid #fff;
+  color: red;
 }
 </style>
