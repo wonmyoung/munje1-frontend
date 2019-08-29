@@ -43,29 +43,29 @@
       <label for="rd3">통계</label>
       <div class="content">
         <div class="content_1">
-          <ul>
-            <li v-for="(results, i) in userInfo.resultData" :key="i">
-              <h1>{{ results.examId.title }}</h1>
-              <a @click="moveToResult(results._id)">{{ results._id }}</a>
-              <img :src="results.examId.thumbnail" class="thumbnail" />
-            </li>
-          </ul>
+       <div><a href="#"><img src="@/assets/images/home/스마트폰-사진.jpg"></a></div>
+          <div><a href="#"><img src="@/assets/images/home/스마트폰-사진.jpg"></a></div>
+          <div><a href="#"><img src="@/assets/images/home/스마트폰-사진.jpg"></a></div>
+          <div><a href="#"><img src="@/assets/images/home/스마트폰-사진.jpg"></a></div>
+          <div><a href="#"><img src="@/assets/images/home/스마트폰-사진.jpg"></a></div>
+          <div><a href="#"><img src="@/assets/images/home/스마트폰-사진.jpg"></a></div>
+
         </div>
         <div class="content_2">
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
+            <div><a href="#"><img src="@/assets/images/home/스마트폰-사진.jpg"></a></div>
+          <div><a href="#"><img src="@/assets/images/home/스마트폰-사진.jpg"></a></div>
+          <div><a href="#"><img src="@/assets/images/home/스마트폰-사진.jpg"></a></div>
+          <div><a href="#"><img src="@/assets/images/home/스마트폰-사진.jpg"></a></div>
+          <div><a href="#"><img src="@/assets/images/home/스마트폰-사진.jpg"></a></div>
+          <div><a href="#"><img src="@/assets/images/home/스마트폰-사진.jpg"></a></div>
         </div>
         <div class="content_3">
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
+          <div><a href="#"><img src="@/assets/images/home/스마트폰-사진.jpg"></a></div>
+          <div><a href="#"><img src="@/assets/images/home/스마트폰-사진.jpg"></a></div>
+          <div><a href="#"><img src="@/assets/images/home/스마트폰-사진.jpg"></a></div>
+          <div><a href="#"><img src="@/assets/images/home/스마트폰-사진.jpg"></a></div>
+          <div><a href="#"><img src="@/assets/images/home/스마트폰-사진.jpg"></a></div>
+          <div><a href="#"><img src="@/assets/images/home/스마트폰-사진.jpg"></a></div>
         </div>
       </div>
     </div>
@@ -108,7 +108,8 @@ export default {
 }
 .introduce_box .l_box {
   float: left;
-}
+    margin-left:50px;
+  }
 .l_box .thumbnail {
   width: 150px;
   height: 150px;
@@ -208,6 +209,7 @@ label:first-child {
   margin: 0 auto;
   height: 400px;
   position: relative;
+overflow: scroll;
 }
 .content > div {
   position: absolute;
@@ -226,9 +228,19 @@ label:first-child {
   margin-right: 20px;
   margin-bottom: 20px;
   outline: 1px solid #efefef;
+    margin-bottom: 20px;
+}
+.content > div div img{
+  width:100%;
+  height:100%;
 }
 .content > div div:nth-child(3n) {
   margin: 0;
+}
+#rd1:checked ~ label:nth-child(2),
+#rd2:checked ~ label:nth-child(4),
+#rd3:checked ~ label:nth-child(6){
+  background: #ccc;
 }
 #rd1:checked ~ .content > .content_1,
 #rd2:checked ~ .content > .content_2,
