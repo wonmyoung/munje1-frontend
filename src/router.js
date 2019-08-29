@@ -38,12 +38,6 @@ export default new Router({
       name: "dragAndDrop",
       component: () => import("./views/DragAndDropUpload.vue")
     },
-
-    {
-      path: "/mypage",
-      name: "mypage",
-      component: () => import("./views/Mypage.vue")
-    },
     {
       path: "/dropzone",
       name: "dropzone",

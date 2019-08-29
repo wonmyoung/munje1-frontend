@@ -19,6 +19,7 @@ export default new Vuex.Store({
       email: null,
       _id: null,
       resultData: [],
+      myExam: [],
       admin: true
     },
     isLogin: false,
@@ -57,6 +58,9 @@ export default new Vuex.Store({
       }
       if (userInfo.resultData) {
         state.userInfo.resultData.push(userInfo.resultData);
+      }
+      if (userInfo.myExam) {
+        state.userInfo.myExam.push(userInfo.myExam);
       }
     }
   },
@@ -119,9 +123,10 @@ export default new Vuex.Store({
             email: response.data.userInfo.email,
             resultData: JSON.parse(
               JSON.stringify(response.data.userInfo.resultData)
-            )
+            ),
+            myExam: JSON.parse(JSON.stringify(response.data.userInfo.myExam))
           };
-          console.log("userInfo!!!!", userInfo.resultData);
+          console.log("userInfo!!!!", userInfo.myExam);
 
           commit("LOGIN", userInfo);
         });

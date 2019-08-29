@@ -49,34 +49,10 @@
           </div>
         </div>
         <div class="content_2">
-          <div>
-            <a href="#">
-              <img src="@/assets/images/home/스마트폰-사진.jpg" />
-            </a>
-          </div>
-          <div>
-            <a href="#">
-              <img src="@/assets/images/home/스마트폰-사진.jpg" />
-            </a>
-          </div>
-          <div>
-            <a href="#">
-              <img src="@/assets/images/home/스마트폰-사진.jpg" />
-            </a>
-          </div>
-          <div>
-            <a href="#">
-              <img src="@/assets/images/home/스마트폰-사진.jpg" />
-            </a>
-          </div>
-          <div>
-            <a href="#">
-              <img src="@/assets/images/home/스마트폰-사진.jpg" />
-            </a>
-          </div>
-          <div>
-            <a href="#">
-              <img src="@/assets/images/home/스마트폰-사진.jpg" />
+          <div v-for="(exam, i) in userInfo.myExam" :key="i">
+            <a @click="moveToResult(exam._id)">
+              <h3>{{ exam.title }}</h3>
+              <img :src="exam.thumbnail" />
             </a>
           </div>
         </div>
