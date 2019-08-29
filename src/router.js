@@ -1,0 +1,83 @@
+import Vue from "vue";
+import Router from "vue-router";
+// import Agreement from "./views/Agreement.vue";
+
+Vue.use(Router);
+
+export default new Router({
+  mode: "history",
+  base: process.env.BASE_URL,
+  routes: [
+    {
+      path: "/",
+      name: "home",
+      component: () => import("./views/Home.vue")
+    },
+    {
+      path: "/register",
+      name: "register",
+      component: () => import("./views/Register.vue")
+    },
+    {
+      path: "/login",
+      name: "login",
+      component: () => import("./views/Login.vue")
+    },
+    {
+      path: "/signup",
+      name: "signup",
+      component: () => import("./views/SignUp.vue")
+    },
+    {
+      path: "/library",
+      name: "library",
+      component: () => import("./views/Library.vue")
+    },
+    {
+      path: "/dragAndDrop",
+      name: "dragAndDrop",
+      component: () => import("./views/DragAndDropUpload.vue")
+    },
+
+    {
+      path: "/mypage",
+      name: "mypage",
+      component: () => import("./views/Mypage.vue")
+    },
+    {
+      path: "/dropzone",
+      name: "dropzone",
+      component: () => import("./views/Dropzone.vue")
+    },
+    {
+      path: "/profile",
+      name: "profile",
+      component: () => import("./views/Profile.vue")
+    },
+    {
+      path: "/registerImage",
+      name: "registerImage",
+      component: () => import("./views/RegisterImage.vue")
+    },
+    {
+      path: "/exam/detail/:id",
+      name: "detail",
+      component: () => import("./views/ExamDetail.vue")
+    },
+    {
+      path: "/exam/examResult/:id",
+      name: "examResult",
+      component: () => import("./views/ExamResult.vue")
+    },
+    {
+      path: "/admin/dashboard",
+      name: "admin",
+      component: () => import("./views/admin/Dashboard.vue")
+    },
+    {
+      path: "/questionRegister/:publicUID",
+      name: "questionRegister",
+      component: () => import("./views/questionRegister.vue")
+    }
+  ]
+});

@@ -1,0 +1,180 @@
+@charset "utf-8";
+
+/* HTML Elements Reset */
+html,
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+form,
+legend,
+fieldset,
+img,
+ul,
+ol,
+li,
+dl,
+dt,
+dd,
+figure,
+figcaption,
+table,
+tr,
+th,
+td,
+caption {
+  margin: 0;
+  padding: 0;
+}
+
+@media only screen and (min-width: 320px) and (max-width: 560px) {
+  body {
+    -webkit-text-size-adjust: none; /* IOS Web 가로,세로모드 폰트사이즈 변경되는것 방지 */
+  }
+}
+
+ul,
+ol,
+li {
+  list-style: none;
+}
+img,
+fieldset {
+  border: none;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}
+table {
+  border-collapse: collapse;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+th,
+strong,
+b {
+  font-weight: inherit;
+  font-size: inherit;
+}
+address,
+em,
+i {
+  font-style: inherit;
+}
+input,
+img {
+  border: none;
+}
+button {
+  border: none;
+  cursor: pointer;
+  background-color: transparent;
+}
+select,
+option,
+textarea {
+  font-family: inherit;
+  font-size: inherit;
+}
+select,
+textarea,
+input,
+label,
+img,
+button {
+  vertical-align: middle;
+}
+table td {
+  word-wrap: break-word;
+  word-break: break-all;
+}
+input:focus {
+  background: #f2f2f2;
+}
+label {
+  cursor: pointer;
+}
+
+/* HTML Elements Hiding */
+.fly,
+hr,
+legend {
+  position: absolute;
+  left: -10000em;
+  top: -10000em;
+}
+
+.hide {
+  font-size: 6px;
+  color: transparent;
+}
+
+.clearfix {
+  *zoom: 1;
+}
+.clearfix:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+textarea::placeholder,
+input::placeholder {
+  font-size: 0.87rem;
+  font-style: italic;
+  color: #999;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  /* background: #fafafa; */
+  background: #ccc;
+  font-size: 1.1em;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.md-app-content {
+  padding: 0;
+  margin: 0;
+}
+.md-content,
+.md-flex {
+  padding: 0;
+}
+.md-content.md-theme-default {
+  padding: 0;
+}
+.primary1 {
+  background-color: #00c362;
+  width: 100px;
+  height: 40px;
+  border: 1px solid #00c362;
+  border-radius: 5px;
+}
+
+#background {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  left: 0;
+  top: 0;
+  z-index: 11;
+  display: none;
+}
+
+#background.on {
+  /* 모달창에 on클래스 붙으면 나온다 */
+  display: block;
+}
+@import url("https://fonts.googleapis.com/css?family=Noto+Sans+KR|Roboto&display=swap");
