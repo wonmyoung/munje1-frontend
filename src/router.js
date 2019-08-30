@@ -16,7 +16,12 @@ export default new Router({
     {
       path: "/register",
       name: "register",
-      component: () => import("./views/Register.vue")
+      component: () => import("./views/register/Register.vue")
+    },
+    {
+      path: "/editExam/:id",
+      name: "editExam",
+      component: () => import("./views/register/EditExam.vue")
     },
     {
       path: "/login",
@@ -64,14 +69,29 @@ export default new Router({
       component: () => import("./views/ExamResult.vue")
     },
     {
+      path: "/questionRegister/:publicUID",
+      name: "questionRegister",
+      component: () => import("./views/questionRegister.vue")
+    },
+    {
       path: "/admin/dashboard",
       name: "admin",
       component: () => import("./views/admin/Dashboard.vue")
     },
     {
-      path: "/questionRegister/:publicUID",
-      name: "questionRegister",
-      component: () => import("./views/questionRegister.vue")
+      path: "/admin/dashboard/userManage",
+      name: "userManage",
+      component: () => import("./views/admin/UserManage.vue")
+    },
+    {
+      path: "/admin/dashboard/questionManage",
+      name: "questionManage",
+      component: () => import("./views/admin/QuestionManage.vue")
+    },
+    {
+      path: "/admin/dashboard/libraryManage",
+      name: "libraryManage",
+      component: () => import("./views/admin/LibraryManage.vue")
     }
   ]
 });

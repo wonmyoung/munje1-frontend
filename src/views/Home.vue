@@ -243,7 +243,6 @@
 import axios from "axios";
 import { mapState } from "vuex";
 import { BASE_URL } from "../config/env";
-import _ from "vue-lodash";
 // import Loading from "../components/Loading";
 // axios.defaults.headers = "Access-Control-Allow-Origin: *";
 const header = {

@@ -122,7 +122,7 @@
                         v-model="value"
                       />정답
                     </div>
-                    <img :src="paths[i]" class="questionImage" />
+                    <img :src="images[i]" class="questionImage" />
                     <div class="overlay" @click="deleteFile(i)">
                       <i class="material-icons">delete</i>
                     </div>
@@ -144,10 +144,16 @@
 <script>
 import axios from "axios";
 import Library from "@/views/Library";
-import { BASE_URL } from "../config/env";
+import { BASE_URL } from "../../config/env";
 
 export default {
   components: { Library },
+  props: {
+    isEdit: {
+      type: Boolean,
+      default: false
+    }
+  },
   data() {
     return {
       form: {},
@@ -174,6 +180,9 @@ export default {
       button: "라이브러리 열기",
       show: false
     };
+  },
+  created() {
+    this.getEditData();
   },
   methods: {
     // onInputChange(e) {
@@ -415,6 +424,30 @@ export default {
     },
     closeSlideMenu() {
       document.getElementById("side-menu").style.width = "0";
+    },
+    getEditData() {
+      if (this.isEdit == false) {
+        return;
+      }
+      console.log("params >", this.$route.params);
+      axios
+        .get(BASE_URL + `/admin/detail/${this.$route.params.id}`)
+        .then(res => {
+          console.log("res > ", res);
+
+          this.questions = res.data.exam.questions;
+          this.questions = res.data.exam.questions;
+          this.thumbnail = res.data.exam.thumbnail;
+          this.category = res.data.exam.category;
+          this.description = res.data.exam.description;
+          this.title = res.data.exam.title;
+          res.data.exam.questions.foreach(q => {
+            this.image.push(q.images);
+            this.paths.push(q.images);
+            console.log("END > ", this.paths);
+          });
+          console.log("END > ", this.paths);
+        });
     }
   },
   computed: {}
@@ -467,7 +500,8 @@ export default {
 select {
   width: 100%;
   border: 1px solid #dfdfdf;
-  background: url("../assets/images/home/select_arrow.png") no-repeat 100% 50%;
+  background: url("../../assets/images/home/select_arrow.png") no-repeat 100%
+    50%;
   border-radius: 5px;
   padding-left: 10px;
 }

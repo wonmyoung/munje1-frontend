@@ -8,8 +8,8 @@
           <li v-for="(image, index) in fImageInfo" :key="index">
             <a href="#">
               <img :src="image.file" class="image" />
-              <p id="title">{{ image.title }}</p>
-              <p id="author">작성자 : {{ image.author.username }}</p>
+              <!-- <p id="title">{{ image.title }}</p> -->
+              <!-- <p id="author">{{ image.author.username }}</p> -->
             </a>
           </li>
         </ul>
@@ -33,7 +33,9 @@
             <a href="#">
               <img :src="image.file" class="image" />
               <p id="title">{{ image.title }}</p>
-              <p id="author">작성자 : {{ JSON.parse(JSON.stringify(image.author)) }}</p>
+              <p id="author">
+                작성자 : {{ JSON.parse(JSON.stringify(image.author)) }}
+              </p>
             </a>
           </li>
         </ul>
@@ -223,9 +225,9 @@ export default {
   //   text-align: center;
   // overflow-y: scroll;
   height: auto;
-  border: 1px solid #ccc;
+  border: 1px solid #448aff;
   margin: 10px;
-  background: #fff;
+  background: #fafafa;
   border-radius: 5px;
 }
 #page h3 {

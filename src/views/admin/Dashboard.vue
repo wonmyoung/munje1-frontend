@@ -6,7 +6,7 @@
       <article class="outLinks">
         <ul>
           <li>
-            <a @click="$router.push({ name: 'educationInfo' })">
+            <a @click="$router.push({ name: 'userManage' })">
               <img
                 src="../../assets/images/dashboard/page1_ico1.png"
                 alt="icon"
@@ -15,7 +15,7 @@
             </a>
           </li>
           <li>
-            <a @click="openUpload">
+            <a @click="$router.push({ name: 'questionManage' })">
               <img
                 src="../../assets/images/dashboard/page1_ico2.png"
                 alt="icon"
@@ -24,7 +24,7 @@
             </a>
           </li>
           <li>
-            <a @click="$router.push({ name: 'manageContract' })">
+            <a @click="$router.push({ name: 'libraryManage' })">
               <img
                 src="../../assets/images/dashboard/page1_ico3.png"
                 alt="icon"
