@@ -18,8 +18,13 @@
         prop="index"
         width="70"
       ></el-table-column>
-      <el-table-column label="작성일" prop="date" width="120"></el-table-column>
-      <el-table-column label="저자" prop="author"></el-table-column>
+      <el-table-column
+        sortable
+        label="작성일"
+        prop="date"
+        width="120"
+      ></el-table-column>
+      <el-table-column sortable label="저자" prop="author"></el-table-column>
       <el-table-column label="제목" prop="title"></el-table-column>
       <el-table-column
         label="설명"
@@ -30,6 +35,7 @@
         label="Rating"
         prop="rating"
         width="140"
+        sortable
       ></el-table-column>
       <el-table-column align="right">
         <template slot="header" slot-scope="scope">
@@ -95,8 +101,8 @@ export default {
     },
     handleDelete(index, row) {
       console.log(index, row);
-      confirm("해당 컨텐츠를 삭제 하시겠습니까?");
-      this.removeData(row.id);
+      let result = confirm("해당 컨텐츠를 삭제 하시겠습니까?");
+      if (result == true) this.removeData(row.id);
     },
     removeData(id) {
       let accessToken = localStorage.getItem("accessToken");
@@ -110,24 +116,7 @@ export default {
         console.log("res.data> ", res.data);
         if (res.status == 200) {
           this.getUserlist();
-          // this.total = res.data.exam.length;
-          // this.data = res.data.exam.map((exam, i) => {
-          //   console.log("exam._id > ", exam._id);
-
-          //   let data = {
-          //     id: exam._id,
-          //     index: i + 1,
-          //     date: moment(exam.created_at).format("YYYY-MM-DD"),
-          //     author: exam.author.username,
-          //     rating: exam.rating,
-          //     description: exam.description,
-          //     title: exam.title
-          //   };
-          //   return data;
-          // });
         }
-
-        // this.tableData = this.data.slice(0, 5);
       });
     },
     getUserlist() {
@@ -149,7 +138,7 @@ export default {
             id: exam._id,
             index: i + 1,
             date: moment(exam.created_at).format("YYYY-MM-DD"),
-            author: exam.author.username,
+            author: exam.author == undefined ? null : exam.author.username,
             rating: exam.rating,
             description: exam.description,
             title: exam.title

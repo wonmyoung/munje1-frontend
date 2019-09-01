@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="contentWrap">
-      <h1>라이브러리 등록</h1>
+      <h1>{{ header }}</h1>
       <el-form>
         <el-form-item label="이미지명">
           <el-input v-model="title"></el-input>
@@ -22,6 +22,7 @@
             <option :value="8">탈것</option>
             <option :value="9">가구</option>
             <option :value="10">음식</option>
+            <option :value="11">기타</option>
           </select>
         </el-form-item>
         <el-form-item label="작성자">
@@ -42,9 +43,9 @@
         <img :src="files[0]" class="image" />
       </div>
       <div class="btnWrap">
-        <el-button type="primary" class="btn" @click="submit"
-          >라이브러리 등록</el-button
-        >
+        <el-button type="primary" class="btn" @click="submit">{{
+          header
+        }}</el-button>
       </div>
     </div>
   </div>
@@ -64,6 +65,7 @@ export default {
   },
   data() {
     return {
+      header: "라이브러리 등록",
       title: null,
       value: null,
       author: null,
@@ -136,10 +138,12 @@ export default {
           return alert("로그인 후 사용해주세요.");
         }
         if (res.status == 200) {
-          alert("정상적으로 등록 되었습니다.");
+          alert("정상적으로 완료 되었습니다.");
           if (this.isEdit == true) {
             this.$router.push({ name: "libraryManage" });
           } else return this.$router.push({ name: "library" });
+        } else {
+          alert("등록 할수 없습니다.");
         }
       });
     },
@@ -147,6 +151,7 @@ export default {
       if (this.isEdit == false) {
         return;
       }
+      this.header = "라이브러리 수정";
       axios
         .get(BASE_URL + `/library/detail/${this.$route.params.id}`)
         .then(res => {

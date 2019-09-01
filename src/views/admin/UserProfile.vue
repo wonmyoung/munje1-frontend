@@ -3,16 +3,16 @@
     <div class="introduce_box clearfix">
       <div class="l_box">
         <div class="thumbnail">
-          <img src="../assets/images/home/스마트폰-사진.jpg" />
+          <img src="../../assets/images/home/스마트폰-사진.jpg" />
         </div>
-        <md-button class="editBtn" @click="edit('Modalpop')">프로필편집</md-button>
+        >
       </div>
       <section class="section">
         <header>
-          <h1>{{ userInfo.username }}</h1>
+          <h1>{{ userdata.username }}</h1>
         </header>
         <article>
-          <p>{{ userInfo.email }}</p>
+          <p>{{ userdata.email }}</p>
         </article>
       </section>
     </div>
@@ -41,44 +41,45 @@
       <label for="rd2">내가만든 문제</label>
       <div class="content">
         <div class="content_1">
-          <div v-for="(results, i) in userInfo.resultData" :key="i">
-            <a @click="moveToResult(results._id)">
+          <div v-for="(results, i) in userdata.resultData" :key="i">
+            <router-link @click="moveToResult(results._id)">
               <h3>{{ results.examId.title }}</h3>
               <img :src="results.examId.thumbnail" />
-            </a>
+            </router-link>
           </div>
         </div>
         <div class="content_2">
-          <div v-for="(exam, i) in userInfo.myExam" :key="i">
-            <a @click="moveToExam(exam._id)">
+          <div v-for="(exam, i) in userdata.myExam" :key="i">
+            <router-link :to="`/exam/detail/${exam.id}`">
               <h3>{{ exam.title }}</h3>
               <img :src="exam.thumbnail" />
-            </a>
+            </router-link>
           </div>
         </div>
       </div>
     </div>
 
-    <div id="background" :class="{ on: displayBackground == true ? true : false }">
+    <!-- <div
+      id="background"
+      :class="{ on: displayBackground == true ? true : false }"
+    >
       <component v-bind:is="currentComponent"></component>
-      <!-- <Modalpop /> -->
-    </div>
+    </div>-->
   </div>
 </template>
 <script>
-import { mapState, mapActions } from "vuex";
-import Modalpop from "./Modalpop";
-import { eventBus } from "../main";
+import { BASE_URL } from "../../config/env";
+import axios from "axios";
+// import Modalpop from "./Modalpop";
+import { eventBus } from "../../main";
 export default {
-  components: { Modalpop },
+  // components: { Modalpop },
   data() {
     return {
       currentComponent: null,
-      displayBackground: false
+      displayBackground: false,
+      userdata: null
     };
-  },
-  computed: {
-    ...mapState(["userInfo", "isLogin"])
   },
   created() {
     this.getUserData();
@@ -89,15 +90,46 @@ export default {
   },
   methods: {
     moveToResult(id) {
+      console.log("id > > >", id);
       this.$router.push({ name: "examResult", params: { id: id } });
     },
     edit(view) {
+      console.log("edit !!!", view);
       this.currentComponent = view;
       this.displayBackground = true;
+      console.log("this.displayBackground !!!", this.displayBackground);
     },
     closeBtn() {
       this.currentComponent = null;
       this.displayBackground = false;
+    },
+    getUserData() {
+      let params = {
+        id: this.$route.query.id
+      };
+      if (params == undefined) {
+        return;
+      }
+      // console.log("query", query);
+      let accessToken = localStorage.getItem("accessToken");
+      console.log("accessToken", accessToken);
+
+      let config = {
+        headers: {
+          accessToken: accessToken
+        }
+      };
+      axios
+        .get(BASE_URL + "/admin/userProfile", { params }, config)
+        .then(res => {
+          console.log("res", res);
+          this.userdata = {
+            email: res.data.userInfo.email,
+            username: res.data.userInfo.username,
+            resultData: res.data.userInfo.resultData,
+            myExam: res.data.userInfo.myExam
+          };
+        });
     }
   }
 };

@@ -12,34 +12,18 @@
       "
       style="width: 100%"
     >
-      <el-table-column
-        border
-        center
-        label="번호"
-        prop="index"
-        width="70"
-      ></el-table-column>
+      <el-table-column border center label="번호" prop="index" width="70"></el-table-column>
       <el-table-column label="가입일" prop="date" width="120"></el-table-column>
       <el-table-column label="이름" prop="name"></el-table-column>
       <el-table-column label="이메일" prop="email"></el-table-column>
-      <el-table-column
-        label="푼문제수"
-        prop="examNum"
-        width="140"
-      ></el-table-column>
-      <el-table-column
-        label="만든문제수"
-        prop="mngNum"
-        width="140"
-      ></el-table-column>
+      <el-table-column label="푼문제수" prop="examNum" width="140"></el-table-column>
+      <el-table-column label="만든문제수" prop="mngNum" width="140"></el-table-column>
       <el-table-column align="right">
         <template slot="header" slot-scope="scope">
           <el-input v-model="search" size="mini" placeholder="Type to search" />
         </template>
         <template slot-scope="scope">
-          <el-button size="mini" @click="handleSearch(scope.$index, scope.row)"
-            >상세보기</el-button
-          >
+          <el-button size="mini" @click="handleSearch(scope.$index, scope.row)">상세보기</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -95,7 +79,7 @@ export default {
   },
   methods: {
     handleSearch(index, row) {
-      console.log(index, row);
+      this.$router.push({ name: "userProfile", query: { id: row.id } });
     },
     getUserlist() {
       let accessToken = localStorage.getItem("accessToken");
@@ -109,6 +93,7 @@ export default {
         this.total = res.data.userlist.length;
         this.data = res.data.userlist.map((user, i) => {
           let data = {
+            id: user._id,
             index: i + 1,
             date: moment(user.created_at).format("YYYY-MM-DD"),
             name: user.username,

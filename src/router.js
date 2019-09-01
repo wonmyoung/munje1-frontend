@@ -89,6 +89,11 @@ export default new Router({
       component: () => import("./views/admin/UserManage.vue")
     },
     {
+      path: "admin/dashboard/userManage/userProfile",
+      name: "userProfile",
+      component: () => import("./views/admin/UserProfile.vue")
+    },
+    {
       path: "/admin/dashboard/questionManage",
       name: "questionManage",
       component: () => import("./views/admin/QuestionManage.vue")

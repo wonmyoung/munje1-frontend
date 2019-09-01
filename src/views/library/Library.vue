@@ -126,6 +126,19 @@
           </li>
         </ul>
       </article>
+
+      <article v-if="imageInfo.length > 0" class="outLinks">
+        <h3>기타</h3>
+        <ul>
+          <li v-for="(image, index) in imageInfo" :key="index">
+            <a href="#">
+              <img :src="image.file" class="image" />
+              <!-- <p id="author">{{ image.title }}</p> -->
+              <!-- <p id="author">작성자 : {{ JSON.parse(JSON.stringify(image.author)) }}</p> -->
+            </a>
+          </li>
+        </ul>
+      </article>
     </div>
   </div>
 </template>
@@ -147,7 +160,8 @@ export default {
       hImageInfo: [], //탈것
       aImageInfo: [], //동물
       oImageInfo: [], //동물
-      uImageInfo: [] //가구
+      uImageInfo: [], //가구
+      etcImageInfo: [] //기타
     };
   },
   created() {
@@ -169,6 +183,9 @@ export default {
         this.hImageInfo = this.imageInfo.filter(item => item.category == "8");
         this.uImageInfo = this.imageInfo.filter(item => item.category == "9");
         this.oImageInfo = this.imageInfo.filter(item => item.category == "10");
+        this.etcImageInfo = this.imageInfo.filter(
+          item => item.category == "11"
+        );
         this.loading = false;
       });
     }

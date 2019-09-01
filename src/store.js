@@ -20,7 +20,7 @@ export default new Vuex.Store({
       _id: null,
       resultData: [],
       myExam: [],
-      admin: true
+      iaAdmin: false
     },
     isLogin: false,
     isLoginEorror: false,
