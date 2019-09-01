@@ -2,10 +2,35 @@
   <div v-loading="loading" class="container">
     <div id="page" class="pageWrap">
       <h2 class>라이브러리</h2>
-      <article v-show="fImageInfo.length > 0" class="outLinks">
+      <div class="selectWrap" label="카테고리">
+        <select @change="select" v-model="category">
+          <option :value="0">모두보기</option>
+          <option :value="1">과일</option>
+          <option :value="2">채소</option>
+          <option :value="3">식물</option>
+          <option :value="4">의류</option>
+          <option :value="5">문구</option>
+          <option :value="6">직업</option>
+          <option :value="7">동물</option>
+          <option :value="8">탈것</option>
+          <option :value="9">가구</option>
+          <option :value="10">음식</option>
+          <option :value="11">기타</option>
+        </select>
+      </div>
+
+      <article
+        v-show="imageInfo.filter(image => image.category == '1').length > 0"
+        class="outLinks"
+      >
         <h3>과일</h3>
         <ul>
-          <li v-for="(image, index) in fImageInfo" :key="index">
+          <li
+            v-for="(image, index) in imageInfo.filter(
+              image => image.category == '1'
+            )"
+            :key="index"
+          >
             <a href="#">
               <img :src="image.file" class="image" />
               <!-- <p id="title">{{ image.title }}</p> -->
@@ -14,10 +39,18 @@
           </li>
         </ul>
       </article>
-      <article v-if="aImageInfo.length > 0" class="outLinks">
+      <article
+        v-if="imageInfo.filter(aimage => aimage.category == '7').length > 0"
+        class="outLinks"
+      >
         <h3>동물</h3>
         <ul>
-          <li v-for="(image, index) in aImageInfo" :key="index">
+          <li
+            v-for="(image, index) in imageInfo.filter(
+              aimage => aimage.category == '7'
+            )"
+            :key="index"
+          >
             <a href="#">
               <img :src="image.file" class="image" />
               <!-- <span id="title">{{ image.title }}</span>
@@ -26,10 +59,18 @@
           </li>
         </ul>
       </article>
-      <article v-if="vImageInfo.length > 0" class="outLinks">
+      <article
+        v-if="imageInfo.filter(vimage => vimage.category == '2').length > 0"
+        class="outLinks"
+      >
         <h3>채소</h3>
         <ul>
-          <li v-for="(image, index) in vImageInfo" :key="index">
+          <li
+            v-for="(image, index) in imageInfo.filter(
+              aimage => aimage.category == '2'
+            )"
+            :key="index"
+          >
             <a href="#">
               <img :src="image.file" class="image" />
               <!-- <p id="title">{{ image.title }}</p>
@@ -40,10 +81,18 @@
           </li>
         </ul>
       </article>
-      <article v-if="uImageInfo.length > 0" class="outLinks">
+      <article
+        v-if="imageInfo.filter(image => image.category == '9').length > 0"
+        class="outLinks"
+      >
         <h3>가구</h3>
         <ul>
-          <li v-for="(image, index) in uImageInfo" :key="index">
+          <li
+            v-for="(image, index) in imageInfo.filter(
+              image => image.category == '9'
+            )"
+            :key="index"
+          >
             <a href="#">
               <img :src="image.file" class="image" />
               <!-- <p id="author">{{ image.title }}</p> -->
@@ -52,10 +101,18 @@
           </li>
         </ul>
       </article>
-      <article v-if="cImageInfo.length > 0" class="outLinks">
+      <article
+        v-if="imageInfo.filter(cimage => cimage.category == '4').length > 0"
+        class="outLinks"
+      >
         <h3>의류</h3>
         <ul>
-          <li v-for="(image, index) in cImageInfo" :key="index">
+          <li
+            v-for="(image, index) in imageInfo.filter(
+              cimage => cimage.category == '4'
+            )"
+            :key="index"
+          >
             <a href="#">
               <img :src="image.file" class="image" />
               <p id="author">{{ image.title }}</p>
@@ -64,10 +121,18 @@
           </li>
         </ul>
       </article>
-      <article v-if="vImageInfo.length > 0" class="outLinks">
+      <article
+        v-if="imageInfo.filter(vimage => vimage.category == '3').length > 0"
+        class="outLinks"
+      >
         <h3>식물</h3>
         <ul>
-          <li v-for="(image, index) in vImageInfo" :key="index">
+          <li
+            v-for="(image, index) in imageInfo.filter(
+              image => image.category == '3'
+            )"
+            :key="index"
+          >
             <a href="#">
               <img :src="image.file" class="image" />
               <!-- <p id="author">{{ image.title }}</p> -->
@@ -76,10 +141,18 @@
           </li>
         </ul>
       </article>
-      <article v-if="jImageInfo.length > 0" class="outLinks">
+      <article
+        v-if="imageInfo.filter(image => image.category == '6').length > 0"
+        class="outLinks"
+      >
         <h3>직업</h3>
         <ul>
-          <li v-for="(image, index) in jImageInfo" :key="index">
+          <li
+            v-for="(image, index) in imageInfo.filter(
+              image => image.category == '6'
+            )"
+            :key="index"
+          >
             <a href="#">
               <img :src="image.file" class="image" />
               <!-- <p id="author">{{ image.title }}</p> -->
@@ -89,10 +162,18 @@
         </ul>
       </article>
 
-      <article v-if="hImageInfo.length > 0" class="outLinks">
+      <article
+        v-if="imageInfo.filter(image => image.category == '8').length > 0"
+        class="outLinks"
+      >
         <h3>탈것</h3>
         <ul>
-          <li v-for="(image, index) in hImageInfo" :key="index">
+          <li
+            v-for="(image, index) in imageInfo.filter(
+              image => image.category == '8'
+            )"
+            :key="index"
+          >
             <a href="#">
               <img :src="image.file" class="image" />
               <!-- <p id="author">{{ image.title }}</p> -->
@@ -101,10 +182,18 @@
           </li>
         </ul>
       </article>
-      <article v-if="sImageInfo.length > 0" class="outLinks">
+      <article
+        v-if="imageInfo.filter(simage => simage.category == '5').length > 0"
+        class="outLinks"
+      >
         <h3>문구</h3>
         <ul>
-          <li v-for="(image, index) in sImageInfo" :key="index">
+          <li
+            v-for="(image, index) in imageInfo.filter(
+              simage => simage.category == '5'
+            )"
+            :key="index"
+          >
             <a href="#">
               <img :src="image.file" class="image" />
               <p id="author">{{ image.title }}</p>
@@ -114,10 +203,18 @@
         </ul>
       </article>
 
-      <article v-if="oImageInfo.length > 0" class="outLinks">
+      <article
+        v-if="imageInfo.filter(image => image.category == '10').length > 0"
+        class="outLinks"
+      >
         <h3>음식</h3>
         <ul>
-          <li v-for="(image, index) in oImageInfo" :key="index">
+          <li
+            v-for="(image, index) in imageInfo.filter(
+              image => image.category == '10'
+            )"
+            :key="index"
+          >
             <a href="#">
               <img :src="image.file" class="image" />
               <!-- <p id="author">{{ image.title }}</p> -->
@@ -127,10 +224,18 @@
         </ul>
       </article>
 
-      <article v-if="imageInfo.length > 0" class="outLinks">
+      <article
+        v-if="imageInfo.filter(image => image.category == '11').length > 0"
+        class="outLinks"
+      >
         <h3>기타</h3>
         <ul>
-          <li v-for="(image, index) in imageInfo" :key="index">
+          <li
+            v-for="(image, index) in imageInfo.filter(
+              image => image.category == '11'
+            )"
+            :key="index"
+          >
             <a href="#">
               <img :src="image.file" class="image" />
               <!-- <p id="author">{{ image.title }}</p> -->
@@ -150,42 +255,35 @@ export default {
   data() {
     return {
       loading: false,
+      category: 0,
+      value: "",
       imageInfo: [],
-      fImageInfo: [], //과일
-      vImageInfo: [], //채소
-      pImageInfo: [], //식물
-      cImageInfo: [], //의류
-      sImageInfo: [], //문구
-      jImageInfo: [], //직업
-      hImageInfo: [], //탈것
-      aImageInfo: [], //동물
-      oImageInfo: [], //동물
-      uImageInfo: [], //가구
-      etcImageInfo: [] //기타
+      backupImageInfo: []
     };
   },
   created() {
     this.getLibrary();
   },
   methods: {
+    select() {
+      // this.getLibrary();
+      if (this.category == 0) {
+        this.imageInfo = this.backupImageInfo;
+        return;
+      }
+      this.imageInfo = this.backupImageInfo.filter(
+        image => image.category == this.category
+      );
+    },
     getLibrary() {
       this.loading = true;
-      axios.get(BASE_URL + "/library").then(res => {
+      let params;
+
+      axios.get(BASE_URL + "/library", { params }).then(res => {
         console.log("res > >", res);
         this.imageInfo = JSON.parse(JSON.stringify(res.data.imageInfo));
-        this.fImageInfo = this.imageInfo.filter(item => item.category == "1");
-        this.vImageInfo = this.imageInfo.filter(item => item.category == "2");
-        this.pImageInfo = this.imageInfo.filter(item => item.category == "3");
-        this.cImageInfo = this.imageInfo.filter(item => item.category == "4");
-        this.sImageInfo = this.imageInfo.filter(item => item.category == "5");
-        this.jImageInfo = this.imageInfo.filter(item => item.category == "6");
-        this.aImageInfo = this.imageInfo.filter(item => item.category == "7");
-        this.hImageInfo = this.imageInfo.filter(item => item.category == "8");
-        this.uImageInfo = this.imageInfo.filter(item => item.category == "9");
-        this.oImageInfo = this.imageInfo.filter(item => item.category == "10");
-        this.etcImageInfo = this.imageInfo.filter(
-          item => item.category == "11"
-        );
+        this.backupImageInfo = JSON.parse(JSON.stringify(res.data.imageInfo));
+
         this.loading = false;
       });
     }
@@ -233,7 +331,21 @@ export default {
   text-align: center;
   font-size: 1.5em;
 }
-
+.selectWrap {
+  text-align: right;
+}
+select {
+  width: 20%;
+  margin: 10px;
+  text-align: right;
+  height: 35px;
+  border: 1px solid #cfcfcf;
+  background: url("../../assets/images/home/select_arrow.png") no-repeat 100%
+    50%;
+  background-color: #fff;
+  border-radius: 5px;
+  padding-left: 10px;
+}
 #page .outLinks > ul {
   display: flex;
   flex-wrap: wrap;
