@@ -4,7 +4,9 @@
       :data="
         tableData.filter(
           data =>
-            !search || data.name.toLowerCase().includes(search.toLowerCase())
+            !search ||
+            data.title.toLowerCase().includes(search.toLowerCase()) ||
+            data.author.toLowerCase().includes(search.toLowerCase())
         )
       "
       style="width: 100%"
@@ -46,17 +48,6 @@
         </template>
       </el-table-column>
     </el-table>
-    <div class="pagenation">
-      <el-pagination
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page.sync="currentPage"
-        :page-size="pageSize"
-        :pager-count="7"
-        layout="prev, pager, next"
-        :total="total"
-      ></el-pagination>
-    </div>
   </div>
 </template>
 
@@ -104,6 +95,40 @@ export default {
     },
     handleDelete(index, row) {
       console.log(index, row);
+      confirm("해당 컨텐츠를 삭제 하시겠습니까?");
+      this.removeData(row.id);
+    },
+    removeData(id) {
+      let accessToken = localStorage.getItem("accessToken");
+
+      let config = {
+        headers: {
+          accessToken: accessToken
+        }
+      };
+      axios.get(BASE_URL + `/exam/delete/${id}`, config).then(res => {
+        console.log("res.data> ", res.data);
+        if (res.status == 200) {
+          this.getUserlist();
+          // this.total = res.data.exam.length;
+          // this.data = res.data.exam.map((exam, i) => {
+          //   console.log("exam._id > ", exam._id);
+
+          //   let data = {
+          //     id: exam._id,
+          //     index: i + 1,
+          //     date: moment(exam.created_at).format("YYYY-MM-DD"),
+          //     author: exam.author.username,
+          //     rating: exam.rating,
+          //     description: exam.description,
+          //     title: exam.title
+          //   };
+          //   return data;
+          // });
+        }
+
+        // this.tableData = this.data.slice(0, 5);
+      });
     },
     getUserlist() {
       let accessToken = localStorage.getItem("accessToken");
@@ -117,7 +142,7 @@ export default {
         console.log("res.data.exam.length > ", res.data.exam.length);
 
         this.total = res.data.exam.length;
-        this.data = res.data.exam.map((exam, i) => {
+        this.tableData = res.data.exam.map((exam, i) => {
           console.log("exam._id > ", exam._id);
 
           let data = {
@@ -131,18 +156,17 @@ export default {
           };
           return data;
         });
-        this.tableData = this.data.slice(0, 5);
+        // this.tableData = this.data.slice(0, 5);
       });
-    },
-    handleSizeChange(val) {
-      console.log(`${val} items per page`);
-    },
-    handleCurrentChange(val) {
-      console.log(`${val} handleCurrentChange`);
-
-      let index = this.pageSize * (val - 1);
-      this.tableData = this.data.slice(index, index + 5);
     }
+    // handleSizeChange(val) {
+    //   console.log(`${val} items per page`);
+    // },
+    // handleCurrentChange(val) {
+    //   console.log(`${val} handleCurrentChange`);
+    //   let index = this.pageSize * (val - 1);
+    //   this.tableData = this.data.slice(index, index + 5);
+    // }
   }
 };
 </script>

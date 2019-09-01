@@ -36,7 +36,17 @@ export default new Router({
     {
       path: "/library",
       name: "library",
-      component: () => import("./views/Library.vue")
+      component: () => import("./views/library/Library.vue")
+    },
+    {
+      path: "/library/edit/:id",
+      name: "editLibrary",
+      component: () => import("./views/library/EditLibrary.vue")
+    },
+    {
+      path: "/registerImage",
+      name: "registerImage",
+      component: () => import("./views/library/RegisterImage.vue")
     },
     {
       path: "/dragAndDrop",
@@ -52,11 +62,6 @@ export default new Router({
       path: "/profile",
       name: "profile",
       component: () => import("./views/Profile.vue")
-    },
-    {
-      path: "/registerImage",
-      name: "registerImage",
-      component: () => import("./views/RegisterImage.vue")
     },
     {
       path: "/exam/detail/:id",

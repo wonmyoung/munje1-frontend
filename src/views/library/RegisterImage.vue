@@ -25,9 +25,11 @@
           </select>
         </el-form-item>
         <el-form-item label="작성자">
-          <el-input :value="userInfo.username"></el-input>
+          <el-input v-if="isEdit == true" v-model="author"></el-input>
+          <el-input v-else :value="userInfo.username"></el-input>
         </el-form-item>
         <el-upload
+          v-if="isEdit == false"
           :action="uploadURL"
           list-type="picture-card"
           :on-remove="handleRemove"
@@ -36,7 +38,9 @@
           <i class="el-icon-plus"></i>
         </el-upload>
       </el-form>
-
+      <div v-if="isEdit == true">
+        <img :src="files[0]" class="image" />
+      </div>
       <div class="btnWrap">
         <el-button type="primary" class="btn" @click="submit"
           >라이브러리 등록</el-button
@@ -49,21 +53,30 @@
 <script>
 import axios from "axios";
 import { mapState } from "vuex";
-import { BASE_URL } from "../config/env";
+import { BASE_URL } from "../../config/env";
 
 export default {
+  props: {
+    isEdit: {
+      type: Boolean,
+      default: false
+    }
+  },
   data() {
     return {
       title: null,
       value: null,
-      dialogImageUrl: "",
+      author: null,
       dialogVisible: false,
       name: null,
       category: null,
-      images: [],
+      // images: [],
       files: [],
       uploadURL: BASE_URL + "/file/upload"
     };
+  },
+  created() {
+    this.getEditData();
   },
   computed: {
     ...mapState(["isLogin", "isLoginError", "userInfo"])
@@ -76,8 +89,12 @@ export default {
     handleAvatarSuccess(res, file) {
       console.log("handlePictureCardPreview");
       console.log("res.path", res.path);
+
       if (res.path) {
         this.files.push(res.path);
+        this.dialogVisible = true;
+      } else if (file) {
+        this.files.push(file);
         this.dialogVisible = true;
       } else {
         return alert("파일을 다시 등록 하세요.");
@@ -104,16 +121,46 @@ export default {
           accessToken: accessToken
         }
       };
-      axios.post(BASE_URL + "/library/register", data, config).then(res => {
+      let address;
+      console.log("this.isEdit", this.isEdit);
+
+      if (this.isEdit == true) {
+        address = BASE_URL + `/library/edit/${this.$route.params.id}`;
+      } else {
+        address = BASE_URL + "/library/register";
+      }
+      axios.post(address, data, config).then(res => {
+        console.log("res", res);
+
         if (accessToken == undefined) {
           return alert("로그인 후 사용해주세요.");
         }
-        console.log("res", res);
         if (res.status == 200) {
           alert("정상적으로 등록 되었습니다.");
-          this.$router.push({ name: "library" });
+          if (this.isEdit == true) {
+            this.$router.push({ name: "libraryManage" });
+          } else return this.$router.push({ name: "library" });
         }
       });
+    },
+    getEditData() {
+      if (this.isEdit == false) {
+        return;
+      }
+      axios
+        .get(BASE_URL + `/library/detail/${this.$route.params.id}`)
+        .then(res => {
+          console.log("editMode : res > ", res);
+          let libraryInfo = res.data.imageInfo[0];
+          console.log("editMode : libraryInfo.file[0] > ", libraryInfo.file[0]);
+
+          this.files.push(libraryInfo.file[0]);
+          // this.handleAvatarSuccess(null, libraryInfo.file[0]);
+          this.category = libraryInfo.category;
+          this.title = libraryInfo.title;
+          this.author = libraryInfo.author.username;
+          this.dialogVisible = true;
+        });
     }
   }
 };
@@ -142,11 +189,17 @@ export default {
 select {
   width: 100%;
   border: 1px solid #dcdfe6;
-  background: url("../assets/images/home/select_arrow.png") no-repeat 100% 50%;
+  background: url("../../assets/images/home/select_arrow.png") no-repeat 100%
+    50%;
   border-radius: 5px;
   padding-left: 10px;
 }
-
+.image {
+  width: 50%;
+  margin: 0 auto;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
 .btnWrap {
   text-align: right;
 }

@@ -4,7 +4,10 @@
       :data="
         tableData.filter(
           data =>
-            !search || data.name.toLowerCase().includes(search.toLowerCase())
+            !search ||
+            data.name.toLowerCase().includes(search.toLowerCase()) ||
+            data.date.toLowerCase().includes(search.toLowerCase()) ||
+            data.email.toLowerCase().includes(search.toLowerCase())
         )
       "
       style="width: 100%"
@@ -34,14 +37,8 @@
           <el-input v-model="search" size="mini" placeholder="Type to search" />
         </template>
         <template slot-scope="scope">
-          <el-button size="mini" @click="handleEdit(scope.$index, scope.row)"
-            >Edit</el-button
-          >
-          <el-button
-            size="mini"
-            type="danger"
-            @click="handleDelete(scope.$index, scope.row)"
-            >Delete</el-button
+          <el-button size="mini" @click="handleSearch(scope.$index, scope.row)"
+            >상세보기</el-button
           >
         </template>
       </el-table-column>
@@ -87,7 +84,7 @@ export default {
       ],
       search: "",
       total: null,
-      pageSize: 5,
+      pageSize: 10,
       currentPage: 1,
       data: []
     };
@@ -97,10 +94,7 @@ export default {
     this.handleCurrentChange(1);
   },
   methods: {
-    handleEdit(index, row) {
-      console.log(index, row);
-    },
-    handleDelete(index, row) {
+    handleSearch(index, row) {
       console.log(index, row);
     },
     getUserlist() {
@@ -124,7 +118,7 @@ export default {
           };
           return data;
         });
-        this.tableData = this.data.slice(0, 5);
+        this.tableData = this.data.slice(0, 10);
       });
     },
     handleSizeChange(val) {
@@ -134,7 +128,7 @@ export default {
       console.log(`${val} handleCurrentChange`);
 
       let index = this.pageSize * (val - 1);
-      this.tableData = this.data.slice(index, index + 5);
+      this.tableData = this.data.slice(index, index + 10);
     }
   }
 };

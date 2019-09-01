@@ -6,7 +6,12 @@
     <div class="container">
       <div class="wrap">
         <div class="buttonWrap">
-          <el-button type="primary" class="primary1 location" @click="openSlideMenu">{{ button }}</el-button>
+          <el-button
+            type="primary"
+            class="primary1 location"
+            @click="openSlideMenu"
+            >{{ button }}</el-button
+          >
         </div>
         <div
           v-bind:class="{
@@ -31,7 +36,13 @@
                   @drop="OnDrop"
                 >
                   <p>드래그 앤드랍 혹은 Click을하여 이미지를 업로드 해주세요</p>
-                  <input type="file" class="input-file" ref="file" @change="sendFile" multiple />
+                  <input
+                    type="file"
+                    class="input-file"
+                    ref="file"
+                    @change="sendFile"
+                    multiple
+                  />
                 </div>
               </div>
             </div>
@@ -39,7 +50,12 @@
               <ul class="preview">
                 <li v-for="(file, i) in files" :key="i">
                   <div>
-                    <input id="radio" type="radio" :value="{ answer: file }" v-model="answer" />정답
+                    <input
+                      id="radio"
+                      type="radio"
+                      :value="{ answer: file }"
+                      v-model="answer"
+                    />정답
                   </div>
                   <img :src="paths[i]" class="image" />
                 </li>
@@ -58,7 +74,7 @@
 </template>
 <script>
 import axios from "axios";
-import Library from "@/views/Library";
+import Library from "@/views/library/Library";
 export default {
   components: { Library },
   data() {

@@ -32,10 +32,10 @@
           <li v-for="(image, index) in vImageInfo" :key="index">
             <a href="#">
               <img :src="image.file" class="image" />
-              <p id="title">{{ image.title }}</p>
+              <!-- <p id="title">{{ image.title }}</p>
               <p id="author">
                 작성자 : {{ JSON.parse(JSON.stringify(image.author)) }}
-              </p>
+              </p>-->
             </a>
           </li>
         </ul>
@@ -46,7 +46,7 @@
           <li v-for="(image, index) in uImageInfo" :key="index">
             <a href="#">
               <img :src="image.file" class="image" />
-              <p id="author">{{ image.title }}</p>
+              <!-- <p id="author">{{ image.title }}</p> -->
               <!-- <p id="author">작성자 : {{ JSON.parse(JSON.stringify(image.author)) }}</p> -->
             </a>
           </li>
@@ -70,7 +70,7 @@
           <li v-for="(image, index) in vImageInfo" :key="index">
             <a href="#">
               <img :src="image.file" class="image" />
-              <p id="author">{{ image.title }}</p>
+              <!-- <p id="author">{{ image.title }}</p> -->
               <!-- <p id="author">작성자 : {{ JSON.parse(JSON.stringify(image.author)) }}</p> -->
             </a>
           </li>
@@ -82,7 +82,7 @@
           <li v-for="(image, index) in jImageInfo" :key="index">
             <a href="#">
               <img :src="image.file" class="image" />
-              <p id="author">{{ image.title }}</p>
+              <!-- <p id="author">{{ image.title }}</p> -->
               <!-- <p id="author">작성자 : {{ JSON.parse(JSON.stringify(image.author)) }}</p> -->
             </a>
           </li>
@@ -95,7 +95,7 @@
           <li v-for="(image, index) in hImageInfo" :key="index">
             <a href="#">
               <img :src="image.file" class="image" />
-              <p id="author">{{ image.title }}</p>
+              <!-- <p id="author">{{ image.title }}</p> -->
               <!-- <p id="author">작성자 : {{ JSON.parse(JSON.stringify(image.author)) }}</p> -->
             </a>
           </li>
@@ -120,7 +120,7 @@
           <li v-for="(image, index) in oImageInfo" :key="index">
             <a href="#">
               <img :src="image.file" class="image" />
-              <p id="author">{{ image.title }}</p>
+              <!-- <p id="author">{{ image.title }}</p> -->
               <!-- <p id="author">작성자 : {{ JSON.parse(JSON.stringify(image.author)) }}</p> -->
             </a>
           </li>
@@ -131,7 +131,7 @@
 </template>
 <script>
 import axios from "axios";
-import { BASE_URL } from "../config/env";
+import { BASE_URL } from "../../config/env";
 
 export default {
   data() {
@@ -150,7 +150,7 @@ export default {
       uImageInfo: [] //가구
     };
   },
-  mounted() {
+  created() {
     this.getLibrary();
   },
   methods: {

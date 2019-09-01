@@ -6,12 +6,7 @@
     <div class="container">
       <div class="wrap">
         <div class="buttonWrap">
-          <el-button
-            type="primary"
-            class="primary1 location"
-            @click="openSlideMenu"
-            >{{ button }}</el-button
-          >
+          <el-button type="primary" class="primary1 location" @click="openSlideMenu">{{ button }}</el-button>
         </div>
         <div
           v-if="index == 0"
@@ -49,13 +44,7 @@
                   @drop="OnDrop"
                 >
                   <p>Drag and Drop upload</p>
-                  <input
-                    type="file"
-                    class="input-file"
-                    ref="file"
-                    @change="sendFile"
-                    multiple
-                  />
+                  <input type="file" class="input-file" ref="file" @change="sendFile" multiple />
                 </div>
               </div>
             </div>
@@ -97,16 +86,8 @@
                     @dragover.prevent
                     @drop="OnDrop"
                   >
-                    <p>
-                      드래그 앤드랍 혹은 Click을하여 이미지를 업로드 해주세요
-                    </p>
-                    <input
-                      type="file"
-                      class="input-file"
-                      ref="file"
-                      @change="sendFile"
-                      multiple
-                    />
+                    <p>드래그 앤드랍 혹은 Click하여 이미지를 업로드 해주세요</p>
+                    <input type="file" class="input-file" ref="file" @change="sendFile" multiple />
                   </div>
                 </div>
               </div>
@@ -115,14 +96,9 @@
                 <ul class="preview">
                   <li class="wrapper" v-for="(image, i) in images" :key="i">
                     <div>
-                      <input
-                        id="radio"
-                        type="radio"
-                        :value="image"
-                        v-model="value"
-                      />정답
+                      <input id="radio" type="radio" :value="image" v-model="value" />정답
                     </div>
-                    <img :src="images[i]" class="questionImage" />
+                    <img :src="image" class="questionImage" />
                     <div class="overlay" @click="deleteFile(i)">
                       <i class="material-icons">delete</i>
                     </div>
@@ -143,7 +119,7 @@
 </template>
 <script>
 import axios from "axios";
-import Library from "@/views/Library";
+import Library from "@/views/library/Library";
 import { BASE_URL } from "../../config/env";
 
 export default {
@@ -209,19 +185,17 @@ export default {
       let rex = /src="?([^"\s]+)"?\s*/;
       let url = rex.exec(imageUrl);
       let file = url[1];
+      console.log("url!!!", url);
       console.log("file!!!", file);
       this.addFilePath(file);
       // let files = e.dataTransfer.files;
       // Array.from(files).forEach(file => this.addImage(file));
     },
     async sendFile() {
-      console.log("sendFile!!1");
-
       let result;
       const file = this.$refs.file.files[0];
       const formdata = new FormData();
       let accessToken = localStorage.getItem("accessToken");
-      console.log("accessToken", accessToken);
       let config = {
         headers: {
           accessToken: accessToken
@@ -231,7 +205,6 @@ export default {
       formdata.append("config", config);
       try {
         result = await axios.post(BASE_URL + "/file/upload", formdata, config);
-        console.log("result", result);
         if (result.status === 200) {
           if (this.index == 0) {
           }
@@ -239,7 +212,6 @@ export default {
       } catch (err) {
         alert(err);
       }
-      console.log("result", result.data.path);
       this.addFilePath(result.data.path);
     },
     // addImage(file) {
@@ -254,21 +226,17 @@ export default {
       console.log("addFilePath");
       if (this.index == 0) {
         this.thumbnail = path;
-        // this.files.push(path);
         this.paths.push(path);
         this.images.push(path);
       } else {
-        // this.files.push(path);
         this.paths.push(path);
         this.images.push(path);
       }
     },
     deleteFile(index) {
       console.log("index > > > >", index);
-      // console.log("this.files > > > >", this.files);
       console.log("this.images > > > >", this.images);
       console.log("this.paths > > > >", this.paths);
-      // this.files.splice(index, 1);
       this.images.splice(index, 1);
       this.paths.splice(index, 1);
     },
@@ -282,9 +250,10 @@ export default {
        */
 
       //먼저 저장 혹은 수정
+      console.log("next!!!!!");
 
       if (!this.questions[this.index]) {
-        console.log("value", this.value);
+        console.log("1111");
         let data = {
           question: this.question,
           paths: this.paths,
@@ -294,8 +263,12 @@ export default {
         this.questions.push(data);
       } else {
         //수정
+        console.log("2222");
+
         this.questions = this.questions.map((exam, i) => {
           if (i == this.index) {
+            console.log("3333");
+
             let data = {
               paths: this.paths,
               images: this.images,
@@ -324,6 +297,8 @@ export default {
         this.index++;
         console.log("index", this.index);
       } else {
+        console.log("4444");
+
         this.index++;
         this.images = this.questions[this.index].images;
         this.paths = this.questions[this.index].paths;
@@ -366,9 +341,14 @@ export default {
         description: this.description,
         questions: questionsData
       };
+      let address;
       console.log("1111111()");
-
-      axios.post(BASE_URL + "/exam/register", data, config).then(res => {
+      if (this.isEdit == true) {
+        address = BASE_URL + `/exam/update/${this.$route.params.id}`;
+      } else {
+        address = BASE_URL + "/exam/register";
+      }
+      axios.post(address, data, config).then(res => {
         console.log("status", res);
 
         if (res.status === 200) {
@@ -429,28 +409,21 @@ export default {
       if (this.isEdit == false) {
         return;
       }
-      console.log("params >", this.$route.params);
       axios
         .get(BASE_URL + `/admin/detail/${this.$route.params.id}`)
         .then(res => {
-          console.log("res > ", res);
-
-          this.questions = res.data.exam.questions;
           this.questions = res.data.exam.questions;
           this.thumbnail = res.data.exam.thumbnail;
           this.category = res.data.exam.category;
           this.description = res.data.exam.description;
           this.title = res.data.exam.title;
-          res.data.exam.questions.foreach(q => {
-            this.image.push(q.images);
-            this.paths.push(q.images);
-            console.log("END > ", this.paths);
+          this.images = this.questions.map((question, i) => {
+            return question.images;
           });
-          console.log("END > ", this.paths);
+          console.log("END > ", this.images);
         });
     }
-  },
-  computed: {}
+  }
 };
 </script>
 
