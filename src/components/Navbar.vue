@@ -88,13 +88,12 @@ export default {
     menuVisible: false,
     showNavigation: false,
     showSidepanel: false
-    // isMobile: "mini"
   }),
   computed: {
     ...mapState(["userInfo", "isLogin"]),
     isMobile: function() {
       if (window.screen.availWidth < 500) {
-        return;
+        return "full";
       } else {
         return "mini";
       }

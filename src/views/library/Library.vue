@@ -266,7 +266,6 @@ export default {
   },
   methods: {
     select() {
-      // this.getLibrary();
       if (this.category == 0) {
         this.imageInfo = this.backupImageInfo;
         return;
@@ -277,10 +276,8 @@ export default {
     },
     getLibrary() {
       this.loading = true;
-      let params;
 
-      axios.get(BASE_URL + "/library", { params }).then(res => {
-        console.log("res > >", res);
+      axios.get(BASE_URL + "/library").then(res => {
         this.imageInfo = JSON.parse(JSON.stringify(res.data.imageInfo));
         this.backupImageInfo = JSON.parse(JSON.stringify(res.data.imageInfo));
 
@@ -305,7 +302,6 @@ export default {
   border: 1px solid #efefef;
   border-radius: 5px;
   max-width: 1200px;
-  margin: 30px auto;
   overflow-y: auto;
 }
 .pageWrap > h2 {
@@ -374,14 +370,7 @@ select {
   transition: all 0.5s;
   // overflow-y: scroll;
 }
-@media (max-width: 768px) {
-  #page .outLinks li {
-    width: 50px;
-    height: 40px;
-    margin: 40px 10px 60px 10px;
-    padding: 0;
-  }
-}
+
 #page .outLinks li:hover {
   border-color: #80629c;
   color: #80629c;
@@ -432,5 +421,39 @@ select {
 #title {
   font-size: 14px;
   font-weight: bold;
+}
+@media (max-width: 768px) {
+  #page .outLinks li {
+    width: 50px;
+    height: 40px;
+    margin: 40px 10px 60px 10px;
+    padding: 0;
+  }
+}
+@media (max-width: 500px) {
+  .container {
+    padding: 5px;
+  }
+  .pageWrap {
+    width: 100%;
+    margin: 10px auto;
+    border: 1px solid #efefef;
+    border-radius: 5px;
+    overflow-y: auto;
+  }
+  .selectWrap {
+    text-align: center;
+  }
+  select {
+    width: 90%;
+    margin: 10px;
+    height: 35px;
+    border: 1px solid #cfcfcf;
+    background: url("../../assets/images/home/select_arrow.png") no-repeat 100%
+      50%;
+    background-color: #fff;
+    border-radius: 5px;
+    padding-left: 10px;
+  }
 }
 </style>

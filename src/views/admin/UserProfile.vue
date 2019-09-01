@@ -4,8 +4,7 @@
       <div class="l_box">
         <div class="thumbnail">
           <img src="../../assets/images/home/스마트폰-사진.jpg" />
-        </div>
-        >
+        </div>>
       </div>
       <section class="section">
         <header>
@@ -36,9 +35,9 @@
 
     <div class="tab">
       <input type="radio" name="rd" id="rd1" checked />
-      <label for="rd1">내가푼문제</label>
+      <label for="rd1">유저가 푼문제</label>
       <input type="radio" name="rd" id="rd2" />
-      <label for="rd2">내가만든 문제</label>
+      <label for="rd2">유저가만든 문제</label>
       <div class="content">
         <div class="content_1">
           <div v-for="(results, i) in userdata.resultData" :key="i">
@@ -58,13 +57,6 @@
         </div>
       </div>
     </div>
-
-    <!-- <div
-      id="background"
-      :class="{ on: displayBackground == true ? true : false }"
-    >
-      <component v-bind:is="currentComponent"></component>
-    </div>-->
   </div>
 </template>
 <script>

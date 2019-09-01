@@ -3,12 +3,9 @@
     <div class="contentWrap">
       <h1>{{ header }}</h1>
       <el-form>
-        <el-form-item label="이미지명">
+        <el-form-item label="라이브러리명">
           <el-input v-model="title"></el-input>
         </el-form-item>
-        <!-- <el-form-item label="카테고리">
-          <el-input v-model="category"></el-input>
-        </el-form-item>-->
 
         <el-form-item label="카테고리">
           <select v-model="category">
@@ -70,9 +67,7 @@ export default {
       value: null,
       author: null,
       dialogVisible: false,
-      name: null,
       category: null,
-      // images: [],
       files: [],
       uploadURL: BASE_URL + "/file/upload"
     };
@@ -89,9 +84,6 @@ export default {
       console.log(file, fileList);
     },
     handleAvatarSuccess(res, file) {
-      console.log("handlePictureCardPreview");
-      console.log("res.path", res.path);
-
       if (res.path) {
         this.files.push(res.path);
         this.dialogVisible = true;
@@ -117,7 +109,6 @@ export default {
       };
 
       let accessToken = localStorage.getItem("accessToken");
-      console.log("accessToken", accessToken);
       let config = {
         headers: {
           accessToken: accessToken
@@ -132,8 +123,6 @@ export default {
         address = BASE_URL + "/library/register";
       }
       axios.post(address, data, config).then(res => {
-        console.log("res", res);
-
         if (accessToken == undefined) {
           return alert("로그인 후 사용해주세요.");
         }
@@ -155,12 +144,9 @@ export default {
       axios
         .get(BASE_URL + `/library/detail/${this.$route.params.id}`)
         .then(res => {
-          console.log("editMode : res > ", res);
           let libraryInfo = res.data.imageInfo[0];
-          console.log("editMode : libraryInfo.file[0] > ", libraryInfo.file[0]);
 
           this.files.push(libraryInfo.file[0]);
-          // this.handleAvatarSuccess(null, libraryInfo.file[0]);
           this.category = libraryInfo.category;
           this.title = libraryInfo.title;
           this.author = libraryInfo.author.username;
