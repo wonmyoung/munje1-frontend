@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <h2>라이브러리 관리</h2>
     <el-table
       :data="
         tableData.filter(
@@ -45,9 +46,9 @@
         </template>
       </el-table-column>
       <el-table-column align="right">
-        <template slot="header" slot-scope="scope">
+        <!-- <template slot="header" slot-scope="scope">
           <el-input v-model="search" size="mini" placeholder="Type to search" />
-        </template>
+        </template>-->
         <template slot-scope="scope">
           <el-button size="mini" @click="handleEdit(scope.$index, scope.row)"
             >Edit</el-button
@@ -61,6 +62,17 @@
         </template>
       </el-table-column>
     </el-table>
+    <div class="pagenation">
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page.sync="currentPage"
+        :page-size="pageSize"
+        :pager-count="7"
+        layout="prev, pager, next"
+        :total="total"
+      ></el-pagination>
+    </div>
   </div>
 </template>
 
@@ -92,7 +104,7 @@ export default {
       ],
       search: "",
       total: null,
-      pageSize: 5,
+      pageSize: 8,
       currentPage: 1,
       data: [],
       images: []
@@ -159,7 +171,7 @@ export default {
         this.total = res.data.imageInfo.length;
         let libInfo = JSON.parse(JSON.stringify(res.data.imageInfo));
 
-        this.tableData = libInfo.map((imageInfo, i) => {
+        this.data = libInfo.map((imageInfo, i) => {
           console.log("imageInfo.author.username > ", imageInfo.author);
           // this.images.push(imageInfo.file[0]);
 
@@ -175,7 +187,7 @@ export default {
           };
           return data;
         });
-        // this.tableData = this.data.slice(0, 5);
+        this.tableData = this.data.slice(0, 8);
       });
     },
     categoryConverter(category) {
@@ -207,22 +219,36 @@ export default {
         default:
           return category;
       }
+    },
+    handleSizeChange(val) {
+      console.log(`${val} items per page`);
+    },
+    handleCurrentChange(val) {
+      console.log(`${val} handleCurrentChange`);
+      let index = this.pageSize * (val - 1);
+      this.tableData = this.data.slice(index, index + 8);
     }
-    // handleSizeChange(val) {
-    //   console.log(`${val} items per page`);
-    // },
   }
 };
 </script>
 <style scoped>
+body {
+  background: #fff;
+}
 .container {
   width: 100%;
   height: 100vh;
   background: #fff;
 }
+h2 {
+  text-align: left;
+  margin: 30px 0 20px 5px;
+  font-size: 22px;
+  font-weight: bold;
+}
 .image {
-  width: 120px;
-  height: 80px;
+  width: 100px;
+  height: 60px;
   border: 1px solid #e8e8e8;
   border-radius: 9px;
   /* max-width: 50px; */
@@ -231,5 +257,8 @@ export default {
   background-size: cover;
   transition: all 0.5s;
   box-shadow: 0 5px 11px 0 rgba(197, 197, 197, 0.1);
+}
+.pagenation {
+  margin-top: 30px;
 }
 </style>

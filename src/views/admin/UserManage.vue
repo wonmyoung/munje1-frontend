@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <h2>회원관리</h2>
     <el-table
       :data="
         tableData.filter(
@@ -12,18 +13,38 @@
       "
       style="width: 100%"
     >
-      <el-table-column border center label="번호" prop="index" width="70"></el-table-column>
-      <el-table-column label="가입일" prop="date" width="120"></el-table-column>
-      <el-table-column label="이름" prop="name"></el-table-column>
-      <el-table-column label="이메일" prop="email"></el-table-column>
-      <el-table-column label="푼문제수" prop="examNum" width="140"></el-table-column>
-      <el-table-column label="만든문제수" prop="mngNum" width="140"></el-table-column>
+      <el-table-column
+        border
+        center
+        label="번호"
+        prop="index"
+        width="70"
+      ></el-table-column>
+      <el-table-column
+        sortable
+        label="가입일"
+        prop="date"
+        width="120"
+      ></el-table-column>
+      <el-table-column sortable label="이름" prop="name"></el-table-column>
+      <el-table-column sortable label="이메일" prop="email"></el-table-column>
+      <el-table-column
+        sortable
+        label="푼문제수"
+        prop="examNum"
+        width="140"
+      ></el-table-column>
+      <el-table-column
+        sortable
+        label="만든문제수"
+        prop="mngNum"
+        width="140"
+      ></el-table-column>
       <el-table-column align="right">
-        <template slot="header" slot-scope="scope">
-          <el-input v-model="search" size="mini" placeholder="Type to search" />
-        </template>
         <template slot-scope="scope">
-          <el-button size="mini" @click="handleSearch(scope.$index, scope.row)">상세보기</el-button>
+          <el-button size="mini" @click="handleSearch(scope.$index, scope.row)"
+            >상세보기</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -123,6 +144,12 @@ export default {
   width: 100%;
   height: 100vh;
   background: #fff;
+}
+h2 {
+  text-align: left;
+  margin: 30px 0 20px 5px;
+  font-size: 22px;
+  font-weight: bold;
 }
 .pagenation {
   margin-top: 50px;

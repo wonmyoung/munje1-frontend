@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <h2>문제관리</h2>
     <el-table
       :data="
         tableData.filter(
@@ -38,9 +39,6 @@
         sortable
       ></el-table-column>
       <el-table-column align="right">
-        <template slot="header" slot-scope="scope">
-          <el-input v-model="search" size="mini" placeholder="Type to search" />
-        </template>
         <template slot-scope="scope">
           <el-button size="mini" @click="handleEdit(scope.$index, scope.row)"
             >Edit</el-button
@@ -54,6 +52,17 @@
         </template>
       </el-table-column>
     </el-table>
+    <div class="pagenation">
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page.sync="currentPage"
+        :page-size="pageSize"
+        :pager-count="7"
+        layout="prev, pager, next"
+        :total="total"
+      ></el-pagination>
+    </div>
   </div>
 </template>
 
@@ -85,7 +94,7 @@ export default {
       ],
       search: "",
       total: null,
-      pageSize: 5,
+      pageSize: 10,
       currentPage: 1,
       data: []
     };
@@ -102,7 +111,9 @@ export default {
     handleDelete(index, row) {
       console.log(index, row);
       let result = confirm("해당 컨텐츠를 삭제 하시겠습니까?");
-      if (result == true) this.removeData(row.id);
+      if (result == true) {
+        this.removeData(row.id);
+      }
     },
     removeData(id) {
       let accessToken = localStorage.getItem("accessToken");
@@ -131,7 +142,7 @@ export default {
         console.log("res.data.exam.length > ", res.data.exam.length);
 
         this.total = res.data.exam.length;
-        this.tableData = res.data.exam.map((exam, i) => {
+        this.data = res.data.exam.map((exam, i) => {
           console.log("exam._id > ", exam._id);
 
           let data = {
@@ -145,17 +156,17 @@ export default {
           };
           return data;
         });
-        // this.tableData = this.data.slice(0, 5);
+        this.tableData = this.data.slice(0, 10);
       });
+    },
+    handleSizeChange(val) {
+      console.log(`${val} items per page`);
+    },
+    handleCurrentChange(val) {
+      console.log(`${val} handleCurrentChange`);
+      let index = this.pageSize * (val - 1);
+      this.tableData = this.data.slice(index, index + 10);
     }
-    // handleSizeChange(val) {
-    //   console.log(`${val} items per page`);
-    // },
-    // handleCurrentChange(val) {
-    //   console.log(`${val} handleCurrentChange`);
-    //   let index = this.pageSize * (val - 1);
-    //   this.tableData = this.data.slice(index, index + 5);
-    // }
   }
 };
 </script>
@@ -164,6 +175,12 @@ export default {
   width: 100%;
   height: 100vh;
   background: #fff;
+}
+h2 {
+  text-align: left;
+  margin: 30px 0 20px 5px;
+  font-size: 22px;
+  font-weight: bold;
 }
 .pagenation {
   margin-top: 50px;

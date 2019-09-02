@@ -4,7 +4,7 @@
       <div class="l_box">
         <div class="thumbnail">
           <img src="../../assets/images/home/스마트폰-사진.jpg" />
-        </div>>
+        </div>
       </div>
       <section class="section">
         <header>
