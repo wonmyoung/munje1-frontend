@@ -3,7 +3,7 @@
     <div class="introduce_box clearfix">
       <div class="l_box">
         <div class="thumbnail">
-          <img src="../assets/images/home/스마트폰-사진.jpg" />
+          <img src="@/assets/images/home/user.png" />
         </div>
         <md-button class="editBtn" @click="edit('Modalpop')"
           >프로필편집</md-button

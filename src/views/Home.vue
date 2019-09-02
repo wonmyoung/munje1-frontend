@@ -258,7 +258,7 @@ export default {
 </script>
 <style scoped>
 .container {
-  /* max-width:1000px; */
+  max-width:1200px;
   border-radius: 3px;
   /* background:rgb(5, 4, 102); */
 }
@@ -397,6 +397,8 @@ article ul li .count {
 .conWrap .right {
   width: calc(25% - 10px);
   flex: 0 0 auto;
+  margin-top:50px;
+  height:700px;
 }
 .conWrap .right .welcome {
   padding-top: 20px;
@@ -408,8 +410,7 @@ article ul li .count {
 
 .conWrap .right .welcome h3 {
   font-size: 1.8rem;
-  color: #2c77b1;
-  padding-left: 15px;
+  color: #2c77b1; 
 }
 .conWrap .right .welcome b {
   line-height: 40px;
@@ -498,74 +499,41 @@ p {
   .header button {
     display: none;
   }
-  .conWrap .right .welcome header h3 {
-    font-size: 1rem;
-  }
-  .conWrap .right .welcome header b {
-    font-size: 0.8rem;
-  }
-  .conWrap .right .topLessons header h3 {
-    font-size: 0.9rem;
-  }
-  .conWrap .right .topLessons header a {
-    font-size: 0.5rem;
-  }
+ 
 }
 @media all and (max-width: 600px) {
-  header {
+  .conWrap{
+    padding:0;
+  }
+  .conWrap .right{
     display: none;
   }
-  .conWrap {
-    display: block;
-  }
-  .conWrap .right {
-    width: auto;
-    display: none;
-  }
-  .conWrap .right .welcome header,
-  .conWrap .right .welcome header h3 {
-    font-size: 2rem;
-    color: #2c77b1;
-    padding-left: 20px;
-  }
-  .conWrap .right .welcome header b {
-    font-size: 1.4rem;
-    line-height: 40px;
-    padding-right: 30px;
-    color: black;
-    text-align: right;
-  }
-  .conWrap .right .welcome .button a {
-    font-size: 1.4rem;
-    text-decoration: none;
-  }
-  .conWrap .right .topLessons header {
-    padding: 10px;
-  }
-  .conWrap .right .topLessons header h3 {
-    font-size: 1.6rem;
-  }
-  .conWrap .right .topLessons header a {
-    font-size: 1.2rem;
-  }
-
-  .conWrap .right .topLessons li:hover {
-    cursor: pointer;
-    text-decoration: underline;
-  }
-  .conWrap .left {
-    width: auto;
-  }
-}
-.newWrap {
-  overflow-x: hidden;
-}
-@media all and (max-width: 500px) {
-  header {
-    width: 100%;
-  }
-  .conWrap {
-    width: 100%;
-  }
+   .conWrap .left{
+     float:left;
+     width:100%;
+   }
+   .conWrap .newWrap{
+     display:block;
+     padding:0;
+   }
+   .conWrap .left article .newWrap li{
+     min-width:80%;
+     margin:0
+   }
+   .conWrap .left article .newWrap li .thumbnail{
+     margin-right:20px;
+   }
+   .conWrap .left article .newWrap li img{
+     width:80%;
+     height: 155px;
+     margin-bottom: 20px;
+   }
+   .conWrap .left article .newWrap li p{
+     text-align: center;
+   }
+   .conWrap .left article .newWrap li .inner_box{
+     width:150px;
+     margin:0 auto;
+   }
 }
 </style>
