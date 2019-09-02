@@ -57,7 +57,7 @@
                <img src="@/assets/images/home/스마트폰-사진.jpg">
           </div>-->
           <div v-for="(exam, i) in userInfo.myExam" :key="i" class="img_box">
-            <div @click="moveToExam(exam._id)" class="black_box">
+            <div @click="moveToResult(exam._id)" class="black_box">
               <p>{{ exam.title }}</p>
             </div>
             <img :src="exam.thumbnail" />
@@ -99,6 +99,7 @@ export default {
   },
   methods: {
     moveToResult(id) {
+      console.log("ididididi", id);
       this.$router.push({ name: "examResult", params: { id: id } });
     },
     edit(view) {
@@ -272,6 +273,7 @@ label:first-child {
 .content > div .img_box:hover .black_box {
   outline: 3px solid #448aff;
   color: rgb(243, 243, 11);
+  cursor: pointer;
 }
 .content > div .img_box:hover .black_box p {
   color: rgb(243, 243, 11);
