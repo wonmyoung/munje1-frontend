@@ -310,7 +310,7 @@ label:first-child {
   /* .section article {
     font-size: 0.7rem;
   } */
-  .l_box .thumbnail {
+  /* .l_box .thumbnail {
     width: 120px;
     height: 120px;
     margin-left: 40px;
@@ -387,7 +387,7 @@ label:first-child {
     height: 100px;
     border: 1px solid #efefef;
     border-radius: 12px;
-  }
+  } */
 }
 .btnClose {
   position: relative;
