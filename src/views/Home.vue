@@ -9,7 +9,9 @@
             <b v-else>로그인</b>
           </header>
           <div class="button">
-            <a v-if="!isLogin" @click="$router.push({ name: 'login' })">Login</a>
+            <a v-if="!isLogin" @click="$router.push({ name: 'login' })"
+              >Login</a
+            >
             <a v-else @click="$router.push({ name: 'profile' })">Profile</a>
           </div>
         </section>
@@ -22,7 +24,9 @@
               v-for="(exam, i) in examlist.slice(0, 5)"
               :key="exam.id"
               @click="moveToDetail(exam.id)"
-            >{{ i + 1 }}.{{ exam.title }}</li>
+            >
+              {{ i + 1 }}.{{ exam.title }}
+            </li>
           </ul>
         </section>
         <section class="topLessons">
@@ -30,7 +34,12 @@
             <h3>Top Libraries</h3>
           </header>
           <ul>
-            <li v-for="(library, i) in popularLibraries" :key="i">{{ i + 1 }}.{{ library.title }}</li>
+            <li
+              v-for="(library, i) in popularLibraries.filter((lib, i) => i < 5)"
+              :key="i"
+            >
+              {{ i + 1 }}.{{ library.title }}
+            </li>
           </ul>
         </section>
       </div>
@@ -45,7 +54,11 @@
             <h2>택트</h2>
           </header>
           <ul class="newWrap">
-            <li v-for="(exam, i) in tExamList" :key="exam.id" @click="moveToDetail(exam.id)">
+            <li
+              v-for="(exam, i) in tExamList"
+              :key="exam.id"
+              @click="moveToDetail(exam.id)"
+            >
               <div class="thumbnail">
                 <img :src="exam.thumbnail" />
               </div>
@@ -54,7 +67,12 @@
               <div class="inner_box">
                 <div class>
                   <div class="text-center">
-                    <v-rating small half-increments color="orange" v-model="exam.rating"></v-rating>
+                    <v-rating
+                      small
+                      half-increments
+                      color="orange"
+                      v-model="exam.rating"
+                    ></v-rating>
                   </div>
                 </div>
                 <!-- <div class="count">33</div> -->
@@ -68,7 +86,11 @@
             <h2>청자반응</h2>
           </header>
           <ul class="newWrap">
-            <li v-for="(exam, i) in cExamList" :key="exam.id" @click="moveToDetail(exam.id)">
+            <li
+              v-for="(exam, i) in cExamList"
+              :key="exam.id"
+              @click="moveToDetail(exam.id)"
+            >
               <div class="thumbnail">
                 <img :src="exam.thumbnail" />
               </div>
@@ -77,7 +99,12 @@
               <div class="inner_box">
                 <div class>
                   <div class="text-center">
-                    <v-rating small half-increments color="orange" v-model="exam.rating"></v-rating>
+                    <v-rating
+                      small
+                      half-increments
+                      color="orange"
+                      v-model="exam.rating"
+                    ></v-rating>
                   </div>
                 </div>
                 <!-- <div class="count">33</div> -->
@@ -90,7 +117,11 @@
             <h2>매칭</h2>
           </header>
           <ul class="newWrap">
-            <li v-for="(exam, i) in mExamList" :key="exam.id" @click="moveToDetail(exam.id)">
+            <li
+              v-for="(exam, i) in mExamList"
+              :key="exam.id"
+              @click="moveToDetail(exam.id)"
+            >
               <div class="thumbnail">
                 <img :src="exam.thumbnail" />
               </div>
@@ -99,7 +130,12 @@
               <div class="inner_box">
                 <div class>
                   <div class="text-center">
-                    <v-rating small half-increments color="orange" v-model="exam.rating"></v-rating>
+                    <v-rating
+                      small
+                      half-increments
+                      color="orange"
+                      v-model="exam.rating"
+                    ></v-rating>
                   </div>
                 </div>
                 <!-- <div class="count">33</div> -->
@@ -112,7 +148,11 @@
             <h2>LRFFC</h2>
           </header>
           <ul class="newWrap">
-            <li v-for="(exam, i) in lExamList" :key="exam.id" @click="moveToDetail(exam.id)">
+            <li
+              v-for="(exam, i) in lExamList"
+              :key="exam.id"
+              @click="moveToDetail(exam.id)"
+            >
               <div class="thumbnail">
                 <img :src="exam.thumbnail" />
               </div>
@@ -121,7 +161,12 @@
               <div class="inner_box">
                 <div class>
                   <div class="text-center">
-                    <v-rating small half-increments color="orange" v-model="exam.rating"></v-rating>
+                    <v-rating
+                      small
+                      half-increments
+                      color="orange"
+                      v-model="exam.rating"
+                    ></v-rating>
                   </div>
                 </div>
                 <!-- <div class="count">33</div> -->
@@ -134,7 +179,11 @@
             <h2>인트라버벌</h2>
           </header>
           <ul class="newWrap">
-            <li v-for="(exam, i) in iExamList" :key="exam.id" @click="moveToDetail(exam.id)">
+            <li
+              v-for="(exam, i) in iExamList"
+              :key="exam.id"
+              @click="moveToDetail(exam.id)"
+            >
               <div class="thumbnail">
                 <img :src="exam.thumbnail" />
               </div>
@@ -143,7 +192,12 @@
               <div class="inner_box">
                 <div class>
                   <div class="text-center">
-                    <v-rating small half-increments color="orange" v-model="exam.rating"></v-rating>
+                    <v-rating
+                      small
+                      half-increments
+                      color="orange"
+                      v-model="exam.rating"
+                    ></v-rating>
                   </div>
                 </div>
                 <!-- <div class="count">33</div> -->
@@ -156,7 +210,11 @@
             <h2>읽기</h2>
           </header>
           <ul class="newWrap">
-            <li v-for="(exam, i) in rExamList" :key="exam.id" @click="moveToDetail(exam.id)">
+            <li
+              v-for="(exam, i) in rExamList"
+              :key="exam.id"
+              @click="moveToDetail(exam.id)"
+            >
               <div class="thumbnail">
                 <img :src="exam.thumbnail" />
               </div>
@@ -165,7 +223,12 @@
               <div class="inner_box">
                 <div class>
                   <div class="text-center">
-                    <v-rating small half-increments color="orange" v-model="exam.rating"></v-rating>
+                    <v-rating
+                      small
+                      half-increments
+                      color="orange"
+                      v-model="exam.rating"
+                    ></v-rating>
                   </div>
                 </div>
                 <!-- <div class="count">33</div> -->
@@ -248,6 +311,7 @@ export default {
         this.popularLibraries.sort((a, b) => {
           return a.length > b.length ? -1 : a.length > b.length ? 1 : 0;
         });
+        this.popularLibraries.slice(0, 5);
       });
     },
     moveToDetail(id) {
@@ -258,7 +322,7 @@ export default {
 </script>
 <style scoped>
 .container {
-  max-width:1200px;
+  max-width: 1200px;
   border-radius: 3px;
   /* background:rgb(5, 4, 102); */
 }
@@ -397,8 +461,8 @@ article ul li .count {
 .conWrap .right {
   width: calc(25% - 10px);
   flex: 0 0 auto;
-  margin-top:50px;
-  height:700px;
+  margin-top: 50px;
+  height: 700px;
 }
 .conWrap .right .welcome {
   padding-top: 20px;
@@ -410,7 +474,7 @@ article ul li .count {
 
 .conWrap .right .welcome h3 {
   font-size: 1.8rem;
-  color: #2c77b1; 
+  color: #2c77b1;
 }
 .conWrap .right .welcome b {
   line-height: 40px;
@@ -499,41 +563,40 @@ p {
   .header button {
     display: none;
   }
- 
 }
 @media all and (max-width: 600px) {
-  .conWrap{
-    padding:0;
+  .conWrap {
+    padding: 0;
   }
-  .conWrap .right{
+  .conWrap .right {
     display: none;
   }
-   .conWrap .left{
-     float:left;
-     width:100%;
-   }
-   .conWrap .newWrap{
-     display:block;
-     padding:0;
-   }
-   .conWrap .left article .newWrap li{
-     min-width:80%;
-     margin:0
-   }
-   .conWrap .left article .newWrap li .thumbnail{
-     margin-right:20px;
-   }
-   .conWrap .left article .newWrap li img{
-     width:80%;
-     height: 155px;
-     margin-bottom: 20px;
-   }
-   .conWrap .left article .newWrap li p{
-     text-align: center;
-   }
-   .conWrap .left article .newWrap li .inner_box{
-     width:150px;
-     margin:0 auto;
-   }
+  .conWrap .left {
+    float: left;
+    width: 100%;
+  }
+  .conWrap .newWrap {
+    display: block;
+    padding: 0;
+  }
+  .conWrap .left article .newWrap li {
+    min-width: 80%;
+    margin: 0;
+  }
+  .conWrap .left article .newWrap li .thumbnail {
+    margin-right: 20px;
+  }
+  .conWrap .left article .newWrap li img {
+    width: 80%;
+    height: 155px;
+    margin-bottom: 20px;
+  }
+  .conWrap .left article .newWrap li p {
+    text-align: center;
+  }
+  .conWrap .left article .newWrap li .inner_box {
+    width: 150px;
+    margin: 0 auto;
+  }
 }
 </style>
