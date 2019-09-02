@@ -27,12 +27,7 @@
       <li>
         내가 만든 문제
         <br />
-       <b>{{ userInfo.myExam.length }}</b>
-      </li>
-      <li>
-        평균점수
-        <br />
-        <b>5점</b>
+        <b>{{ userInfo.myExam.length }}</b>
       </li>
     </ul>
 
@@ -43,37 +38,41 @@
       <label for="rd2">내가만든 문제</label>
       <div class="content">
         <div class="content_1">
-          <div v-for="(results, i) in userInfo.resultData" :key="i">
-            <a @click="moveToResult(results._id)">
-              <h3>{{ results.examId.title }}</h3>
-              <img :src="results.examId.thumbnail" />
-            </a>
+          <div
+            v-for="(results, i) in userInfo.resultData"
+            :key="i"
+            class="img_box"
+          >
+            <div @click="moveToResult(results._id)" class="black_box">
+              <p>{{ results.examId.title }}</p>
+            </div>
+            <img :src="results.examId.thumbnail" />
           </div>
         </div>
         <div class="content_2">
-           <!-- <div class="img_box">
+          <!-- <div class="img_box">
              <div class="black_box">
                <p>제목</p>
                </div>
                <img src="@/assets/images/home/스마트폰-사진.jpg">
-        </div> -->
-        <div v-for="(exam, i) in userInfo.myExam" :key="i" class="img_box" >
+          </div>-->
+          <div v-for="(exam, i) in userInfo.myExam" :key="i" class="img_box">
             <div @click="moveToExam(exam._id)" class="black_box">
               <p>{{ exam.title }}</p>
             </div>
             <img :src="exam.thumbnail" />
           </div>
+        </div>
+      </div>
+
+      <div
+        id="background"
+        :class="{ on: displayBackground == true ? true : false }"
+      >
+        <component v-bind:is="currentComponent"></component>
+        <!-- <Modalpop /> -->
       </div>
     </div>
-
-    <div
-      id="background"
-      :class="{ on: displayBackground == true ? true : false }"
-    >
-      <component v-bind:is="currentComponent"></component>
-      <!-- <Modalpop /> -->
-    </div>
-  </div>
   </div>
 </template>
 <script>
@@ -190,7 +189,7 @@ export default {
   text-align: center;
   color: rgb(104, 104, 104);
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   border-top: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
   margin-top: 50px;
@@ -211,7 +210,7 @@ input[type="radio"] {
   display: none;
 }
 label {
-  width:50%;
+  width: 50%;
   height: 40px;
   line-height: 40px;
   float: left;
@@ -249,56 +248,55 @@ label:first-child {
   left: 0;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: flex-start;
   opacity: 0;
   transition: all 0.1s;
   width: 100%;
-  padding:30px 0 30px 25px;
+  padding: 30px 0 30px 25px;
   box-sizing: border-box;
 }
 
 .content > div .img_box {
-    width: calc(33.3333% - 20px);
+  width: calc(33.3333% - 20px);
   max-height: 150px;
   min-height: 100px;
   margin-right: 20px;
   margin-bottom: 20px;
-  outline: 1px solid black;
+  outline: 1px solid #efefef;
   margin-bottom: 20px;
   position: relative;
 }
-.content > div .img_box:hover{
+.content > div .img_box:hover {
   outline: none;
 }
-.content > div .img_box:hover .black_box{
+.content > div .img_box:hover .black_box {
   outline: 3px solid #448aff;
-  color:rgb(243, 243, 11);
+  color: rgb(243, 243, 11);
 }
-.content > div .img_box:hover .black_box p{
-  color:rgb(243, 243, 11);
+.content > div .img_box:hover .black_box p {
+  color: rgb(243, 243, 11);
 }
 .content > div div img {
   width: 100%;
   height: 100%;
 }
-.content > div .black_box{
-  width:100%;
+.content > div .black_box {
+  width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.6);
   position: absolute;
 }
-.content > div .black_box p{
-  margin-top:20%;
+.content > div .black_box p {
+  margin-top: 20%;
   text-align: center;
-  font-size: 25px;
-  color:white;
+  font-size: 20px;
+  color: white;
   font-weight: bold;
-
 }
 #rd1:checked ~ label:nth-child(2),
 #rd2:checked ~ label:nth-child(4),
 #rd3:checked ~ label:nth-child(6) {
-   background: #448aff;
+  background: #448aff;
   color: #fff;
 }
 #rd1:checked ~ .content > .content_1,
@@ -309,21 +307,20 @@ label:first-child {
   transition: all 0.5s;
   transition-delay: 0.1s;
 }
-@media all and (max-width: 1264px){
+@media all and (max-width: 1264px) {
   .content > div .img_box {
-  max-height: 100px;
-  min-height: 80px;
+    max-height: 100px;
+    min-height: 80px;
   }
 }
-@media all and (max-width: 900px){
- .content > div .img_box {
-   width:calc(50% - 20px);
- }
- .content > div .img_box .black_box p{
-   margin:0;
-   line-height: 100px;
+@media all and (max-width: 900px) {
+  .content > div .img_box {
+    width: calc(50% - 20px);
   }
- 
+  .content > div .img_box .black_box p {
+    margin: 0;
+    line-height: 100px;
+  }
 }
 @media all and (max-width: 650px) {
   .content > div {
@@ -333,11 +330,11 @@ label:first-child {
     width: auto;
     overflow: hidden;
   }
-  .content > div .img_box .black_box p{
-   margin:0;
-   line-height: 130px;
+  .content > div .img_box .black_box p {
+    margin: 0;
+    line-height: 130px;
   }
-  .content > div .img_box img{
+  .content > div .img_box img {
     height: 150px;
   }
 }
