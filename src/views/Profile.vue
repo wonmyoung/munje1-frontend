@@ -18,21 +18,16 @@
         </article>
       </section>
     </div>
-    <ul class="smallbox">
+    <ul class="middleBox">
       <li>
-        나의문제
+        내가푼 문제집
         <br />
-        <b>12</b>
+        <b>{{ userInfo.resultData.length }}</b>
       </li>
       <li>
-        내가푼 문제
+        내가 만든 문제
         <br />
-        <b>14</b>
-      </li>
-      <li>
-        평균점수
-        <br />
-        <b>5점</b>
+        <b>{{ userInfo.myExam.length }}</b>
       </li>
     </ul>
 
@@ -180,20 +175,20 @@ export default {
   text-align: left;
 }
 
-.smallbox {
+.middleBox {
   text-align: center;
-  color: rgb(117, 117, 117);
+  color: rgb(104, 104, 104);
   display: flex;
   justify-content: space-between;
-  border-top: 1px solid;
+  border-top: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
   margin-top: 50px;
   padding: 5px 0;
 }
-.smallbox li {
+.middleBox li {
   width: 33.3333%;
 }
-.smallbox li b {
+.middleBox li b {
   color: black;
 }
 .tab {
@@ -247,23 +242,61 @@ label:first-child {
   opacity: 0;
   transition: all 0.1s;
   width: 100%;
+<<<<<<< Updated upstream
 }
 .content > div div {
+=======
+  padding: 10px;
+}
+.content > div .img_box {
+>>>>>>> Stashed changes
   width: calc(33.3333% - 20px);
   height: 200px;
   margin-right: 20px;
   margin-bottom: 20px;
   outline: 1px solid #efefef;
   margin-bottom: 20px;
+<<<<<<< Updated upstream
 }
 .content > div div img {
   width: 100%;
   height: 100%;
+=======
+  position: relative;
+  overflow: hidden;
+}
+.content > div .img_box:hover > .black_box p {
+  color: rgb(255, 255, 161);
+  outline: 3px solid rgb(57, 57, 255);
+}
+.content > div .img_box .black_box {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  line-height: 160px;
+  color: white;
+  font-size: 25px;
+  font-weight: bold;
+  box-sizing: border-box;
+}
+.content > div > div .img img {
+  width: 100%;
+  min-width: 234px;
+  height: 100%;
+  min-height: 100px;
+  background-size: cover;
+>>>>>>> Stashed changes
 }
 #rd1:checked ~ label:nth-child(2),
 #rd2:checked ~ label:nth-child(4),
 #rd3:checked ~ label:nth-child(6) {
+<<<<<<< Updated upstream
   background: #ccc;
+=======
+  background: #448aff;
+  color: #fff;
+>>>>>>> Stashed changes
 }
 #rd1:checked ~ .content > .content_1,
 #rd2:checked ~ .content > .content_2,
@@ -273,12 +306,12 @@ label:first-child {
   transition: all 0.5s;
   transition-delay: 0.1s;
 }
-@media all and (max-width: 700px){
-  .content > div{
+@media all and (max-width: 700px) {
+  .content > div {
     display: block;
   }
-  .content > div .img_box{
-    width:auto;
+  .content > div .img_box {
+    width: auto;
   }
 }
 @media all and (max-width: 650px) {
