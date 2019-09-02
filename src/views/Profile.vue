@@ -242,61 +242,27 @@ label:first-child {
   opacity: 0;
   transition: all 0.1s;
   width: 100%;
-<<<<<<< Updated upstream
 }
 .content > div div {
-=======
   padding: 10px;
 }
 .content > div .img_box {
->>>>>>> Stashed changes
   width: calc(33.3333% - 20px);
   height: 200px;
   margin-right: 20px;
   margin-bottom: 20px;
   outline: 1px solid #efefef;
   margin-bottom: 20px;
-<<<<<<< Updated upstream
 }
 .content > div div img {
   width: 100%;
   height: 100%;
-=======
-  position: relative;
-  overflow: hidden;
-}
-.content > div .img_box:hover > .black_box p {
-  color: rgb(255, 255, 161);
-  outline: 3px solid rgb(57, 57, 255);
-}
-.content > div .img_box .black_box {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.4);
-  line-height: 160px;
-  color: white;
-  font-size: 25px;
-  font-weight: bold;
-  box-sizing: border-box;
-}
-.content > div > div .img img {
-  width: 100%;
-  min-width: 234px;
-  height: 100%;
-  min-height: 100px;
-  background-size: cover;
->>>>>>> Stashed changes
 }
 #rd1:checked ~ label:nth-child(2),
 #rd2:checked ~ label:nth-child(4),
 #rd3:checked ~ label:nth-child(6) {
-<<<<<<< Updated upstream
-  background: #ccc;
-=======
   background: #448aff;
   color: #fff;
->>>>>>> Stashed changes
 }
 #rd1:checked ~ .content > .content_1,
 #rd2:checked ~ .content > .content_2,
