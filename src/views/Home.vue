@@ -9,9 +9,7 @@
             <b v-else>로그인</b>
           </header>
           <div class="button">
-            <a v-if="!isLogin" @click="$router.push({ name: 'login' })"
-              >Login</a
-            >
+            <a v-if="!isLogin" @click="$router.push({ name: 'login' })">Login</a>
             <a v-else @click="$router.push({ name: 'profile' })">Profile</a>
           </div>
         </section>
@@ -24,9 +22,7 @@
               v-for="(exam, i) in examlist.slice(0, 5)"
               :key="exam.id"
               @click="moveToDetail(exam.id)"
-            >
-              {{ i + 1 }}.{{ exam.title }}
-            </li>
+            >{{ i + 1 }}.{{ exam.title }}</li>
           </ul>
         </section>
         <section class="topLessons">
@@ -34,11 +30,7 @@
             <h3>Top Libraries</h3>
           </header>
           <ul>
-            <li>1.infernces</li>
-            <li>2.Following Directions</li>
-            <li>3.Little/Big F3</li>
-            <li>4.where?</li>
-            <li>5.why?</li>
+            <li v-for="(library, i) in popularLibraries" :key="i">{{ i + 1 }}.{{ library.title }}</li>
           </ul>
         </section>
       </div>
@@ -53,11 +45,7 @@
             <h2>택트</h2>
           </header>
           <ul class="newWrap">
-            <li
-              v-for="(exam, i) in tExamList"
-              :key="exam.id"
-              @click="moveToDetail(exam.id)"
-            >
+            <li v-for="(exam, i) in tExamList" :key="exam.id" @click="moveToDetail(exam.id)">
               <div class="thumbnail">
                 <img :src="exam.thumbnail" />
               </div>
@@ -66,12 +54,7 @@
               <div class="inner_box">
                 <div class>
                   <div class="text-center">
-                    <v-rating
-                      small
-                      half-increments
-                      color="orange"
-                      v-model="exam.rating"
-                    ></v-rating>
+                    <v-rating small half-increments color="orange" v-model="exam.rating"></v-rating>
                   </div>
                 </div>
                 <!-- <div class="count">33</div> -->
@@ -85,11 +68,7 @@
             <h2>청자반응</h2>
           </header>
           <ul class="newWrap">
-            <li
-              v-for="(exam, i) in cExamList"
-              :key="exam.id"
-              @click="moveToDetail(exam.id)"
-            >
+            <li v-for="(exam, i) in cExamList" :key="exam.id" @click="moveToDetail(exam.id)">
               <div class="thumbnail">
                 <img :src="exam.thumbnail" />
               </div>
@@ -98,12 +77,7 @@
               <div class="inner_box">
                 <div class>
                   <div class="text-center">
-                    <v-rating
-                      small
-                      half-increments
-                      color="orange"
-                      v-model="exam.rating"
-                    ></v-rating>
+                    <v-rating small half-increments color="orange" v-model="exam.rating"></v-rating>
                   </div>
                 </div>
                 <!-- <div class="count">33</div> -->
@@ -116,11 +90,7 @@
             <h2>매칭</h2>
           </header>
           <ul class="newWrap">
-            <li
-              v-for="(exam, i) in mExamList"
-              :key="exam.id"
-              @click="moveToDetail(exam.id)"
-            >
+            <li v-for="(exam, i) in mExamList" :key="exam.id" @click="moveToDetail(exam.id)">
               <div class="thumbnail">
                 <img :src="exam.thumbnail" />
               </div>
@@ -129,12 +99,7 @@
               <div class="inner_box">
                 <div class>
                   <div class="text-center">
-                    <v-rating
-                      small
-                      half-increments
-                      color="orange"
-                      v-model="exam.rating"
-                    ></v-rating>
+                    <v-rating small half-increments color="orange" v-model="exam.rating"></v-rating>
                   </div>
                 </div>
                 <!-- <div class="count">33</div> -->
@@ -147,11 +112,7 @@
             <h2>LRFFC</h2>
           </header>
           <ul class="newWrap">
-            <li
-              v-for="(exam, i) in lExamList"
-              :key="exam.id"
-              @click="moveToDetail(exam.id)"
-            >
+            <li v-for="(exam, i) in lExamList" :key="exam.id" @click="moveToDetail(exam.id)">
               <div class="thumbnail">
                 <img :src="exam.thumbnail" />
               </div>
@@ -160,12 +121,7 @@
               <div class="inner_box">
                 <div class>
                   <div class="text-center">
-                    <v-rating
-                      small
-                      half-increments
-                      color="orange"
-                      v-model="exam.rating"
-                    ></v-rating>
+                    <v-rating small half-increments color="orange" v-model="exam.rating"></v-rating>
                   </div>
                 </div>
                 <!-- <div class="count">33</div> -->
@@ -178,11 +134,7 @@
             <h2>인트라버벌</h2>
           </header>
           <ul class="newWrap">
-            <li
-              v-for="(exam, i) in iExamList"
-              :key="exam.id"
-              @click="moveToDetail(exam.id)"
-            >
+            <li v-for="(exam, i) in iExamList" :key="exam.id" @click="moveToDetail(exam.id)">
               <div class="thumbnail">
                 <img :src="exam.thumbnail" />
               </div>
@@ -191,12 +143,7 @@
               <div class="inner_box">
                 <div class>
                   <div class="text-center">
-                    <v-rating
-                      small
-                      half-increments
-                      color="orange"
-                      v-model="exam.rating"
-                    ></v-rating>
+                    <v-rating small half-increments color="orange" v-model="exam.rating"></v-rating>
                   </div>
                 </div>
                 <!-- <div class="count">33</div> -->
@@ -209,11 +156,7 @@
             <h2>읽기</h2>
           </header>
           <ul class="newWrap">
-            <li
-              v-for="(exam, i) in rExamList"
-              :key="exam.id"
-              @click="moveToDetail(exam.id)"
-            >
+            <li v-for="(exam, i) in rExamList" :key="exam.id" @click="moveToDetail(exam.id)">
               <div class="thumbnail">
                 <img :src="exam.thumbnail" />
               </div>
@@ -222,12 +165,7 @@
               <div class="inner_box">
                 <div class>
                   <div class="text-center">
-                    <v-rating
-                      small
-                      half-increments
-                      color="orange"
-                      v-model="exam.rating"
-                    ></v-rating>
+                    <v-rating small half-increments color="orange" v-model="exam.rating"></v-rating>
                   </div>
                 </div>
                 <!-- <div class="count">33</div> -->
@@ -264,7 +202,8 @@ export default {
       cExamList: [],
       lExamList: [],
       iExamList: [],
-      rExamList: []
+      rExamList: [],
+      popularLibraries: []
     };
   },
   mounted() {
@@ -293,10 +232,22 @@ export default {
     getLibraries() {
       axios.get(BASE_URL + "/library", { header }).then(res => {
         console.log("res >!!! ", res.data);
-        let popularLibraries = res.data.imageInfo.filter(
-          image => image.use.length > 0
-        );
-        console.log("popularLibraries", popularLibraries);
+
+        res.data.imageInfo.forEach(image => {
+          if (image.use.length > 0) {
+            console.log("image > !!!1", image);
+            let data = {
+              id: image._id,
+              title: image.title,
+              length: image.use.length
+            };
+            this.popularLibraries.push(data);
+          }
+        });
+        console.log("this.popularLibraries", this.popularLibraries);
+        this.popularLibraries.sort((a, b) => {
+          return a.length > b.length ? -1 : a.length > b.length ? 1 : 0;
+        });
       });
     },
     moveToDetail(id) {
