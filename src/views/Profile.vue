@@ -200,13 +200,13 @@ input[type="radio"] {
   display: none;
 }
 label {
-  width: 50%;
+  width: 33%;
   height: 40px;
   line-height: 40px;
   float: left;
   display: block;
   font-weight: bold;
-  color: black;
+  color: rgb(117, 117, 117);
   text-align: center;
   cursor: pointer;
   margin-bottom: 20px;
@@ -242,45 +242,23 @@ label:first-child {
   opacity: 0;
   transition: all 0.1s;
   width: 100%;
-  padding:10px;
 }
-.content > div .img_box{
+.content > div div {
   width: calc(33.3333% - 20px);
-  height: 160px;
+  height: 200px;
   margin-right: 20px;
   margin-bottom: 20px;
   outline: 1px solid #efefef;
   margin-bottom: 20px;
-  position: relative;
-  overflow:hidden; 
 }
-.content > div .img_box:hover > .black_box p{
-  color:rgb(255, 255, 161);
-  outline: 3px solid rgb(57, 57, 255);
-}
-.content > div .img_box .black_box{
-  position: absolute;
-  width:100%;
-  height: 100%;
-  background: rgba(0,0,0,0.4);
-  line-height:160px;
-  color:white;
-  font-size:25px;
-  font-weight: bold;
-  box-sizing: border-box;
-} 
-.content > div  > div .img img{
+.content > div div img {
   width: 100%;
-  min-width:234px;
   height: 100%;
-  min-height: 100px;
-  background-size:cover;
 }
-
 #rd1:checked ~ label:nth-child(2),
 #rd2:checked ~ label:nth-child(4),
 #rd3:checked ~ label:nth-child(6) {
-  background: #448aff;
+  background: #ccc;
 }
 #rd1:checked ~ .content > .content_1,
 #rd2:checked ~ .content > .content_2,
@@ -327,7 +305,7 @@ label:first-child {
   /* .section article {
     font-size: 0.7rem;
   } */
-  /* .l_box .thumbnail {
+  .l_box .thumbnail {
     width: 120px;
     height: 120px;
     margin-left: 40px;
@@ -404,7 +382,7 @@ label:first-child {
     height: 100px;
     border: 1px solid #efefef;
     border-radius: 12px;
-  } */
+  }
 }
 .btnClose {
   position: relative;
