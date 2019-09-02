@@ -200,13 +200,13 @@ input[type="radio"] {
   display: none;
 }
 label {
-  width: 33%;
+  width: 50%;
   height: 40px;
   line-height: 40px;
   float: left;
   display: block;
   font-weight: bold;
-  color: rgb(117, 117, 117);
+  color: black;
   text-align: center;
   cursor: pointer;
   margin-bottom: 20px;
@@ -242,26 +242,45 @@ label:first-child {
   opacity: 0;
   transition: all 0.1s;
   width: 100%;
+  padding:10px;
 }
-.content > div div {
+.content > div .img_box{
   width: calc(33.3333% - 20px);
-  height: 200px;
+  height: 160px;
   margin-right: 20px;
   margin-bottom: 20px;
   outline: 1px solid #efefef;
   margin-bottom: 20px;
+  position: relative;
+  overflow:hidden; 
 }
-.content > div div img {
-  width: 100%;
+.content > div .img_box:hover > .black_box p{
+  color:rgb(255, 255, 161);
+  outline: 3px solid rgb(57, 57, 255);
+}
+.content > div .img_box .black_box{
+  position: absolute;
+  width:100%;
   height: 100%;
+  background: rgba(0,0,0,0.4);
+  line-height:160px;
+  color:white;
+  font-size:25px;
+  font-weight: bold;
+  box-sizing: border-box;
+} 
+.content > div  > div .img img{
+  width: 100%;
+  min-width:234px;
+  height: 100%;
+  min-height: 100px;
+  background-size:cover;
 }
-.content > div div:nth-child(3n) {
-  margin: 0;
-}
+
 #rd1:checked ~ label:nth-child(2),
 #rd2:checked ~ label:nth-child(4),
 #rd3:checked ~ label:nth-child(6) {
-  background: #ccc;
+  background: #448aff;
 }
 #rd1:checked ~ .content > .content_1,
 #rd2:checked ~ .content > .content_2,
@@ -271,7 +290,14 @@ label:first-child {
   transition: all 0.5s;
   transition-delay: 0.1s;
 }
-
+@media all and (max-width: 700px){
+  .content > div{
+    display: block;
+  }
+  .content > div .img_box{
+    width:auto;
+  }
+}
 @media all and (max-width: 650px) {
   /* .introduce_box {
     width: auto;
@@ -301,7 +327,7 @@ label:first-child {
   /* .section article {
     font-size: 0.7rem;
   } */
-  .l_box .thumbnail {
+  /* .l_box .thumbnail {
     width: 120px;
     height: 120px;
     margin-left: 40px;
@@ -378,7 +404,7 @@ label:first-child {
     height: 100px;
     border: 1px solid #efefef;
     border-radius: 12px;
-  }
+  } */
 }
 .btnClose {
   position: relative;
