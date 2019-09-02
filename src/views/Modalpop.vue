@@ -10,7 +10,7 @@
         <ul class="no_write">
           <li>이름</li>
           <li>이메일</li>
-          <li>비번</li>
+          <li>비밀번호</li>
         </ul>
         <ul class="write">
           <li>
@@ -20,12 +20,14 @@
             <input type="text" v-model="userInfo.email" />
           </li>
           <li>
-            <input type="text" v-model="password" />
+            <input type="password" v-model="password" />
           </li>
         </ul>
       </div>
       <div class="btns">
-        <md-button class="md-raised md-accent" @click="cancel">취소</md-button>
+        <md-button class="md-raised md-accent" @click="closeModal"
+          >취소</md-button
+        >
         <md-button class="md-raised md-primary" @click="submit"
           >프로필수정</md-button
         >
@@ -42,7 +44,8 @@ import { eventBus } from "../main";
 export default {
   data() {
     return {
-      results: null
+      results: null,
+      password: null
     };
   },
   computed: {
@@ -50,10 +53,33 @@ export default {
   },
   methods: {
     submit() {
-      axios.post(BASE_URL + "/").then(res => {
-        if (res.status) {
+      let accessToken = localStorage.getItem("accessToken");
+      let config = {
+        headers: {
+          accessToken: accessToken
         }
-      });
+      };
+      let data = {
+        username: this.userInfo.username,
+        email: this.userInfo.email,
+        password: this.password
+      };
+      console.log("data", data);
+      axios
+        .post(BASE_URL + "/accounts/profile/edit", data, config)
+        .then(res => {
+          if (res.status == 200) {
+            let userInfo = {
+              username: data.username,
+              email: data.email
+            };
+            this.$store.dispatch("UPDATE_USER_DATA", { userInfo });
+            alert("정상적으로 프로필이 수정 되었습니다.");
+            this.closeModal();
+          } else {
+            alert("비밀번호를 다시 확인해주세요.");
+          }
+        });
     },
     closeModal() {
       console.log("closeModal");

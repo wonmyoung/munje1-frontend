@@ -269,6 +269,7 @@ export default {
   },
   mounted() {
     this.getExamList();
+    this.getLibraries();
   },
   computed: {
     ...mapState(["userInfo", "isLogin"])
@@ -287,6 +288,15 @@ export default {
         this.iExamList = this.examlist.filter(exam => exam.category == 5);
         this.rExamList = this.examlist.filter(exam => exam.category == 6);
         this.loading = false;
+      });
+    },
+    getLibraries() {
+      axios.get(BASE_URL + "/library", { header }).then(res => {
+        console.log("res >!!! ", res.data);
+        let popularLibraries = res.data.imageInfo.filter(
+          image => image.use.length > 0
+        );
+        console.log("popularLibraries", popularLibraries);
       });
     },
     moveToDetail(id) {

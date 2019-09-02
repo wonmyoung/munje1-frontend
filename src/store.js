@@ -56,6 +56,9 @@ export default new Vuex.Store({
       if (userInfo.username) {
         state.userInfo.username = userInfo.username;
       }
+      if (userInfo.email) {
+        state.userInfo.email = userInfo.email;
+      }
       if (userInfo.resultData) {
         state.userInfo.resultData.push(userInfo.resultData);
       }
