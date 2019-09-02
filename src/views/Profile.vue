@@ -5,7 +5,9 @@
         <div class="thumbnail">
           <img src="../assets/images/home/스마트폰-사진.jpg" />
         </div>
-        <md-button class="editBtn" @click="edit('Modalpop')">프로필편집</md-button>
+        <md-button class="editBtn" @click="edit('Modalpop')"
+          >프로필편집</md-button
+        >
       </div>
       <section class="section">
         <header>
@@ -59,7 +61,10 @@
       </div>
     </div>
 
-    <div id="background" :class="{ on: displayBackground == true ? true : false }">
+    <div
+      id="background"
+      :class="{ on: displayBackground == true ? true : false }"
+    >
       <component v-bind:is="currentComponent"></component>
       <!-- <Modalpop /> -->
     </div>
@@ -81,11 +86,11 @@ export default {
     ...mapState(["userInfo", "isLogin"])
   },
   created() {
-    this.getUserData();
     eventBus.$on("closemodal", () => {
       this.displayBackground = false;
       this.currentComponent = null;
     });
+    // this.getUserData();
   },
   methods: {
     moveToResult(id) {
@@ -154,7 +159,7 @@ export default {
 .section header h1 {
   margin-top: 5px;
   width: 75%;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
 }
 .editBtn {
   padding: 5px;

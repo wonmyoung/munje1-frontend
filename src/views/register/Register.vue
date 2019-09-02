@@ -6,7 +6,12 @@
     <div class="container">
       <div class="wrap">
         <div class="buttonWrap">
-          <el-button type="primary" class="primary1 location" @click="openSlideMenu">{{ button }}</el-button>
+          <el-button
+            type="primary"
+            class="primary1 location"
+            @click="openSlideMenu"
+            >{{ button }}</el-button
+          >
         </div>
         <div
           v-if="index == 0"
@@ -44,7 +49,13 @@
                   @drop="OnDrop"
                 >
                   <p>Drag and Drop upload</p>
-                  <input type="file" class="input-file" ref="file" @change="sendFile" multiple />
+                  <input
+                    type="file"
+                    class="input-file"
+                    ref="file"
+                    @change="sendFile"
+                    multiple
+                  />
                 </div>
               </div>
             </div>
@@ -87,7 +98,13 @@
                     @drop="OnDrop"
                   >
                     <p>드래그 앤드랍 혹은 Click하여 이미지를 업로드 해주세요</p>
-                    <input type="file" class="input-file" ref="file" @change="sendFile" multiple />
+                    <input
+                      type="file"
+                      class="input-file"
+                      ref="file"
+                      @change="sendFile"
+                      multiple
+                    />
                   </div>
                 </div>
               </div>
@@ -96,7 +113,12 @@
                 <ul class="preview">
                   <li class="wrapper" v-for="(image, i) in images" :key="i">
                     <div>
-                      <input id="radio" type="radio" :value="image" v-model="value" />정답
+                      <input
+                        id="radio"
+                        type="radio"
+                        :value="image"
+                        v-model="value"
+                      />정답
                     </div>
                     <img :src="image" class="questionImage" />
                     <div class="overlay" @click="deleteFile(i)">
@@ -342,7 +364,6 @@ export default {
         questions: questionsData
       };
       let address;
-      console.log("1111111()");
       if (this.isEdit == true) {
         address = BASE_URL + `/exam/update/${this.$route.params.id}`;
       } else {
