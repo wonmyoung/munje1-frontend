@@ -21,7 +21,7 @@
       <md-list>
         <div>
           <md-list-item>
-            <i class="material-icons">feedback</i>
+            <i><img src="@/assets/images/home/005-user.svg"></i>
             <span
               class="md-list-item-text"
               @click="$router.push({ name: 'admin' })"
@@ -45,29 +45,29 @@
         </div>
         <div v-else>
           <md-list-item @click="$router.push({ name: 'login' })">
-            <i class="material-icons">account_circle</i>
+            <i><img src="@/assets/images/home/006-lock.svg"></i>
             <span class="md-list-item-text">로그인</span>
           </md-list-item>
 
           <md-list-item @click="$router.push({ name: 'signup' })">
-            <i class="material-icons">assignment</i>
+           <i><img src="@/assets/images/home/007-photos.svg"></i>
             <span class="md-list-item-text">회원가입</span>
           </md-list-item>
         </div>
         <md-list-item @click="$router.push({ name: 'profile' })">
-          <i class="material-icons">person_outline</i>
+          <i><img src="@/assets/images/home/002-pass.svg"></i>
           <span class="md-list-item-text">프로파일</span>
         </md-list-item>
         <md-list-item @click="$router.push({ name: 'register' })">
-          <i class="material-icons">add_to_queue</i>
+         <i><img src="@/assets/images/home/004-pencil.svg"></i>
           <span class="md-list-item-text">문제등록</span>
         </md-list-item>
         <md-list-item @click="$router.push({ name: 'library' })">
-          <i class="material-icons">photo_library</i>
+          <i><img src="@/assets/images/home/003-photo.svg"></i>
           <span class="md-list-item-text">Library</span>
         </md-list-item>
         <md-list-item @click="$router.push({ name: 'registerImage' })">
-          <i class="material-icons">photo_album</i>
+           <i><img src="@/assets/images/home/001-plus.svg"></i>
           <span class="md-list-item-text">Library 등록</span>
         </md-list-item>
       </md-list>
@@ -150,5 +150,12 @@ span {
   padding: 0 10px;
   margin: 0 10px;
   cursor: pointer;
+}
+.md-list-item{
+  width:200px;
+}
+i img{
+  width:30px;
+  margin-bottom: 10px;
 }
 </style>
