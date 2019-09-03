@@ -1,8 +1,8 @@
 <template>
   <div>
     <section class="profile">
-      <h1>프로필 편집</h1>
       <a @click="closeModal">X</a>
+      <h1>프로필 편집</h1>
       <div class="circle_img">
         <img src="@/assets/images/home/user.png" />
       </div>
@@ -108,9 +108,7 @@ export default {
   box-sizing: border-box;
 }
 .container .profile a {
-  position: absolute;
-  right: 20px;
-  top: 20px;
+  float: right;
 }
 .container .profile a {
   font-size: 20px;
@@ -118,7 +116,7 @@ export default {
 }
 .container .profile h1 {
   font-size: 30px;
-  padding: 20px 0 20px;
+  padding: 40px 0 20px;
 }
 .container .profile .circle_img {
   width: 160px;
@@ -133,22 +131,22 @@ export default {
 }
 .container .article {
   display: flex;
-  width: 90%;
+  width: 95%;
   margin: 30px auto;
   justify-content: space-between;
 }
 .container .article .no_write {
-  width: 20%;
+  width: 35%;
   padding: 7px;
 }
 .container .article .no_write li {
-  text-align: right;
+text-align: left;
   height: 30px;
   margin-bottom: 10px;
   color: #777;
 }
 .container .article .write {
-  width: 75%;
+  width: 65%;
   padding: 0;
 }
 .container .article .write li {
@@ -172,9 +170,25 @@ export default {
   display: flex;
   justify-content: space-between;
 }
-@media all and (max-width: 700px) {
+@media all and (max-width:550px) {
   .container .profile{
-    width: 60%;
+    width: 80%;
+    position: static;
+    margin:80px auto 0;
   }
+  .container .btns{
+    display: block;
+    width:100%;
+  }
+  .md-button.md-theme-default.md-raised:not([disabled]).md-accent,
+  .md-button.md-theme-default.md-raised:not([disabled]).md-primary {
+    width: 100%;
+    display: block;
+  }
+  .md-button.md-theme-default.md-raised:not([disabled]).md-accent{
+    margin-left:-1px;
+    margin-bottom: 20px;
+  }
+
 }
 </style>
