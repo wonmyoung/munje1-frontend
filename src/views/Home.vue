@@ -9,9 +9,7 @@
             <b v-else>로그인</b>
           </header>
           <div class="button">
-            <a v-if="!isLogin" @click="$router.push({ name: 'login' })"
-              >Login</a
-            >
+            <a v-if="!isLogin" @click="$router.push({ name: 'login' })">Login</a>
             <a v-else @click="$router.push({ name: 'profile' })">Profile</a>
           </div>
         </section>
@@ -24,9 +22,7 @@
               v-for="(exam, i) in examlist.slice(0, 5)"
               :key="exam.id"
               @click="moveToDetail(exam.id)"
-            >
-              {{ i + 1 }}.{{ exam.title }}
-            </li>
+            >{{ i + 1 }}.{{ exam.title }}</li>
           </ul>
         </section>
         <section class="topLessons">
@@ -37,9 +33,7 @@
             <li
               v-for="(library, i) in popularLibraries.filter((lib, i) => i < 5)"
               :key="i"
-            >
-              {{ i + 1 }}.{{ library.title }}
-            </li>
+            >{{ i + 1 }}.{{ library.title }}</li>
           </ul>
         </section>
       </div>
@@ -47,18 +41,14 @@
       <div v-loading="loading" class="left">
         <div class="navBox">
           <a href="/examDetail">Lessons</a>
-          <a href="/library">Libraries</a>
+          <router-link to="/library">Libraries</router-link>
         </div>
         <article>
           <header>
             <h2>택트</h2>
           </header>
           <ul class="newWrap">
-            <li
-              v-for="(exam, i) in tExamList"
-              :key="exam.id"
-              @click="moveToDetail(exam.id)"
-            >
+            <li v-for="(exam, i) in tExamList" :key="exam.id" @click="moveToDetail(exam.id)">
               <div class="thumbnail">
                 <img :src="exam.thumbnail" />
               </div>
@@ -67,12 +57,7 @@
               <div class="inner_box">
                 <div class>
                   <div class="text-center">
-                    <v-rating
-                      small
-                      half-increments
-                      color="orange"
-                      v-model="exam.rating"
-                    ></v-rating>
+                    <v-rating small half-increments color="orange" v-model="exam.rating"></v-rating>
                   </div>
                 </div>
                 <!-- <div class="count">33</div> -->
@@ -86,11 +71,7 @@
             <h2>청자반응</h2>
           </header>
           <ul class="newWrap">
-            <li
-              v-for="(exam, i) in cExamList"
-              :key="exam.id"
-              @click="moveToDetail(exam.id)"
-            >
+            <li v-for="(exam, i) in cExamList" :key="exam.id" @click="moveToDetail(exam.id)">
               <div class="thumbnail">
                 <img :src="exam.thumbnail" />
               </div>
@@ -99,12 +80,7 @@
               <div class="inner_box">
                 <div class>
                   <div class="text-center">
-                    <v-rating
-                      small
-                      half-increments
-                      color="orange"
-                      v-model="exam.rating"
-                    ></v-rating>
+                    <v-rating small half-increments color="orange" v-model="exam.rating"></v-rating>
                   </div>
                 </div>
                 <!-- <div class="count">33</div> -->
@@ -117,11 +93,7 @@
             <h2>매칭</h2>
           </header>
           <ul class="newWrap">
-            <li
-              v-for="(exam, i) in mExamList"
-              :key="exam.id"
-              @click="moveToDetail(exam.id)"
-            >
+            <li v-for="(exam, i) in mExamList" :key="exam.id" @click="moveToDetail(exam.id)">
               <div class="thumbnail">
                 <img :src="exam.thumbnail" />
               </div>
@@ -130,12 +102,7 @@
               <div class="inner_box">
                 <div class>
                   <div class="text-center">
-                    <v-rating
-                      small
-                      half-increments
-                      color="orange"
-                      v-model="exam.rating"
-                    ></v-rating>
+                    <v-rating small half-increments color="orange" v-model="exam.rating"></v-rating>
                   </div>
                 </div>
                 <!-- <div class="count">33</div> -->
@@ -148,11 +115,7 @@
             <h2>LRFFC</h2>
           </header>
           <ul class="newWrap">
-            <li
-              v-for="(exam, i) in lExamList"
-              :key="exam.id"
-              @click="moveToDetail(exam.id)"
-            >
+            <li v-for="(exam, i) in lExamList" :key="exam.id" @click="moveToDetail(exam.id)">
               <div class="thumbnail">
                 <img :src="exam.thumbnail" />
               </div>
@@ -161,12 +124,7 @@
               <div class="inner_box">
                 <div class>
                   <div class="text-center">
-                    <v-rating
-                      small
-                      half-increments
-                      color="orange"
-                      v-model="exam.rating"
-                    ></v-rating>
+                    <v-rating small half-increments color="orange" v-model="exam.rating"></v-rating>
                   </div>
                 </div>
                 <!-- <div class="count">33</div> -->
@@ -179,11 +137,7 @@
             <h2>인트라버벌</h2>
           </header>
           <ul class="newWrap">
-            <li
-              v-for="(exam, i) in iExamList"
-              :key="exam.id"
-              @click="moveToDetail(exam.id)"
-            >
+            <li v-for="(exam, i) in iExamList" :key="exam.id" @click="moveToDetail(exam.id)">
               <div class="thumbnail">
                 <img :src="exam.thumbnail" />
               </div>
@@ -192,12 +146,7 @@
               <div class="inner_box">
                 <div class>
                   <div class="text-center">
-                    <v-rating
-                      small
-                      half-increments
-                      color="orange"
-                      v-model="exam.rating"
-                    ></v-rating>
+                    <v-rating small half-increments color="orange" v-model="exam.rating"></v-rating>
                   </div>
                 </div>
                 <!-- <div class="count">33</div> -->
@@ -210,11 +159,7 @@
             <h2>읽기</h2>
           </header>
           <ul class="newWrap">
-            <li
-              v-for="(exam, i) in rExamList"
-              :key="exam.id"
-              @click="moveToDetail(exam.id)"
-            >
+            <li v-for="(exam, i) in rExamList" :key="exam.id" @click="moveToDetail(exam.id)">
               <div class="thumbnail">
                 <img :src="exam.thumbnail" />
               </div>
@@ -223,12 +168,7 @@
               <div class="inner_box">
                 <div class>
                   <div class="text-center">
-                    <v-rating
-                      small
-                      half-increments
-                      color="orange"
-                      v-model="exam.rating"
-                    ></v-rating>
+                    <v-rating small half-increments color="orange" v-model="exam.rating"></v-rating>
                   </div>
                 </div>
                 <!-- <div class="count">33</div> -->

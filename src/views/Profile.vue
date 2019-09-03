@@ -18,24 +18,12 @@
         </article>
       </section>
     </div>
-    <ul class="middleBox">
-      <li>
-        내가푼 문제집
-        <br />
-        <b>{{ userInfo.resultData.length }}</b>
-      </li>
-      <li>
-        내가 만든 문제
-        <br />
-        <b>{{ userInfo.myExam.length }}</b>
-      </li>
-    </ul>
 
     <div class="tab">
       <input type="radio" name="rd" id="rd1" checked />
-      <label for="rd1">내가푼문제</label>
+      <label for="rd1">내가푼문제({{ userInfo.resultData.length }})</label>
       <input type="radio" name="rd" id="rd2" />
-      <label for="rd2">내가만든 문제</label>
+      <label for="rd2">내가만든 문제({{ userInfo.myExam.length }})</label>
       <div class="content">
         <div class="content_1">
           <div
@@ -131,11 +119,12 @@ export default {
   display: block;
 }
 .container {
+  height: 93vh;
   background: #efefef;
 }
 .introduce_box {
   max-width: 1200px;
-  padding: 60px 0;
+  padding: 20px 0 0 0;
 }
 .introduce_box .l_box {
   float: left;
@@ -193,7 +182,7 @@ export default {
   justify-content: space-around;
   border-top: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
-  margin-top: 50px;
+  margin-top: 20px;
   padding: 5px 0;
 }
 .middleBox li {
@@ -205,7 +194,7 @@ export default {
 .tab {
   max-width: 1200px;
   width: 100%;
-  margin: 0 auto;
+  margin: 20px auto;
 }
 input[type="radio"] {
   display: none;
@@ -239,7 +228,7 @@ label:first-child {
   background: #fff;
   max-width: 1200px;
   margin: 0 auto;
-  height: 400px;
+  height: 520px;
   position: relative;
   overflow: scroll;
 }
@@ -338,6 +327,15 @@ label:first-child {
   }
   .content > div .img_box img {
     height: 150px;
+  }
+  .l_box .thumbnail {
+    width: 100px;
+    height: 100px;
+    /* margin-left: 40px; */
+    margin-bottom: 30px;
+  }
+  .content > div .black_box p {
+    font-size: 16px;
   }
 }
 @media all and (max-width: 650px) {
