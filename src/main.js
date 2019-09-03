@@ -9,6 +9,7 @@ import "vue-material/dist/vue-material.min.css";
 import "vue-material/dist/theme/default.css"; // This line here
 import "@/styles/index.css"; // global css
 import Vuetify from "vuetify";
+import "babel-polyfill";
 import "vuetify/dist/vuetify.min.css"; // Ensure you are using css-loader
 // import VueAwesomeSwiper from "vue-awesome-swiper";
 // import "swiper/dist/css/swiper.css";
