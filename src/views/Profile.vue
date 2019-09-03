@@ -119,8 +119,9 @@ export default {
   display: block;
 }
 .container {
-  height: 93vh;
+  height: calc(100vh - 64px);
   background: #efefef;
+  overflow: hidden;
 }
 .introduce_box {
   max-width: 1200px;
@@ -228,7 +229,8 @@ label:first-child {
   background: #fff;
   max-width: 1200px;
   margin: 0 auto;
-  height: 520px;
+  min-height: 315px;
+  height:calc(100vh - 460px);
   position: relative;
   overflow: scroll;
 }
