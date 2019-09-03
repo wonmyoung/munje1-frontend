@@ -62,7 +62,7 @@ export default {
   height: 400px;
   border: 1px solid #ccc;
   background: #fff;
-  padding: 40px 7% 20px 7%;
+  padding: 40px 5% 20px 5%;
   box-shadow: 0px 5px 7px 0 rgba(124, 118, 190, 0.6);
 }
 .contentWrap > h1 {
@@ -70,7 +70,7 @@ export default {
   margin: 15px;
 }
 .contentWrap > p {
-  margin: 10%;
+  margin: 5%;
 }
 .btn {
   margin: 0 auto;
@@ -84,22 +84,24 @@ export default {
 .contentWrap > .btn:hover {
   cursor: pointer;
 }
-
+@media all and (max-width: 750px){
+  .contentWrap{
+    width:85%
+  }
+}
 @media all and (max-width: 500px) {
   .contentWrap > p {
-    font-size: 10px;
+    font-size: 8px;
+    margin: 20px 10px 0;
   }
   .contentWrap {
     margin: 50px auto;
     max-width: 500px;
-    height: 320px;
+    height: 400px;
     border: 1px solid #ccc;
     background: #fff;
     padding: 20px 0 20px 0;
     box-shadow: 10px 5px 11px 0 rgba(219, 90, 90, 0.7);
-  }
-  .contentWrap > p {
-    margin: 50px;
   }
 }
 </style>

@@ -93,7 +93,7 @@ export default {
 }
 @media (max-width: 700px) {
   .contentWrap {
-    width: 300px;
+    width: 80%;
   }
 }
 
@@ -118,9 +118,4 @@ export default {
   border: 1px solid #ccc;
 }
 
-@media (max-width: 700px) {
-  .contentWrap {
-    width: 300px;
-  }
-}
 </style>
