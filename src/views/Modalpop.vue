@@ -4,7 +4,7 @@
       <h1>프로필 편집</h1>
       <a @click="closeModal">X</a>
       <div class="circle_img">
-        <img src="@/assets/images/home/스마트폰-사진.jpg" />
+        <img src="@/assets/images/home/user.png" />
       </div>
       <div class="article">
         <ul class="no_write">
@@ -173,8 +173,8 @@ export default {
   justify-content: space-between;
 }
 @media all and (max-width: 700px) {
-  .container {
-    width: auto;
+  .container .profile{
+    width: 60%;
   }
 }
 </style>

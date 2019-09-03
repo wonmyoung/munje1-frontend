@@ -121,14 +121,6 @@ export default {
   border-radius: 10px;
   text-align: center;
 }
-@media all and (max-width: 500px) {
-  .thumbnail {
-    width: 100%;
-  }
-  .el-button {
-    width: 100%;
-  }
-}
 .questionImage {
   width: 200px;
   height: 160px;
@@ -176,7 +168,7 @@ export default {
 }
 
 .resultImage {
-  width: 70%;
+  width: 100%;
   height: auto;
   height: 100px;
   border: 1px solid #efefef;
@@ -223,5 +215,36 @@ th:nth-child(4) {
 td,
 th:nth-child(5) {
   width: 40px;
+}
+@media all and (max-width: 800px){
+  .container{
+    padding:160px 0 0 0;
+  }
+  .tg{
+    width:95%;
+    font-size: 11px;
+  }
+  .tg th{
+    font-size: 11px;
+  }
+  .tg td,
+  .tg th{
+    line-height: 20px;
+    padding:3px;
+  }
+  /* .tg td{
+    padding:3px;
+  } */
+  .resultImage {
+  height: auto;
+}
+} 
+@media all and (max-width: 500px) {
+  .thumbnail {
+    width: 100%;
+  }
+  .el-button {
+    width: 100%;
+  }
 }
 </style>

@@ -31,7 +31,7 @@
         </div>
         <div v-if="isLogin">
           <md-list-item>
-            <md-icon>move_to_inbox</md-icon>
+             <i><img src="@/assets/images/home/id-card.svg"></i>
             <span
               class="md-list-item-text"
               @click="$store.dispatch('LOGOUT')"
@@ -39,7 +39,7 @@
             >
           </md-list-item>
           <md-list-item @click="$store.dispatch('LOGOUT')">
-            <md-icon>move_to_inbox</md-icon>
+             <i><img src="@/assets/images/home/006-lock.svg"></i>
             <span class="md-list-item-text">로그아웃</span>
           </md-list-item>
         </div>
