@@ -169,4 +169,17 @@ export default {
   background: #fff;
   padding: 30px;
 }
+@media all and (max-width: 1490px){
+  // .pageWrap{
+  //   width:90%;
+  // }
+}
+@media all and (max-width: 660px){
+  #page1 .outLinks ul{
+    display: block;
+  }
+  #page1 .outLinks ul li{
+    width:auto;
+  }
+}
 </style>
