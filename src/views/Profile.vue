@@ -5,9 +5,7 @@
         <div class="thumbnail">
           <img src="@/assets/images/home/user.png" />
         </div>
-        <md-button class="editBtn" @click="edit('Modalpop')"
-          >프로필편집</md-button
-        >
+        <md-button class="editBtn" @click="edit('Modalpop')">프로필편집</md-button>
       </div>
       <section class="section">
         <header>
@@ -26,11 +24,7 @@
       <label for="rd2">내가만든 문제({{ userInfo.myExam.length }})</label>
       <div class="content">
         <div class="content_1">
-          <div
-            v-for="(results, i) in userInfo.resultData"
-            :key="i"
-            class="img_box"
-          >
+          <div v-for="(results, i) in userInfo.resultData" :key="i" class="img_box">
             <div @click="moveToResult(results._id)" class="black_box">
               <p>{{ results.examId.title }}</p>
             </div>
@@ -38,14 +32,8 @@
           </div>
         </div>
         <div class="content_2">
-          <!-- <div class="img_box">
-             <div class="black_box">
-               <p>제목</p>
-               </div>
-               <img src="@/assets/images/home/스마트폰-사진.jpg">
-          </div>-->
           <div v-for="(exam, i) in userInfo.myExam" :key="i" class="img_box">
-            <div @click="moveToResult(exam._id)" class="black_box">
+            <div @click="moveToExam(exam._id)" class="black_box">
               <p>{{ exam.title }}</p>
             </div>
             <img :src="exam.thumbnail" />
@@ -53,10 +41,7 @@
         </div>
       </div>
 
-      <div
-        id="background"
-        :class="{ on: displayBackground == true ? true : false }"
-      >
+      <div id="background" :class="{ on: displayBackground == true ? true : false }">
         <component v-bind:is="currentComponent"></component>
         <!-- <Modalpop /> -->
       </div>
@@ -64,7 +49,7 @@
   </div>
 </template>
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState } from "vuex";
 import Modalpop from "./Modalpop";
 import { eventBus } from "../main";
 export default {
@@ -89,6 +74,10 @@ export default {
     moveToResult(id) {
       console.log("ididididi", id);
       this.$router.push({ name: "examResult", params: { id: id } });
+    },
+    moveToExam(id) {
+      console.log("ididididi", id);
+      this.$router.push({ name: "detail", params: { id: id } });
     },
     edit(view) {
       this.currentComponent = view;
@@ -230,7 +219,7 @@ label:first-child {
   max-width: 1200px;
   margin: 0 auto;
   min-height: 315px;
-  height:calc(100vh - 460px);
+  height: calc(100vh - 460px);
   position: relative;
   overflow: scroll;
 }
