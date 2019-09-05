@@ -6,6 +6,7 @@
       <div class="circle_img">
         <img src="@/assets/images/home/user.png" />
       </div>
+      <md-button class="editBtn" @click="edit('Modalpop')">프로필편집</md-button>
       <div class="article">
         <ul class="no_write">
           <li>이름</li>
@@ -129,10 +130,21 @@ export default {
   height: 100%;
   border-radius: 50%;
 }
+.editBtn {
+  margin-top:20px;
+  padding: 5px;
+  width: 100px;
+  background: #fafafa;
+  color: rgb(87, 87, 87);
+  border: 1px solid #ddd;
+  border-radius: 7px;
+  text-decoration: none;
+  background: #fff;
+}
 .container .article {
   display: flex;
   width: 95%;
-  margin: 30px auto;
+  margin: 20px auto;
   justify-content: space-between;
 }
 .container .article .no_write {
