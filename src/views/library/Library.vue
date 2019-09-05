@@ -1,10 +1,10 @@
 <template>
   <div v-loading="loading" class="container">
-    <div id="page" class="pageWrap">
-       <div class="navBox">
+    <div class="navBox">
           <a href="/examDetail">Lessons</a>
           <router-link to="/library">Libraries</router-link>
         </div>
+    <div id="page" class="pageWrap">
       <h2 class>라이브러리</h2>
       <div class="selectWrap" label="카테고리">
         <select @change="select" v-model="category">
@@ -299,6 +299,8 @@ export default {
   margin:15px;
   display: flex;
   justify-content: flex-start;
+  width:90%;
+  margin:0 auto;
 }
 .navBox a {
   /* width:calc(50% - 10px);

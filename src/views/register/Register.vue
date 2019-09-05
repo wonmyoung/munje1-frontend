@@ -447,7 +447,7 @@ input[type="radio"]{
   display: none;
 }
 input:checked + label {
-  background: rgb(143, 143, 143);
+  background:#409EFF;
 }
 label{
   margin-top:20px;
@@ -457,8 +457,7 @@ label{
   line-height: 40px;
   text-align: center;
   border:1px solid #ccc;
-  background:#409EFF;
-  color:white;
+  background:white;
   font-weight: bold;
 }
 label:hover{

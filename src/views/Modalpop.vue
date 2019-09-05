@@ -6,7 +6,7 @@
       <div class="circle_img">
         <img src="@/assets/images/home/user.png" />
       </div>
-      <md-button class="editBtn" @click="edit('Modalpop')">프로필편집</md-button>
+      <md-button class="editBtn" @click="edit('Modalpop')">사진변경</md-button>
       <div class="article">
         <ul class="no_write">
           <li>이름</li>
