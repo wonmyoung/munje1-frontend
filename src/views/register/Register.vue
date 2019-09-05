@@ -33,6 +33,12 @@
 
             <el-form-item label="문제집 요약 설명">
               <el-input v-model="description"></el-input>
+              <div class="btns">
+              <input type="radio" name="rd" id="rd1" checked>
+              <label for="rd1">공개</label>
+              <input type="radio" name="rd" id="rd2">
+              <label for="rd2">비공개</label>
+            </div>
             </el-form-item>
             <div class="uploaderWrapp" v-if="!images.length">
               <div class="uploaderWrap">
@@ -437,6 +443,30 @@ export default {
   max-width: 100%;
   height: auto;
 }
+input[type="radio"]{
+  display: none;
+}
+input:checked + label {
+  background: rgb(143, 143, 143);
+}
+label{
+  margin-top:20px;
+  display: inline-block;
+  width:50%;
+  height:40px;
+  line-height: 40px;
+  text-align: center;
+  border:1px solid #ccc;
+  background:#409EFF;
+  color:white;
+  font-weight: bold;
+}
+label:hover{
+   background:rgb(23, 118, 214);
+}
+label:nth-child(2){
+  border-right:none;
+}
 .wrap {
   text-align: left;
 }
@@ -447,7 +477,7 @@ export default {
   padding-bottom: 1em;
 }
 .buttonWrap .primary1 {
-  width: 120px;
+  width: 150px;
 }
 .contentWrap {
   margin: 10px auto;
