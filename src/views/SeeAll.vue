@@ -315,6 +315,8 @@ article ul li p {
 }
 article ul li .inner_box {
   display: flex;
+    margin:0 auto;
+    width:150px;
 }
 article ul li .star {
   padding-top: 10px;
@@ -361,13 +363,12 @@ article ul li .count {
   width: 46%;
 }
 }
-@media all and (max-width:699px){
+@media all and (max-width:700px){
     .conWrap .left article ul{
         padding:0;
     }
 .conWrap .left article ul li {
   width: 100%;
-  font-size: 20px;
   margin-bottom: 20px;
 }
 .conWrap .left article ul li b{
@@ -379,10 +380,6 @@ article ul li .count {
 .conWrap .left article ul li .thumbnail img{
     width:70%;
     height: auto;
-}
-.conWrap .left article ul li .inner_box{
-    margin:0 auto;
-    width:150px;
 }
 }
 @media all and (max-width:450px){
