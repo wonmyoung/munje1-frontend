@@ -45,7 +45,31 @@
         </div>
         <article>
           <header>
+            <h2>나의 문제</h2>
+            <a href="#">See All</a>
+          </header>
+          <ul class="newWrap">
+            <li v-for="(exam, i) in tExamList" :key="exam.id" @click="moveToDetail(exam.id)">
+              <div class="thumbnail">
+                <img :src="exam.thumbnail" />
+              </div>
+              <b>{{ exam.title }}</b>
+              <p>{{ exam.description }}</p>
+              <div class="inner_box">
+                <div class>
+                  <div class="text-center">
+                    <v-rating small half-increments color="orange" v-model="exam.rating"></v-rating>
+                  </div>
+                </div>
+                <!-- <div class="count">33</div> -->
+              </div>
+            </li>
+          </ul>
+        </article>
+        <article>
+          <header>
             <h2>택트</h2>
+            <a href="#">See All</a>
           </header>
           <ul class="newWrap">
             <li v-for="(exam, i) in tExamList" :key="exam.id" @click="moveToDetail(exam.id)">
@@ -69,6 +93,7 @@
         <article>
           <header>
             <h2>청자반응</h2>
+            <a href="#">See All</a>
           </header>
           <ul class="newWrap">
             <li v-for="(exam, i) in cExamList" :key="exam.id" @click="moveToDetail(exam.id)">
@@ -91,6 +116,7 @@
         <article>
           <header>
             <h2>매칭</h2>
+            <a href="#">See All</a>
           </header>
           <ul class="newWrap">
             <li v-for="(exam, i) in mExamList" :key="exam.id" @click="moveToDetail(exam.id)">
@@ -113,6 +139,7 @@
         <article>
           <header>
             <h2>LRFFC</h2>
+            <a href="#">See All</a>
           </header>
           <ul class="newWrap">
             <li v-for="(exam, i) in lExamList" :key="exam.id" @click="moveToDetail(exam.id)">
@@ -135,6 +162,7 @@
         <article>
           <header>
             <h2>인트라버벌</h2>
+            <a href="#">See All</a>
           </header>
           <ul class="newWrap">
             <li v-for="(exam, i) in iExamList" :key="exam.id" @click="moveToDetail(exam.id)">
@@ -157,6 +185,7 @@
         <article>
           <header>
             <h2>읽기</h2>
+            <a href="#">See All</a>
           </header>
           <ul class="newWrap">
             <li v-for="(exam, i) in rExamList" :key="exam.id" @click="moveToDetail(exam.id)">
@@ -319,7 +348,7 @@ export default {
 }
 .conWrap .left article header a {
   padding: 10px;
-  font-size: 1.2rem;
+  font-size: 1.3rem;
 }
 .conWrap .left article ul {
   width: 95%;

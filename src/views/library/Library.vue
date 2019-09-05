@@ -1,6 +1,10 @@
 <template>
   <div v-loading="loading" class="container">
     <div id="page" class="pageWrap">
+       <div class="navBox">
+          <a href="/examDetail">Lessons</a>
+          <router-link to="/library">Libraries</router-link>
+        </div>
       <h2 class>라이브러리</h2>
       <div class="selectWrap" label="카테고리">
         <select @change="select" v-model="category">
@@ -291,6 +295,30 @@ export default {
 .container {
   background: #fff;
 }
+.navBox {
+  margin:15px;
+  display: flex;
+  justify-content: flex-start;
+}
+.navBox a {
+  /* width:calc(50% - 10px);
+     */
+  width: 100px;
+  height: 35px;
+  margin-right: 20px;
+  display: block;
+  text-align: center;
+  background: #ddd;
+  border-radius: 6px;
+  line-height: 35px;
+  text-decoration: none;
+}
+
+.navBox a:hover {
+  background: rgb(93, 93, 131);
+  text-decoration: none;
+}
+
 .wrap {
   position: fixed;
   z-index: 11;
@@ -423,6 +451,13 @@ select {
   font-weight: bold;
 }
 @media (max-width: 768px) {
+  .navBox {
+    justify-content: space-between;
+  }
+  .navBox a {
+    width:45%;
+    margin-right:0;
+  }
   #page .outLinks li {
     width: 50px;
     height: 40px;
