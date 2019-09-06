@@ -40,9 +40,9 @@
         <img :src="files[0]" class="image" />
       </div>
       <div class="btnWrap">
-        <el-button type="primary" class="btn" @click="submit">{{
-          header
-        }}</el-button>
+        <el-button type="primary" class="btn" @click="submit">
+          {{ header }}
+        </el-button>
       </div>
     </div>
   </div>
@@ -122,17 +122,17 @@ export default {
       } else {
         address = BASE_URL + "/library/register";
       }
+      if (accessToken == undefined) {
+        return alert("로그인 후 사용해주세요.");
+      }
       axios.post(address, data, config).then(res => {
-        if (accessToken == undefined) {
-          return alert("로그인 후 사용해주세요.");
-        }
         if (res.status == 200) {
           alert("정상적으로 완료 되었습니다.");
           if (this.isEdit == true) {
             this.$router.push({ name: "libraryManage" });
           } else return this.$router.push({ name: "library" });
         } else {
-          alert("등록 할수 없습니다.");
+          alert("서버 오류로 등록 할수 없습니다.");
         }
       });
     },
