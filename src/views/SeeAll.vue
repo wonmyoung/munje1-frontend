@@ -121,6 +121,42 @@
           
         </article>
       </div>
+      <div class="right">
+        <section class="welcome">
+          <header>
+            <h3>welcome</h3>
+            <b v-if="userInfo">{{ userInfo.username }}</b>
+            <b v-else>로그인</b>
+          </header>
+          <div class="button">
+            <a v-if="!isLogin" @click="$router.push({ name: 'login' })">Login</a>
+            <a v-else @click="$router.push({ name: 'profile' })">Profile</a>
+          </div>
+        </section>
+        <section class="topLessons">
+          <header>
+            <h3>Top Lessons</h3>
+          </header>
+          <ul>
+            <li
+              v-for="(exam, i) in examlist.slice(0, 5)"
+              :key="exam.id"
+              @click="moveToDetail(exam.id)"
+            >{{ i + 1 }}.{{ exam.title }}</li>
+          </ul>
+        </section>
+        <section class="topLessons">
+          <header>
+            <h3>Top Libraries</h3>
+          </header>
+          <ul>
+            <li
+              v-for="(library, i) in popularLibraries.filter((lib, i) => i < 5)"
+              :key="i"
+            >{{ i + 1 }}.{{ library.title }}</li>
+          </ul>
+        </section>
+      </div>
     </div>
   </div>
 </template>
@@ -206,7 +242,7 @@ export default {
 </script>
 <style scoped>
 .container {
-  max-width: 1000px;
+  max-width: 1200px;
   border-radius: 3px;
   /* background:rgb(5, 4, 102); */
 }
@@ -214,11 +250,12 @@ export default {
 .conWrap {
   padding: 10px;
   max-width: 1200px;
-  margin: 0 auto;
+   display: flex;
+  justify-content: space-between;
 }
 .conWrap .left {
   box-sizing: border-box;
-  width: 100%;
+  width: calc(75% - 20px);
   margin-bottom: 50px;
 }
 .navBox {
@@ -264,18 +301,17 @@ export default {
   font-size: 1.3rem;
 }
 .conWrap .left article ul {
-  width: 95%;
-  margin: 0 auto;
+  width: 100%;
+  margin: 30px auto;
   display: flex;
   flex-wrap: wrap;
   min-height: 260px;
   /* outline: 1px solid red; */
 }
 .conWrap .left article ul li {
-  width: calc(18% - 5px);
+  width: calc(25% - 30px);
+  margin:0 30px 30px 0;
   min-width: 150px;
-  margin-right: 10px;
-  margin: 10px;
   cursor: pointer;
 }
 
@@ -312,6 +348,7 @@ article ul li p {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  text-align: center;
 }
 article ul li .inner_box {
   display: flex;
@@ -341,56 +378,114 @@ article ul li .count {
   line-height: 40px;
   margin-left: 5px;
 }
-@media all and (max-width:1083px){
-.conWrap .left article ul li {
-  width: calc(23% - 5px);
+.conWrap .right {
+  width: calc(25% - 10px);
+  flex: 0 0 auto;
+  margin-top: 50px;
+  height: 700px;
 }
+.conWrap .right .welcome {
+  padding-top: 20px;
+  height: 205px;
+  background: white;
+  border-radius: 7px;
+  margin-bottom: 10px;
 }
-@media all and (max-width:979px){
-.conWrap .left article ul li {
-  width: calc(31% - 5px);
+
+.conWrap .right .welcome h3 {
+  font-size: 1.8rem;
+  color: #2c77b1;
 }
+.conWrap .right .welcome b {
+  line-height: 40px;
+  padding: 15px;
 }
-@media all and (max-width:849px){
-    .navBox{
-        justify-content: space-between;
-    }
-     .navBox a{
-        width:48%;
-        margin:0;
-    }
-.conWrap .left article ul li {
-  width: 46%;
+.conWrap .right .welcome .button {
+  width: 90%;
+  margin: 0 auto;
+  cursor: pointer;
 }
+.conWrap .right .welcome .button a:first-child,
+.conWrap .right .welcome .button a:last-child {
+  color: white;
+  padding: 10px 10px;
+  background: #4999d8;
+  border-radius: 7px;
+  text-align: center;
+  display: block;
+  margin-top: 20px;
 }
-@media all and (max-width:700px){
-    .conWrap .left article ul{
-        padding:0;
-    }
-.conWrap .left article ul li {
-  width: 100%;
-  margin-bottom: 20px;
+
+.right .topLessons {
+  height: auto;
+  background: white;
+  border-radius: 7px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  text-align: left;
 }
-.conWrap .left article ul li b{
-    margin:10px;
+.right .topLessons header {
+  line-height: 40px;
+  display: flex;
+  justify-content: space-between;
+  color: #4999d8;
+  font-size: 14px;
+  /* border-bottom:1px solid black; */
+  padding: 5px 15px 10px;
 }
-.conWrap .left article ul li p{
-    overflow:inherit
+
+.right .topLessons ul {
+  margin: 0 auto;
+  padding: 0;
+  overflow: hidden;
 }
-.conWrap .left article ul li .thumbnail img{
-    width:70%;
-    height: auto;
+.right .topLessons ul li {
+  padding: 10px;
+  border-top: 1px solid #ccc;
+  height: 42px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
-}
-@media all and (max-width:450px){
-.conWrap .left article ul li {
+p {
   font-size: 13px;
+  text-align: left;
+}
+@media all and (max-width:1182px){
+.conWrap .left article ul li {
+  width: calc(33% - 30px);
 }
 }
-@media all and (max-width: 350px){
-.conWrap .left{
-    margin:0 0 20px;
-    min-width:180px
+@media all and (max-width:982px){
+.navBox{
+    justify-content: space-between;
+}
+.navBox a{
+    width:48%;
+    margin:0;
+}
+.conWrap .left article ul li {
+  width: calc(50% - 30px);
 }
 }
+@media all and (max-width: 686px){
+    .conWrap .left{
+        width:100%;
+    }
+    .right{
+        display: none;
+    }
+    .conWrap .left article ul{
+        padding-left: 0;
+    }
+    .conWrap .left article ul li{
+        width:100%;
+        margin-right:0;
+    }
+     .conWrap .left article ul li .thumbnail img{
+         width:80%;
+         height: auto;
+     }
+}
+
 </style>
