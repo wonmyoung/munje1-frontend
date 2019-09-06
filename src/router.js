@@ -19,9 +19,9 @@ export default new Router({
       component: () => import("./views/register/Register.vue")
     },
     {
-      path: "/seeAll",
-      name: "seeAll",
-      component: () => import("./views/SeeAll.vue")
+      path: "/allExam",
+      name: "allExam",
+      component: () => import("./views/AllExam.vue")
     },
     {
       path: "/editExam/:id",

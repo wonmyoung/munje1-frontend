@@ -2,9 +2,7 @@
   <div class="container">
     <h2>회원관리</h2>
     <el-table
-      :data="
-        tableData.filter(
-          data =>
+      :data="tableData.filter(data =>
             !search ||
             data.name.toLowerCase().includes(search.toLowerCase()) ||
             data.date.toLowerCase().includes(search.toLowerCase()) ||
@@ -13,38 +11,15 @@
       "
       style="width: 100%"
     >
-      <el-table-column
-        border
-        center
-        label="번호"
-        prop="index"
-        width="70"
-      ></el-table-column>
-      <el-table-column
-        sortable
-        label="가입일"
-        prop="date"
-        width="120"
-      ></el-table-column>
+      <el-table-column border center label="번호" prop="index" width="70"></el-table-column>
+      <el-table-column sortable label="가입일" prop="date" width="120"></el-table-column>
       <el-table-column sortable label="이름" prop="name"></el-table-column>
       <el-table-column sortable label="이메일" prop="email"></el-table-column>
-      <el-table-column
-        sortable
-        label="푼문제수"
-        prop="examNum"
-        width="140"
-      ></el-table-column>
-      <el-table-column
-        sortable
-        label="만든문제수"
-        prop="mngNum"
-        width="140"
-      ></el-table-column>
+      <el-table-column sortable label="푼문제수" prop="examNum" width="140"></el-table-column>
+      <el-table-column sortable label="만든문제수" prop="mngNum" width="140"></el-table-column>
       <el-table-column align="right">
         <template slot-scope="scope">
-          <el-button size="mini" @click="handleSearch(scope.$index, scope.row)"
-            >상세보기</el-button
-          >
+          <el-button size="mini" @click="handleSearch(scope.$index, scope.row)">상세보기</el-button>
         </template>
       </el-table-column>
     </el-table>

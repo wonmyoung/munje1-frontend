@@ -6,119 +6,59 @@
           <a href="/examDetail">Lessons</a>
           <router-link to="/library">Libraries</router-link>
         </div>
-        <article>
+        <article v-if="$route.query.id == '0'">
           <header>
-            <h2>SeeAll</h2>
+            <h2>나의문제</h2>
           </header>
           <ul class="newWrap">
-            <li v-for="(exam, i) in tExamList" :key="exam.id" @click="moveToDetail(exam.id)">
+            <li
+              v-for="(results, i) in userInfo.resultData.filter(item => item.examId != null)"
+              :key="i"
+              @click="moveToDetail(results.examId)"
+            >
               <div class="thumbnail">
-                <img :src="exam.thumbnail" />
+                <img :src="results.examId.thumbnail" />
               </div>
-              <b>{{ exam.title }}</b>
-              <p>{{ exam.description }}</p>
+              <b>{{ results.examId.title }}</b>
+              <p>{{ results.examId.description }}</p>
               <div class="inner_box">
                 <div class>
                   <div class="text-center">
-                    <v-rating small half-increments color="orange" v-model="exam.rating"></v-rating>
+                    <v-rating small half-increments color="orange" v-model="results.examId.rating"></v-rating>
                   </div>
                 </div>
-                <!-- <div class="count">33</div> -->
               </div>
             </li>
-            <li v-for="(exam, i) in tExamList" :key="exam.id" @click="moveToDetail(exam.id)">
-              <div class="thumbnail">
-                <img :src="exam.thumbnail" />
-              </div>
-              <b>{{ exam.title }}</b>
-              <p>{{ exam.description }}</p>
-              <div class="inner_box">
-                <div class>
-                  <div class="text-center">
-                    <v-rating small half-increments color="orange" v-model="exam.rating"></v-rating>
-                  </div>
-                </div>
-                <!-- <div class="count">33</div> -->
-              </div>
-            </li>
-            <li v-for="(exam, i) in tExamList" :key="exam.id" @click="moveToDetail(exam.id)">
-              <div class="thumbnail">
-                <img :src="exam.thumbnail" />
-              </div>
-              <b>{{ exam.title }}</b>
-              <p>{{ exam.description }}</p>
-              <div class="inner_box">
-                <div class>
-                  <div class="text-center">
-                    <v-rating small half-increments color="orange" v-model="exam.rating"></v-rating>
-                  </div>
-                </div>
-                <!-- <div class="count">33</div> -->
-              </div>
-            </li>
-            <li v-for="(exam, i) in tExamList" :key="exam.id" @click="moveToDetail(exam.id)">
-              <div class="thumbnail">
-                <img :src="exam.thumbnail" />
-              </div>
-              <b>{{ exam.title }}</b>
-              <p>{{ exam.description }}</p>
-              <div class="inner_box">
-                <div class>
-                  <div class="text-center">
-                    <v-rating small half-increments color="orange" v-model="exam.rating"></v-rating>
-                  </div>
-                </div>
-                <!-- <div class="count">33</div> -->
-              </div>
-            </li>
-            <li v-for="(exam, i) in tExamList" :key="exam.id" @click="moveToDetail(exam.id)">
-              <div class="thumbnail">
-                <img :src="exam.thumbnail" />
-              </div>
-              <b>{{ exam.title }}</b>
-              <p>{{ exam.description }}</p>
-              <div class="inner_box">
-                <div class>
-                  <div class="text-center">
-                    <v-rating small half-increments color="orange" v-model="exam.rating"></v-rating>
-                  </div>
-                </div>
-                <!-- <div class="count">33</div> -->
-              </div>
-            </li>
-            <li v-for="(exam, i) in tExamList" :key="exam.id" @click="moveToDetail(exam.id)">
-              <div class="thumbnail">
-                <img :src="exam.thumbnail" />
-              </div>
-              <b>{{ exam.title }}</b>
-              <p>{{ exam.description }}</p>
-              <div class="inner_box">
-                <div class>
-                  <div class="text-center">
-                    <v-rating small half-increments color="orange" v-model="exam.rating"></v-rating>
-                  </div>
-                </div>
-                <!-- <div class="count">33</div> -->
-              </div>
-            </li>
-            <li v-for="(exam, i) in tExamList" :key="exam.id" @click="moveToDetail(exam.id)">
-              <div class="thumbnail">
-                <img :src="exam.thumbnail" />
-              </div>
-              <b>{{ exam.title }}</b>
-              <p>{{ exam.description }}</p>
-              <div class="inner_box">
-                <div class>
-                  <div class="text-center">
-                    <v-rating small half-increments color="orange" v-model="exam.rating"></v-rating>
-                  </div>
-                </div>
-                <!-- <div class="count">33</div> -->
-              </div>
-            </li>
-
+            <!-- <li
+              v-for="(results, i) in userInfo.resultData.filter(item => item.examId != null)"
+              :key="i"
+              @click="moveToDetail(results.examId)"
+            >
+              <div class="thumbnail">{{results}}</div>
+            </li>-->
           </ul>
-          
+        </article>
+        <article v-else>
+          <header>
+            <h2>{{title}}</h2>
+          </header>
+          <ul class="newWrap">
+            <li v-for="(exam, i) in sortExamList" :key="exam.id" @click="moveToDetail(exam._id)">
+              <div class="thumbnail">
+                <img :src="exam.thumbnail" />
+              </div>
+              <b>{{ exam.title }}</b>
+              <p>{{ exam.description }}</p>
+              <div class="inner_box">
+                <div class>
+                  <div class="text-center">
+                    <v-rating small half-increments color="orange" v-model="exam.rating"></v-rating>
+                  </div>
+                </div>
+                <!-- <div class="count">33</div> -->
+              </div>
+            </li>
+          </ul>
         </article>
       </div>
       <div class="right">
@@ -178,14 +118,10 @@ export default {
   data() {
     return {
       loading: false,
+      title: null,
       images: [],
       examlist: [],
-      tExamList: [],
-      mExamList: [],
-      cExamList: [],
-      lExamList: [],
-      iExamList: [],
-      rExamList: [],
+      sortExamList: [],
       popularLibraries: []
     };
   },
@@ -202,13 +138,15 @@ export default {
       this.loading = true;
       axios.get(BASE_URL + "/exam/examList", { header }).then(res => {
         console.log(res.data.exam);
+        let index = this.$route.query.id;
+        this.title = this.$route.query.title;
+        console.log(this.$route.query.title);
+
         this.examlist = res.data.exam;
-        this.tExamList = this.examlist.filter(exam => exam.category == 1);
-        this.mExamList = this.examlist.filter(exam => exam.category == 2);
-        this.cExamList = this.examlist.filter(exam => exam.category == 3);
-        this.lExamList = this.examlist.filter(exam => exam.category == 4);
-        this.iExamList = this.examlist.filter(exam => exam.category == 5);
-        this.rExamList = this.examlist.filter(exam => exam.category == 6);
+        this.sortExamList = this.examlist.filter(
+          exam => exam.category == index
+        );
+
         this.loading = false;
       });
     },
@@ -250,7 +188,7 @@ export default {
 .conWrap {
   padding: 10px;
   max-width: 1200px;
-   display: flex;
+  display: flex;
   justify-content: space-between;
 }
 .conWrap .left {
@@ -310,7 +248,7 @@ export default {
 }
 .conWrap .left article ul li {
   width: calc(25% - 30px);
-  margin:0 30px 30px 0;
+  margin: 0 30px 30px 0;
   min-width: 150px;
   cursor: pointer;
 }
@@ -352,8 +290,8 @@ article ul li p {
 }
 article ul li .inner_box {
   display: flex;
-    margin:0 auto;
-    width:150px;
+  margin: 0 auto;
+  width: 150px;
 }
 article ul li .star {
   padding-top: 10px;
@@ -451,41 +389,40 @@ p {
   font-size: 13px;
   text-align: left;
 }
-@media all and (max-width:1182px){
-.conWrap .left article ul li {
-  width: calc(33% - 30px);
+@media all and (max-width: 1182px) {
+  .conWrap .left article ul li {
+    width: calc(33% - 30px);
+  }
 }
-}
-@media all and (max-width:982px){
-.navBox{
+@media all and (max-width: 982px) {
+  .navBox {
     justify-content: space-between;
+  }
+  .navBox a {
+    width: 48%;
+    margin: 0;
+  }
+  .conWrap .left article ul li {
+    width: calc(50% - 30px);
+  }
 }
-.navBox a{
-    width:48%;
-    margin:0;
+@media all and (max-width: 686px) {
+  .conWrap .left {
+    width: 100%;
+  }
+  .right {
+    display: none;
+  }
+  .conWrap .left article ul {
+    padding-left: 0;
+  }
+  .conWrap .left article ul li {
+    width: 100%;
+    margin-right: 0;
+  }
+  .conWrap .left article ul li .thumbnail img {
+    width: 80%;
+    height: auto;
+  }
 }
-.conWrap .left article ul li {
-  width: calc(50% - 30px);
-}
-}
-@media all and (max-width: 686px){
-    .conWrap .left{
-        width:100%;
-    }
-    .right{
-        display: none;
-    }
-    .conWrap .left article ul{
-        padding-left: 0;
-    }
-    .conWrap .left article ul li{
-        width:100%;
-        margin-right:0;
-    }
-     .conWrap .left article ul li .thumbnail img{
-         width:80%;
-         height: auto;
-     }
-}
-
 </style>

@@ -28,7 +28,7 @@
           </md-list-item>
         </div>
         <div v-if="isLogin">
-          <md-list-item>
+          <md-list-item @click="$router.push({ name: 'profile' })">
             <i>
               <img src="@/assets/images/home/id-card.svg" />
             </i>
@@ -56,12 +56,12 @@
             <span class="md-list-item-text">회원가입</span>
           </md-list-item>
         </div>
-        <md-list-item @click="$router.push({ name: 'profile' })">
+        <!-- <md-list-item @click="$router.push({ name: 'profile' })">
           <i>
             <img src="@/assets/images/home/002-pass.svg" />
           </i>
           <span class="md-list-item-text">프로파일</span>
-        </md-list-item>
+        </md-list-item>-->
         <md-list-item @click="$router.push({ name: 'register' })">
           <i>
             <img src="@/assets/images/home/004-pencil.svg" />

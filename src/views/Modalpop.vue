@@ -4,9 +4,14 @@
       <a @click="closeModal">X</a>
       <h1>프로필 편집</h1>
       <div class="circle_img">
-        <img src="@/assets/images/home/user.png" />
+        <img v-if="userInfo.avatar == null" src="@/assets/images/home/user.png" />
+        <img v-else-if="avatar" :src="avatar" />
+        <img v-else :src="userInfo.avatar" />
       </div>
-      <md-button class="editBtn" @click="edit('Modalpop')">사진변경</md-button>
+      <md-button class="editBtn" ref="file" @click="edit('Modalpop')">
+        사진변경
+        <input type="file" class="input-file" ref="file" @change="sendFile" />
+      </md-button>
       <div class="article">
         <ul class="no_write">
           <li>이름</li>
@@ -26,12 +31,8 @@
         </ul>
       </div>
       <div class="btns">
-        <md-button class="md-raised md-accent" @click="closeModal"
-          >취소</md-button
-        >
-        <md-button class="md-raised md-primary" @click="submit"
-          >프로필수정</md-button
-        >
+        <md-button class="md-raised md-accent" @click="closeModal">취소</md-button>
+        <md-button class="md-raised md-primary" @click="submit">프로필수정</md-button>
       </div>
     </section>
     <div class="b"></div>
@@ -54,6 +55,7 @@ export default {
   },
   methods: {
     submit() {
+      if (this.password == null) return alert("비밀번호를 입력해주세요");
       let accessToken = localStorage.getItem("accessToken");
       let config = {
         headers: {
@@ -63,6 +65,7 @@ export default {
       let data = {
         username: this.userInfo.username,
         email: this.userInfo.email,
+        avatar: this.avatar,
         password: this.password
       };
       console.log("data", data);
@@ -72,7 +75,8 @@ export default {
           if (res.status == 200) {
             let userInfo = {
               username: data.username,
-              email: data.email
+              email: data.email,
+              avatar: data.avatar
             };
             this.$store.dispatch("UPDATE_USER_DATA", { userInfo });
             alert("정상적으로 프로필이 수정 되었습니다.");
@@ -81,6 +85,29 @@ export default {
             alert("비밀번호를 다시 확인해주세요.");
           }
         });
+    },
+    async sendFile() {
+      let result;
+      const file = this.$refs.file.files[0];
+      const formdata = new FormData();
+      let accessToken = localStorage.getItem("accessToken");
+      let config = {
+        headers: {
+          accessToken: accessToken
+        }
+      };
+      formdata.append("file", file);
+      formdata.append("config", config);
+      try {
+        result = await axios.post(BASE_URL + "/file/upload", formdata, config);
+        if (result.status === 200) {
+          console.log("result", result);
+          this.avatar = result.data.path;
+        }
+      } catch (err) {
+        alert(err);
+      }
+      // this.addFilePath(result.data.path);
     },
     closeModal() {
       console.log("closeModal");
@@ -131,7 +158,7 @@ export default {
   border-radius: 50%;
 }
 .editBtn {
-  margin-top:20px;
+  margin-top: 20px;
   padding: 5px;
   width: 100px;
   background: #fafafa;
@@ -140,6 +167,9 @@ export default {
   border-radius: 7px;
   text-decoration: none;
   background: #fff;
+}
+.input-file {
+  opacity: 0;
 }
 .container .article {
   display: flex;
@@ -152,7 +182,7 @@ export default {
   padding: 7px;
 }
 .container .article .no_write li {
-text-align: left;
+  text-align: left;
   height: 30px;
   margin-bottom: 10px;
   color: #777;
@@ -182,25 +212,24 @@ text-align: left;
   display: flex;
   justify-content: space-between;
 }
-@media all and (max-width:550px) {
-  .container .profile{
+@media all and (max-width: 550px) {
+  .container .profile {
     width: 80%;
     position: static;
-    margin:80px auto 0;
+    margin: 80px auto 0;
   }
-  .container .btns{
+  .container .btns {
     display: block;
-    width:100%;
+    width: 100%;
   }
   .md-button.md-theme-default.md-raised:not([disabled]).md-accent,
   .md-button.md-theme-default.md-raised:not([disabled]).md-primary {
     width: 100%;
     display: block;
   }
-  .md-button.md-theme-default.md-raised:not([disabled]).md-accent{
-    margin-left:-1px;
+  .md-button.md-theme-default.md-raised:not([disabled]).md-accent {
+    margin-left: -1px;
     margin-bottom: 20px;
   }
-
 }
 </style>

@@ -3,21 +3,15 @@
     <div class="contentWrap">
       <div v-if="index == 0" class="intro">
         <h1>문제 풀기</h1>
-        <p>{{ exam.title }}</p>
-        <p>
-          저자 :
-          <b>{{ exam.author }}</b>
-        </p>
-        <p>
-          카테고리 :
-          <b>{{ exam.category }}</b>
-        </p>
-        <p>{{ exam.description }}</p>
+        <p>문제이름:{{ exam.title }}</p>
+        <p>저자 :{{ exam.author }}</p>
+        <p>카테고리 :{{ exam.category }}</p>
+        <p>문제설명 :{{ exam.description }}</p>
         <div class="thumbnailWrap">
           <img :src="exam.thumbnail" class="thumbnail" />
         </div>
         <div class="btnWrap">
-          <el-button type="primary" class="btn" @click="next">다음</el-button>
+          <el-button type="primary" class="btn" @click="nextPage">다음</el-button>
         </div>
       </div>
       <div v-else-if="index < exam.questions.length" class="questionWrap">
@@ -33,16 +27,14 @@
           </ul>
         </div>
         <div class="btnWrap">
-          <el-button type="primary" class="btn" @click="next">다음</el-button>
+          <el-button type="primary" class="btn" @click="nextPage">다음</el-button>
         </div>
       </div>
       <div v-else-if="index == exam.questions.length" class="text-center">
         <h3>수고하셨습니다. 모든 문제를 푸셨습니다.</h3>
         <p>문제에 점수를 매겨주세요. {{ rating }}</p>
         <v-rating v-model="rating" color="orange"></v-rating>
-        <el-button type="primary" class="btn" @click="submit"
-          >결과보기</el-button
-        >
+        <el-button type="primary" class="btn" @click="submit">결과보기</el-button>
       </div>
     </div>
   </div>
@@ -53,6 +45,8 @@ import shuffle from "../util/shuffle"; //배열을 random으로 반환하는 함
 import { BASE_URL } from "../config/env";
 import { eventBus } from "../main";
 import ExamResult from "./ExamResult";
+import { mapState } from "vuex";
+
 export default {
   component: { ExamResult },
   data() {
@@ -92,6 +86,9 @@ export default {
   mounted() {
     this.getExamInfo();
   },
+  computed: {
+    ...mapState(["userInfo", "isLogin"])
+  },
   methods: {
     getExamInfo() {
       axios
@@ -104,7 +101,7 @@ export default {
           this.exam.description = exam.description;
           this.exam.thumbnail = exam.thumbnail;
           this.exam.created_at = exam.created_at;
-          this.exam.author = exam.author.username;
+          this.exam.author = exam.author == null ? null : exam.author.username;
           let item = {
             questions: [
               {
@@ -125,10 +122,16 @@ export default {
           this.exam.questions = item.questions;
         });
     },
-    next() {
+    nextPage() {
+      console.log("next!!!", 1111);
+
       if (this.index == 0) {
+        console.log("next!!!", 222);
+
         this.resultData.examId = this.exam.examId;
       } else if (this.index > 0) {
+        console.log("next!!!", 333);
+
         let answer = this.exam.questions[this.index].answer;
         let value = this.exam.questions[this.index].value;
         let question = this.exam.questions[this.index].question;

@@ -17,6 +17,7 @@ export default new Vuex.Store({
     userInfo: {
       username: null,
       email: null,
+      avatar: null,
       _id: null,
       resultData: [],
       myExam: [],
@@ -55,6 +56,9 @@ export default new Vuex.Store({
     UPDATE_USER_DATA(state, userInfo) {
       if (userInfo.username) {
         state.userInfo.username = userInfo.username;
+      }
+      if (userInfo.avatar) {
+        state.userInfo.avatar = userInfo.avatar;
       }
       if (userInfo.email) {
         state.userInfo.email = userInfo.email;
@@ -124,12 +128,12 @@ export default new Vuex.Store({
             _id: response.data.userInfo._id,
             username: response.data.userInfo.username,
             email: response.data.userInfo.email,
+            avatar: response.data.userInfo.avatar,
             resultData: JSON.parse(
               JSON.stringify(response.data.userInfo.resultData)
             ),
             myExam: JSON.parse(JSON.stringify(response.data.userInfo.myExam))
           };
-          console.log("userInfo!!!!", userInfo.myExam);
 
           commit("LOGIN", userInfo);
         });
@@ -140,7 +144,6 @@ export default new Vuex.Store({
       }
     },
     SET_VISIBLE_NAVBAR({ commit }) {
-      console.log("SET_VISIBLE_ACTION");
       commit("SET_VISIBLE");
     },
     UPDATE_USER_DATA({ commit }, { userInfo }) {

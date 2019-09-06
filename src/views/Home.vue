@@ -21,7 +21,7 @@
             <li
               v-for="(exam, i) in examlist.slice(0, 5)"
               :key="exam.id"
-              @click="moveToDetail(exam.id)"
+              @click="moveToDetail(exam._id)"
             >{{ i + 1 }}.{{ exam.title }}</li>
           </ul>
         </section>
@@ -40,28 +40,31 @@
 
       <div v-loading="loading" class="left">
         <div class="navBox">
-          <a href="/examDetail">Lessons</a>
+          <router-link to="/">Lessons</router-link>
           <router-link to="/library">Libraries</router-link>
         </div>
-        <article>
+        <article v-if="isLogin">
           <header>
             <h2>나의 문제</h2>
-            <a href="#">See All</a>
+            <a @click="$router.push({name : 'allExam', query:{id : 0, title : '나의문제'}})">See All</a>
           </header>
           <ul class="newWrap">
-            <li v-for="(exam, i) in tExamList" :key="exam.id" @click="moveToDetail(exam.id)">
+            <li
+              v-for="(results, i) in userInfo.resultData.filter(item => item.examId != null)"
+              :key="i"
+              @click="moveToDetail(results.examId._id)"
+            >
               <div class="thumbnail">
-                <img :src="exam.thumbnail" />
+                <img :src="results.examId.thumbnail" />
               </div>
-              <b>{{ exam.title }}</b>
-              <p>{{ exam.description }}</p>
+              <b>{{ results.examId.title }}</b>
+              <p>{{ results.examId.description }}</p>
               <div class="inner_box">
                 <div class>
                   <div class="text-center">
-                    <v-rating small half-increments color="orange" v-model="exam.rating"></v-rating>
+                    <v-rating small half-increments color="orange" v-model="results.examId.rating"></v-rating>
                   </div>
                 </div>
-                <!-- <div class="count">33</div> -->
               </div>
             </li>
           </ul>
@@ -69,10 +72,10 @@
         <article>
           <header>
             <h2>택트</h2>
-            <a href="#">See All</a>
+            <a @click="$router.push({name : 'allExam', query:{id : 1, title : '택트'}})">See All</a>
           </header>
           <ul class="newWrap">
-            <li v-for="(exam, i) in tExamList" :key="exam.id" @click="moveToDetail(exam.id)">
+            <li v-for="(exam, i) in tExamList" :key="exam.id" @click="moveToDetail(exam._id)">
               <div class="thumbnail">
                 <img :src="exam.thumbnail" />
               </div>
@@ -93,10 +96,10 @@
         <article>
           <header>
             <h2>청자반응</h2>
-            <a href="#">See All</a>
+            <a @click="$router.push({name : 'allExam', query:{id : 3,title : '청자반응'}})">See All</a>
           </header>
           <ul class="newWrap">
-            <li v-for="(exam, i) in cExamList" :key="exam.id" @click="moveToDetail(exam.id)">
+            <li v-for="(exam, i) in cExamList" :key="exam.id" @click="moveToDetail(exam._id)">
               <div class="thumbnail">
                 <img :src="exam.thumbnail" />
               </div>
@@ -116,10 +119,10 @@
         <article>
           <header>
             <h2>매칭</h2>
-            <a href="#">See All</a>
+            <a @click="$router.push({name : 'allExam', query:{id : 2, title : '매칭'}})">See All</a>
           </header>
           <ul class="newWrap">
-            <li v-for="(exam, i) in mExamList" :key="exam.id" @click="moveToDetail(exam.id)">
+            <li v-for="(exam, i) in mExamList" :key="exam.id" @click="moveToDetail(exam._id)">
               <div class="thumbnail">
                 <img :src="exam.thumbnail" />
               </div>
@@ -139,10 +142,10 @@
         <article>
           <header>
             <h2>LRFFC</h2>
-            <a href="#">See All</a>
+            <a @click="$router.push({name : 'allExam', query:{id : 4, title : 'LRFFC'}})">See All</a>
           </header>
           <ul class="newWrap">
-            <li v-for="(exam, i) in lExamList" :key="exam.id" @click="moveToDetail(exam.id)">
+            <li v-for="(exam, i) in lExamList" :key="exam.id" @click="moveToDetail(exam._id)">
               <div class="thumbnail">
                 <img :src="exam.thumbnail" />
               </div>
@@ -162,10 +165,10 @@
         <article>
           <header>
             <h2>인트라버벌</h2>
-            <a href="#">See All</a>
+            <a @click="$router.push({name : 'allExam', query:{id : 5, title : '인트라버벌'}})">See All</a>
           </header>
           <ul class="newWrap">
-            <li v-for="(exam, i) in iExamList" :key="exam.id" @click="moveToDetail(exam.id)">
+            <li v-for="(exam, i) in iExamList" :key="exam.id" @click="moveToDetail(exam._id)">
               <div class="thumbnail">
                 <img :src="exam.thumbnail" />
               </div>
@@ -185,10 +188,10 @@
         <article>
           <header>
             <h2>읽기</h2>
-            <a href="#">See All</a>
+            <a @click="$router.push({name : 'allExam', query:{id : 6, title : '읽기'}})">See All</a>
           </header>
           <ul class="newWrap">
-            <li v-for="(exam, i) in rExamList" :key="exam.id" @click="moveToDetail(exam.id)">
+            <li v-for="(exam, i) in rExamList" :key="exam.id" @click="moveToDetail(exam._id)">
               <div class="thumbnail">
                 <img :src="exam.thumbnail" />
               </div>
@@ -284,6 +287,7 @@ export default {
       });
     },
     moveToDetail(id) {
+      if (this.isLogin == false) return alert("로그인 후에 이용 가능합니다.");
       this.$router.push({ name: "detail", params: { id: id } });
     }
   }
