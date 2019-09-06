@@ -1,5 +1,9 @@
 <template>
   <div class="container">
+    <div class="navBox">
+          <a href="/examDetail">Lessons</a>
+          <router-link to="/library">Libraries</router-link>
+        </div>
     <div class="contentWrap">
       <h1>{{ header }}</h1>
       <el-form>
@@ -158,6 +162,30 @@ export default {
 </script>
 
 <style scoped>
+.navBox {
+  display: flex;
+  justify-content: flex-start;
+  margin:0 0 20px 5px;
+}
+.navBox a {
+  /* width:calc(50% - 10px);
+     */
+  width: 100px;
+  height: 35px;
+  margin-right: 20px;
+  display: block;
+  text-align: center;
+  background: #ddd;
+  border-radius: 6px;
+  line-height: 35px;
+  text-decoration: none;
+}
+
+.navBox a:hover {
+  background: rgb(93, 93, 131);
+  text-decoration: none;
+}
+
 .container {
   max-width: 1000px;
   height: auto;
