@@ -9,6 +9,7 @@ import "vue-material/dist/vue-material.min.css";
 import "vue-material/dist/theme/default.css"; // This line here
 import "@/styles/index.css"; // global css
 import Vuetify from "vuetify";
+
 import "babel-polyfill";
 import "vuetify/dist/vuetify.min.css"; // Ensure you are using css-loader
 // import VueAwesomeSwiper from "vue-awesome-swiper";
@@ -20,7 +21,9 @@ import moment from "moment";
 import VueMoment from "vue-moment";
 import "element-ui/lib/theme-chalk/index.css";
 export const eventBus = new Vue();
+// import VeeValidate from "vee-validate";
 
+// Vue.use(VeeValidate);
 Vue.use(ElementUI);
 Vue.use(VueMaterial);
 Vue.use(VueMoment, {

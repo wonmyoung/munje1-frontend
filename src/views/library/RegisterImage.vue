@@ -1,9 +1,9 @@
 <template>
   <div class="container">
     <div class="navBox">
-          <a href="/examDetail">Lessons</a>
-          <router-link to="/library">Libraries</router-link>
-        </div>
+      <a href="/examDetail">Lessons</a>
+      <router-link to="/library">Libraries</router-link>
+    </div>
     <div class="contentWrap">
       <h1>{{ header }}</h1>
       <el-form>
@@ -30,6 +30,13 @@
           <el-input v-if="isEdit == true" v-model="author"></el-input>
           <el-input v-else :value="userInfo.username"></el-input>
         </el-form-item>
+        <div class="btns">
+          <input type="radio" name="rd" id="rd1" v-model="status" value="PUBLIC" checked />
+          <label for="rd1">공개</label>
+          <input type="radio" name="rd" id="rd2" v-model="status" value="PRIVATE" />
+          <label for="rd2">비공개</label>
+        </div>
+        <div>{{status}}</div>
         <el-upload
           v-if="isEdit == false"
           :action="uploadURL"
@@ -44,9 +51,7 @@
         <img :src="files[0]" class="image" />
       </div>
       <div class="btnWrap">
-        <el-button type="primary" class="btn" @click="submit">
-          {{ header }}
-        </el-button>
+        <el-button type="primary" class="btn" @click="submit">{{ header }}</el-button>
       </div>
     </div>
   </div>
@@ -73,6 +78,7 @@ export default {
       dialogVisible: false,
       category: null,
       files: [],
+      status: "PUBLIC",
       uploadURL: BASE_URL + "/file/upload"
     };
   },
@@ -109,7 +115,8 @@ export default {
       let data = {
         title: this.title,
         category: this.category,
-        files: this.files
+        files: this.files,
+        status: this.status
       };
 
       let accessToken = localStorage.getItem("accessToken");
@@ -119,7 +126,6 @@ export default {
         }
       };
       let address;
-      console.log("this.isEdit", this.isEdit);
 
       if (this.isEdit == true) {
         address = BASE_URL + `/library/edit/${this.$route.params.id}`;
@@ -154,6 +160,7 @@ export default {
           this.category = libraryInfo.category;
           this.title = libraryInfo.title;
           this.author = libraryInfo.author.username;
+          this.status = libraryInfo.status;
           this.dialogVisible = true;
         });
     }
@@ -165,7 +172,7 @@ export default {
 .navBox {
   display: flex;
   justify-content: flex-start;
-  margin:0 0 20px 5px;
+  margin: 0 0 20px 5px;
 }
 .navBox a {
   /* width:calc(50% - 10px);
@@ -224,5 +231,32 @@ select {
 }
 .btn {
   margin: 20px 0 10px 0;
+}
+input[type="radio"] {
+  display: none;
+}
+input:checked + label {
+  background: #409eff;
+  color: #fff;
+}
+label {
+  margin: 20px 0 50px 0;
+  display: inline-block;
+  width: 50%;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  border: 1px solid #ccc;
+  background: white;
+  font-weight: bold;
+}
+label:hover {
+  background: rgb(23, 118, 214);
+}
+label:nth-child(2) {
+  border-right: none;
+}
+#radio {
+  margin-right: 5px;
 }
 </style>

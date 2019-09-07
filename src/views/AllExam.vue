@@ -6,6 +6,7 @@
           <a href="/examDetail">Lessons</a>
           <router-link to="/library">Libraries</router-link>
         </div>
+
         <article v-if="$route.query.id == '0'">
           <header>
             <h2>나의문제</h2>
@@ -27,6 +28,21 @@
                     <v-rating small half-increments color="orange" v-model="results.examId.rating"></v-rating>
                   </div>
                 </div>
+              </div>
+            </li>
+            <li v-for="(exam, i) in sortExamList" :key="exam.id" @click="moveToDetail(exam._id)">
+              <div class="thumbnail">
+                <img :src="exam.thumbnail" />
+              </div>
+              <b>{{ exam.title }}</b>
+              <p>{{ exam.description }}</p>
+              <div class="inner_box">
+                <div class>
+                  <div class="text-center">
+                    <v-rating small half-increments color="orange" v-model="exam.rating"></v-rating>
+                  </div>
+                </div>
+                <!-- <div class="count">33</div> -->
               </div>
             </li>
             <!-- <li
@@ -134,7 +150,6 @@ export default {
   },
   methods: {
     getExamList() {
-      //store에 저장
       this.loading = true;
       axios.get(BASE_URL + "/exam/examList", { header }).then(res => {
         console.log(res.data.exam);
@@ -143,9 +158,11 @@ export default {
         console.log(this.$route.query.title);
 
         this.examlist = res.data.exam;
-        this.sortExamList = this.examlist.filter(
-          exam => exam.category == index
-        );
+
+        this.sortExamList = this.examlist.filter(exam => {
+          if (exam.category == index || exam.author == this.userInfo._id)
+            return exam;
+        });
 
         this.loading = false;
       });

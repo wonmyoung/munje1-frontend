@@ -3,9 +3,16 @@
     <div class="md-layout-item contentWrap">
       <h1>회원가입</h1>
       <div class="md-layout">
+        <ValidationProvider name="email" rules="required|email">
+          <div slot-scope="{ errors }">
+            <input v-model="email" />
+            <p>{{ errors[0] }}</p>
+          </div>
+        </ValidationProvider>
         <md-field>
           <label>이메일</label>
           <md-input v-model="email"></md-input>
+          <!-- <div class="error" v-if="errors.has('email')">{{errors.first('email')}}</div> -->
         </md-field>
         <md-field>
           <label>이름</label>
@@ -31,9 +38,11 @@
 
 <script>
 import axios from "axios";
+import { ValidationProvider } from "vee-validate";
 import { BASE_URL } from "../config/env";
 
 export default {
+  components: { ValidationProvider },
   data() {
     return {
       email: null,
@@ -47,6 +56,14 @@ export default {
   },
   methods: {
     submit() {
+      // this.$validator.validateAll().then(result => {
+      //   if (result) {
+      //     alert("submit");
+      //   }
+      // });
+      // if (this.validateEmail(this.email)) {
+      //   return alert("유효한 이메일이 아닙니다.");
+      // }
       if (this.password != this.password_2) {
         alert("비밀번호를 다시 확인 하세요");
         return;
@@ -59,6 +76,7 @@ export default {
       axios
         .post(BASE_URL + "/accounts/join", data)
         .then(res => {
+          console.log(res);
           if (res.status === 409) {
             return alert("이미 회원 가입을 하였습니다.");
           } else {
@@ -66,8 +84,7 @@ export default {
           }
         })
         .catch(err => {
-          console.log("err", err);
-          alert(err);
+          alert("다시 등록 해주세요.");
         });
     },
     setVisible() {
@@ -117,5 +134,4 @@ export default {
   background-color: #448aff;
   border: 1px solid #ccc;
 }
-
 </style>

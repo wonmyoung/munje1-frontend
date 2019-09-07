@@ -34,11 +34,11 @@
             <el-form-item label="문제집 요약 설명">
               <el-input v-model="description"></el-input>
               <div class="btns">
-              <input type="radio" name="rd" id="rd1" checked>
-              <label for="rd1">공개</label>
-              <input type="radio" name="rd" id="rd2">
-              <label for="rd2">비공개</label>
-            </div>
+                <input type="radio" name="rd" id="rd1" v-model="status" value="PUBLIC" checked />
+                <label for="rd1">공개</label>
+                <input type="radio" name="rd" id="rd2" v-model="status" value="PRIVATE" />
+                <label for="rd2">비공개</label>
+              </div>
             </el-form-item>
             <div class="uploaderWrapp" v-if="!images.length">
               <div class="uploaderWrap">
@@ -151,6 +151,7 @@ export default {
       ],
       count: null,
       thumbnail: null,
+      status: "PUBLIC",
       images: [],
       paths: [],
       title: null,
@@ -345,7 +346,8 @@ export default {
         thumbnail: this.thumbnail,
         category: this.category,
         description: this.description,
-        questions: questionsData
+        questions: questionsData,
+        status: this.status
       };
       let address;
       if (this.isEdit == true) {
@@ -428,6 +430,7 @@ export default {
           this.category = res.data.exam.category;
           this.description = res.data.exam.description;
           this.title = res.data.exam.title;
+          this.title = res.data.status;
           this.images = this.questions.map((question, i) => {
             return question.images;
           });
@@ -443,28 +446,29 @@ export default {
   max-width: 100%;
   height: auto;
 }
-input[type="radio"]{
+input[type="radio"] {
   display: none;
 }
 input:checked + label {
-  background:#409EFF;
+  background: #409eff;
+  color: #fff;
 }
-label{
-  margin-top:20px;
+label {
+  margin-top: 20px;
   display: inline-block;
-  width:50%;
-  height:40px;
+  width: 50%;
+  height: 40px;
   line-height: 40px;
   text-align: center;
-  border:1px solid #ccc;
-  background:white;
+  border: 1px solid #ccc;
+  background: white;
   font-weight: bold;
 }
-label:hover{
-   background:rgb(23, 118, 214);
+label:hover {
+  background: rgb(23, 118, 214);
 }
-label:nth-child(2){
-  border-right:none;
+label:nth-child(2) {
+  border-right: none;
 }
 .wrap {
   text-align: left;

@@ -40,8 +40,8 @@
 
       <div v-loading="loading" class="left">
         <div class="navBox">
-          <router-link to="/">Lessons</router-link>
-          <router-link to="/library">Libraries</router-link>
+          <a href="/">Lessons</a>
+          <a href="/library">Libraries</a>
         </div>
         <article v-if="isLogin">
           <header>
@@ -63,6 +63,24 @@
                 <div class>
                   <div class="text-center">
                     <v-rating small half-increments color="orange" v-model="results.examId.rating"></v-rating>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li
+              v-for="(results, i) in userInfo.myExam.filter(item => item._id!= null)"
+              :key="i"
+              @click="moveToDetail(results._id)"
+            >
+              <div class="thumbnail">
+                <img :src="results.thumbnail" />
+              </div>
+              <b>{{ results.title }}</b>
+              <p>{{ results.description }}</p>
+              <div class="inner_box">
+                <div class>
+                  <div class="text-center">
+                    <v-rating small half-increments color="orange" v-model="results.rating"></v-rating>
                   </div>
                 </div>
               </div>

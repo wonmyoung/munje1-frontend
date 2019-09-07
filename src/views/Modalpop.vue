@@ -8,10 +8,7 @@
         <img v-else-if="avatar" :src="avatar" />
         <img v-else :src="userInfo.avatar" />
       </div>
-      <md-button class="editBtn" ref="file" @click="edit('Modalpop')">
-        사진변경
-        <input type="file" class="input-file" ref="file" @change="sendFile" />
-      </md-button>
+      <input type="file" class="input-file" ref="file" @change="sendFile" />
       <div class="article">
         <ul class="no_write">
           <li>이름</li>
@@ -47,7 +44,8 @@ export default {
   data() {
     return {
       results: null,
-      password: null
+      password: null,
+      avatar: null
     };
   },
   computed: {
@@ -168,9 +166,7 @@ export default {
   text-decoration: none;
   background: #fff;
 }
-.input-file {
-  opacity: 0;
-}
+
 .container .article {
   display: flex;
   width: 95%;

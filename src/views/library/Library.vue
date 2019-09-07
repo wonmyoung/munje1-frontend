@@ -1,9 +1,9 @@
 <template>
   <div v-loading="loading" class="container">
     <div class="navBox">
-          <a href="/examDetail">Lessons</a>
-          <router-link to="/library">Libraries</router-link>
-        </div>
+      <a href="/">Lessons</a>
+      <a href="/library">Libraries</a>
+    </div>
     <div id="page" class="pageWrap">
       <h2 class>라이브러리</h2>
       <div class="selectWrap" label="카테고리">
@@ -20,9 +20,29 @@
           <option :value="9">가구</option>
           <option :value="10">음식</option>
           <option :value="11">기타</option>
+          <option :value="12">나의 라이브러리</option>
         </select>
       </div>
-
+      <article
+        v-show="imageInfo.filter(image => image.author._id == userInfo._id).length > 0"
+        class="outLinks"
+      >
+        <h3>나의 라이브러리</h3>
+        <ul>
+          <li
+            v-for="(image, index) in imageInfo.filter(
+              image => image.author._id == userInfo._id
+            )"
+            :key="index"
+          >
+            <a href="#">
+              <img :src="image.file" class="image" />
+              <p id="title">{{ image.title }}</p>
+              <p id="author">{{ image.author.username }}</p>
+            </a>
+          </li>
+        </ul>
+      </article>
       <article
         v-show="imageInfo.filter(image => image.category == '1').length > 0"
         class="outLinks"
@@ -37,7 +57,7 @@
           >
             <a href="#">
               <img :src="image.file" class="image" />
-              <!-- <p id="title">{{ image.title }}</p> -->
+              <p id="title">{{ image.title }}</p>
               <!-- <p id="author">{{ image.author.username }}</p> -->
             </a>
           </li>
@@ -57,8 +77,8 @@
           >
             <a href="#">
               <img :src="image.file" class="image" />
-              <!-- <span id="title">{{ image.title }}</span>
-              <span id="author">{{ image.author.username }}</span>-->
+              <p id="title">{{ image.title }}</p>
+              <p id="author">{{ image.author.username }}</p>
             </a>
           </li>
         </ul>
@@ -77,18 +97,13 @@
           >
             <a href="#">
               <img :src="image.file" class="image" />
-              <!-- <p id="title">{{ image.title }}</p>
-              <p id="author">
-                작성자 : {{ JSON.parse(JSON.stringify(image.author)) }}
-              </p>-->
+              <p id="title">{{ image.title }}</p>
+              <p id="author">{{ image.author.username }}</p>
             </a>
           </li>
         </ul>
       </article>
-      <article
-        v-if="imageInfo.filter(image => image.category == '9').length > 0"
-        class="outLinks"
-      >
+      <article v-if="imageInfo.filter(image => image.category == '9').length > 0" class="outLinks">
         <h3>가구</h3>
         <ul>
           <li
@@ -99,8 +114,8 @@
           >
             <a href="#">
               <img :src="image.file" class="image" />
-              <!-- <p id="author">{{ image.title }}</p> -->
-              <!-- <p id="author">작성자 : {{ JSON.parse(JSON.stringify(image.author)) }}</p> -->
+              <p id="title">{{ image.title }}</p>
+              <p id="author">{{ image.author.username }}</p>
             </a>
           </li>
         </ul>
@@ -119,8 +134,8 @@
           >
             <a href="#">
               <img :src="image.file" class="image" />
-              <p id="author">{{ image.title }}</p>
-              <!-- <p id="author">작성자 : {{ JSON.parse(JSON.stringify(image.author)) }}</p> -->
+              <p id="title">{{ image.title }}</p>
+              <p id="author">{{ image.author.username }}</p>
             </a>
           </li>
         </ul>
@@ -139,16 +154,13 @@
           >
             <a href="#">
               <img :src="image.file" class="image" />
-              <!-- <p id="author">{{ image.title }}</p> -->
-              <!-- <p id="author">작성자 : {{ JSON.parse(JSON.stringify(image.author)) }}</p> -->
+              <p id="title">{{ image.title }}</p>
+              <p id="author">{{ image.author.username }}</p>
             </a>
           </li>
         </ul>
       </article>
-      <article
-        v-if="imageInfo.filter(image => image.category == '6').length > 0"
-        class="outLinks"
-      >
+      <article v-if="imageInfo.filter(image => image.category == '6').length > 0" class="outLinks">
         <h3>직업</h3>
         <ul>
           <li
@@ -159,17 +171,14 @@
           >
             <a href="#">
               <img :src="image.file" class="image" />
-              <!-- <p id="author">{{ image.title }}</p> -->
-              <!-- <p id="author">작성자 : {{ JSON.parse(JSON.stringify(image.author)) }}</p> -->
+              <p id="title">{{ image.title }}</p>
+              <p id="author">{{ image.author.username }}</p>
             </a>
           </li>
         </ul>
       </article>
 
-      <article
-        v-if="imageInfo.filter(image => image.category == '8').length > 0"
-        class="outLinks"
-      >
+      <article v-if="imageInfo.filter(image => image.category == '8').length > 0" class="outLinks">
         <h3>탈것</h3>
         <ul>
           <li
@@ -180,8 +189,8 @@
           >
             <a href="#">
               <img :src="image.file" class="image" />
-              <!-- <p id="author">{{ image.title }}</p> -->
-              <!-- <p id="author">작성자 : {{ JSON.parse(JSON.stringify(image.author)) }}</p> -->
+              <p id="title">{{ image.title }}</p>
+              <p id="author">{{ image.author.username }}</p>
             </a>
           </li>
         </ul>
@@ -200,17 +209,14 @@
           >
             <a href="#">
               <img :src="image.file" class="image" />
-              <p id="author">{{ image.title }}</p>
-              <!-- <p id="author">작성자 : {{ JSON.parse(JSON.stringify(image.author)) }}</p> -->
+              <p id="title">{{ image.title }}</p>
+              <p id="author">{{ image.author.username }}</p>
             </a>
           </li>
         </ul>
       </article>
 
-      <article
-        v-if="imageInfo.filter(image => image.category == '10').length > 0"
-        class="outLinks"
-      >
+      <article v-if="imageInfo.filter(image => image.category == '10').length > 0" class="outLinks">
         <h3>음식</h3>
         <ul>
           <li
@@ -221,17 +227,14 @@
           >
             <a href="#">
               <img :src="image.file" class="image" />
-              <!-- <p id="author">{{ image.title }}</p> -->
-              <!-- <p id="author">작성자 : {{ JSON.parse(JSON.stringify(image.author)) }}</p> -->
+              <p id="title">{{ image.title }}</p>
+              <p id="author">{{ image.author.username }}</p>
             </a>
           </li>
         </ul>
       </article>
 
-      <article
-        v-if="imageInfo.filter(image => image.category == '11').length > 0"
-        class="outLinks"
-      >
+      <article v-if="imageInfo.filter(image => image.category == '11').length > 0" class="outLinks">
         <h3>기타</h3>
         <ul>
           <li
@@ -242,8 +245,8 @@
           >
             <a href="#">
               <img :src="image.file" class="image" />
-              <!-- <p id="author">{{ image.title }}</p> -->
-              <!-- <p id="author">작성자 : {{ JSON.parse(JSON.stringify(image.author)) }}</p> -->
+              <p id="title">{{ image.title }}</p>
+              <p id="author">{{ image.author.username }}</p>
             </a>
           </li>
         </ul>
@@ -252,6 +255,7 @@
   </div>
 </template>
 <script>
+import { mapState } from "vuex";
 import axios from "axios";
 import { BASE_URL } from "../../config/env";
 
@@ -268,6 +272,9 @@ export default {
   created() {
     this.getLibrary();
   },
+  computed: {
+    ...mapState(["isLogin", "isLoginError", "userInfo"])
+  },
   methods: {
     select() {
       if (this.category == 0) {
@@ -279,10 +286,16 @@ export default {
       );
     },
     getLibrary() {
+      let accessToken = localStorage.getItem("accessToken");
+      let config = {
+        headers: {
+          accessToken: accessToken
+        }
+      };
       this.loading = true;
-
-      axios.get(BASE_URL + "/library").then(res => {
+      axios.get(BASE_URL + "/library", { config }).then(res => {
         this.imageInfo = JSON.parse(JSON.stringify(res.data.imageInfo));
+        console.log("this.imageInfo", this.imageInfo);
         this.backupImageInfo = JSON.parse(JSON.stringify(res.data.imageInfo));
 
         this.loading = false;
@@ -296,11 +309,11 @@ export default {
   background: #fff;
 }
 .navBox {
-  margin:15px;
+  margin: 15px;
   display: flex;
   justify-content: flex-start;
-  width:90%;
-  margin:0 auto;
+  width: 90%;
+  margin: 0 auto;
 }
 .navBox a {
   /* width:calc(50% - 10px);
@@ -315,10 +328,11 @@ export default {
   line-height: 35px;
   text-decoration: none;
 }
-
+a:hover {
+  text-decoration: none;
+}
 .navBox a:hover {
   background: rgb(93, 93, 131);
-  text-decoration: none;
 }
 
 .wrap {
@@ -448,8 +462,17 @@ select {
   padding-left: 10px;
   color: #80629c;
 }
+#title,
+#author {
+  font-size: 13px;
+  text-align: left;
+  // font-weight: bold;
+  margin: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
 #title {
-  font-size: 14px;
   font-weight: bold;
 }
 @media (max-width: 768px) {
@@ -457,8 +480,8 @@ select {
     justify-content: space-between;
   }
   .navBox a {
-    width:45%;
-    margin-right:0;
+    width: 45%;
+    margin-right: 0;
   }
   #page .outLinks li {
     width: 50px;
