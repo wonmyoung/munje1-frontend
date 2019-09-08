@@ -24,7 +24,7 @@
         </select>
       </div>
       <article
-        v-show="imageInfo.filter(image => image.author._id == userInfo._id).length > 0"
+        v-if="userInfo && imageInfo.filter(image => image.author._id == userInfo._id).length > 0"
         class="outLinks"
       >
         <h3>나의 라이브러리</h3>
@@ -286,14 +286,20 @@ export default {
       );
     },
     getLibrary() {
+      let config;
       let accessToken = localStorage.getItem("accessToken");
-      let config = {
-        headers: {
-          accessToken: accessToken
-        }
-      };
+      if (accessToken) {
+        console.log("accessToken!!", accessToken);
+
+        config = {
+          headers: {
+            accessToken: accessToken
+          }
+        };
+      }
+      console.log("accessToken", accessToken);
       this.loading = true;
-      axios.get(BASE_URL + "/library", { config }).then(res => {
+      axios.get(BASE_URL + "/library", config).then(res => {
         this.imageInfo = JSON.parse(JSON.stringify(res.data.imageInfo));
         console.log("this.imageInfo", this.imageInfo);
         this.backupImageInfo = JSON.parse(JSON.stringify(res.data.imageInfo));
@@ -474,6 +480,7 @@ select {
 }
 #title {
   font-weight: bold;
+  color: #448aff;
 }
 @media (max-width: 768px) {
   .navBox {

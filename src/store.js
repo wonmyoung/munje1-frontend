@@ -18,7 +18,7 @@ export default new Vuex.Store({
       username: null,
       email: null,
       avatar: null,
-      _id: null,
+      _id: "",
       resultData: [],
       myExam: [],
       iaAdmin: false
