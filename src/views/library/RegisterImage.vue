@@ -36,7 +36,6 @@
           <input type="radio" name="rd" id="rd2" v-model="status" value="PRIVATE" />
           <label for="rd2">비공개</label>
         </div>
-        <div>{{status}}</div>
         <el-upload
           v-if="isEdit == false"
           :action="uploadURL"
