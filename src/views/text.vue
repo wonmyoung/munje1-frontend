@@ -4,14 +4,12 @@
       <a @click="closeModal">X</a>
       <h1>프로필 편집</h1>
       <div class="circle_img">
-        <img v-if="userInfo.avatar == null" src="@/assets/images/home/user.png" />
-        <img v-else-if="avatar" :src="avatar" />
-        <img v-else :src="userInfo.avatar" />
-        <label for="btnFile" class="btnFile">
+        <img src="@/assets/images/home/user.png" alt="프로필사진" />
+        <label for="btn" class="change">
           <img src="@/assets/images/home/ico_camera.png" alt="사진변경" />
-          <input type="file" class="input-file" ref="file" id="btnFile" @change="sendFile" />
         </label>
       </div>
+      <input type="file" class="input-file" ref="file" @change="sendFile" />
       <div class="article">
         <ul class="no_write">
           <li>이름</li>
@@ -56,7 +54,6 @@ export default {
   },
   methods: {
     submit() {
-      if (this.password == null) return alert("비밀번호를 입력해주세요");
       let accessToken = localStorage.getItem("accessToken");
       let config = {
         headers: {
@@ -66,7 +63,6 @@ export default {
       let data = {
         username: this.userInfo.username,
         email: this.userInfo.email,
-        avatar: this.avatar,
         password: this.password
       };
       console.log("data", data);
@@ -76,8 +72,7 @@ export default {
           if (res.status == 200) {
             let userInfo = {
               username: data.username,
-              email: data.email,
-              avatar: data.avatar
+              email: data.email
             };
             this.$store.dispatch("UPDATE_USER_DATA", { userInfo });
             alert("정상적으로 프로필이 수정 되었습니다.");
@@ -86,29 +81,6 @@ export default {
             alert("비밀번호를 다시 확인해주세요.");
           }
         });
-    },
-    async sendFile() {
-      let result;
-      const file = this.$refs.file.files[0];
-      const formdata = new FormData();
-      let accessToken = localStorage.getItem("accessToken");
-      let config = {
-        headers: {
-          accessToken: accessToken
-        }
-      };
-      formdata.append("file", file);
-      formdata.append("config", config);
-      try {
-        result = await axios.post(BASE_URL + "/file/upload", formdata, config);
-        if (result.status === 200) {
-          console.log("result", result);
-          this.avatar = result.data.path;
-        }
-      } catch (err) {
-        alert(err);
-      }
-      // this.addFilePath(result.data.path);
     },
     closeModal() {
       console.log("closeModal");
@@ -139,7 +111,9 @@ export default {
 .container .profile a {
   float: right;
 }
-
+input {
+  display: none;
+}
 .container .profile a {
   font-size: 20px;
   color: #000;
@@ -166,39 +140,14 @@ export default {
   line-height: 45px;
   left: 0;
 }
-.container label img {
+<<<<<<< head .container label img {
   width: 25px;
 }
 .container .profile .circle_img > img {
   width: 100%;
   height: 100%;
 }
-
-#btnFile {
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  background: transparent;
-  border: none;
-}
-
-/* .btnFile {
-  background: #222;
-  border-radius: 3px;
-  height: 30px;
-  color: #fff;
-  display: inline-block;
-  line-height: 30px;
-  padding: 0 20px;
-  margin-top: 20px;
-  transition: all 0.5s;
-} */
-
-.btnFile:hover {
-  opacity: 0.9;
-}
-
-.container .article {
+=======>>>>>>>b092d65623b28cfd7bb6aba03a72abb867369243 .container .article {
   display: flex;
   width: 95%;
   margin: 30px auto;
@@ -226,6 +175,7 @@ export default {
   margin-bottom: 10px;
   padding: 5px;
 }
+
 .container .article .write li input {
   width: 100%;
   height: 100%;
