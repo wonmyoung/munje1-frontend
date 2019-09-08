@@ -40,8 +40,8 @@
 
       <div v-loading="loading" class="left">
         <div class="navBox">
-          <a href="/">Lessons</a>
-          <a href="/library">Libraries</a>
+          <router-link to="/">Lessons</router-link>
+          <router-link to="/library">Libraries</router-link>
         </div>
         <article v-if="isLogin">
           <header>

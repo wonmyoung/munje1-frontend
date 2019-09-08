@@ -4,9 +4,9 @@
       <a @click="closeModal">X</a>
       <h1>프로필 편집</h1>
       <div class="circle_img">
-        <img v-if="userInfo.avatar == null" src="@/assets/images/home/user.png" />
-        <img v-else-if="avatar" :src="avatar" />
-        <img v-else :src="userInfo.avatar" />
+        <img v-if="avatar" :src="avatar" />
+        <img v-else-if="userInfo.avatar" :src="userInfo.avatar" />
+        <img v-else src="@/assets/images/home/user.png" />
         <label for="btnFile" class="btnFile">
           <img src="@/assets/images/home/ico_camera.png" alt="사진변경" />
           <input type="file" class="input-file" ref="file" id="btnFile" @change="sendFile" />
@@ -73,7 +73,8 @@ export default {
       axios
         .post(BASE_URL + "/accounts/profile/edit", data, config)
         .then(res => {
-          if (res.status == 200) {
+          console.log("res", res);
+          if (res.status == 200 && res.data.code == 201) {
             let userInfo = {
               username: data.username,
               email: data.email,
@@ -82,7 +83,7 @@ export default {
             this.$store.dispatch("UPDATE_USER_DATA", { userInfo });
             alert("정상적으로 프로필이 수정 되었습니다.");
             this.closeModal();
-          } else {
+          } else if (res.status == 200 && res.data.code == 409) {
             alert("비밀번호를 다시 확인해주세요.");
           }
         });

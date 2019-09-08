@@ -261,11 +261,12 @@ export default {
   display: flex;
   flex-wrap: wrap;
   min-height: 260px;
+  padding: 0 10px 0 10px;
   /* outline: 1px solid red; */
 }
 .conWrap .left article ul li {
   width: calc(25% - 30px);
-  margin: 0 30px 30px 0;
+  margin: 0 15px 30px 15px;
   min-width: 150px;
   cursor: pointer;
 }

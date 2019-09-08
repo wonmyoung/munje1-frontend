@@ -1,8 +1,8 @@
 <template>
   <div v-loading="loading" class="container">
     <div class="navBox">
-      <a href="/">Lessons</a>
-      <a href="/library">Libraries</a>
+      <router-link to="/">Lessons</router-link>
+      <router-link to="/library">Libraries</router-link>
     </div>
     <div id="page" class="pageWrap">
       <h2 class>라이브러리</h2>

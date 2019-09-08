@@ -3,12 +3,6 @@
     <div class="md-layout-item contentWrap">
       <h1>회원가입</h1>
       <div class="md-layout">
-        <ValidationProvider name="email" rules="required|email">
-          <div slot-scope="{ errors }">
-            <input v-model="email" />
-            <p>{{ errors[0] }}</p>
-          </div>
-        </ValidationProvider>
         <md-field>
           <label>이메일</label>
           <md-input v-model="email"></md-input>
@@ -55,15 +49,33 @@ export default {
     this.setVisible();
   },
   methods: {
+    emailValidate() {
+      let exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
+
+      if (exptext.test(this.email) == false) {
+        //이메일 형식이 알파벳+숫자@알파벳+숫자.알파벳+숫자 형식이 아닐경우
+
+        alert("이메일형식이 올바르지 않습니다.");
+
+        document.addjoin.email.focus();
+
+        return false;
+      }
+    },
     submit() {
-      // this.$validator.validateAll().then(result => {
-      //   if (result) {
-      //     alert("submit");
-      //   }
-      // });
-      // if (this.validateEmail(this.email)) {
-      //   return alert("유효한 이메일이 아닙니다.");
-      // }
+      this.emailValidate();
+      if (!this.email) {
+        alert("이메일을 입력해주세요.");
+        return;
+      }
+      if (!this.username) {
+        alert("이름을 입력해주세요.");
+        return;
+      }
+      if (!this.password) {
+        alert("비밀번호를 입력해주세요.");
+        return;
+      }
       if (this.password != this.password_2) {
         alert("비밀번호를 다시 확인 하세요");
         return;
