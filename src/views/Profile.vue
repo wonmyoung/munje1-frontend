@@ -3,8 +3,8 @@
     <div class="introduce_box clearfix">
       <div class="l_box">
         <div class="thumbnail">
-          <img v-if="userInfo.avatar == null" src="@/assets/images/home/user.png" />
-          <img v-else :src="userInfo.avatar" />
+          <img v-if="userInfo.avatar" :src="userInfo.avatar" />
+          <img v-else src="@/assets/images/home/user.png" />
         </div>
         <md-button class="editBtn" @click="edit('Modalpop')">프로필편집</md-button>
       </div>

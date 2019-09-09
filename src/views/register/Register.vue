@@ -430,7 +430,7 @@ export default {
           this.category = res.data.exam.category;
           this.description = res.data.exam.description;
           this.title = res.data.exam.title;
-          this.title = res.data.status;
+          this.status = res.data.status;
           this.images = this.questions.map((question, i) => {
             return question.images;
           });
@@ -446,7 +446,7 @@ export default {
   max-width: 100%;
   height: auto;
 }
-input[type="radio"] {
+.btns input[type="radio"] {
   display: none;
 }
 input:checked + label {

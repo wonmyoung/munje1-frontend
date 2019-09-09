@@ -15,13 +15,14 @@
             <li
               v-for="(results, i) in userInfo.resultData.filter(item => item.examId != null)"
               :key="i"
-              @click="moveToDetail(results.examId)"
+              @click="moveToDetail(results.examId._id)"
             >
               <div class="thumbnail">
                 <img :src="results.examId.thumbnail" />
               </div>
               <b>{{ results.examId.title }}</b>
               <p>{{ results.examId.description }}</p>
+              <p id="date">문제푼날짜:{{ moment(results.created_at).fromNow() }}</p>
               <div class="inner_box">
                 <div class>
                   <div class="text-center">
@@ -36,6 +37,7 @@
               </div>
               <b>{{ exam.title }}</b>
               <p>{{ exam.description }}</p>
+              <p id="date">문제만든날짜:{{ moment(exam.created_at).format('YYYY-MM-DD')}}</p>
               <div class="inner_box">
                 <div class>
                   <div class="text-center">
@@ -59,7 +61,7 @@
             <h2>{{title}}</h2>
           </header>
           <ul class="newWrap">
-            <li v-for="(exam, i) in sortExamList" :key="exam.id" @click="moveToDetail(exam._id)">
+            <li v-for="(exam, i) in sortExamList" :key="exam.id" @click="moveToDetail(exam.id)">
               <div class="thumbnail">
                 <img :src="exam.thumbnail" />
               </div>
@@ -97,7 +99,7 @@
             <li
               v-for="(exam, i) in examlist.slice(0, 5)"
               :key="exam.id"
-              @click="moveToDetail(exam.id)"
+              @click="moveToDetail(exam._id)"
             >{{ i + 1 }}.{{ exam.title }}</li>
           </ul>
         </section>
@@ -120,6 +122,8 @@
 import axios from "axios";
 import { mapState } from "vuex";
 import { BASE_URL } from "../config/env";
+import moment from "moment";
+import "moment/locale/ko";
 // import Loading from "../components/Loading";
 // axios.defaults.headers = "Access-Control-Allow-Origin: *";
 const header = {
@@ -134,6 +138,7 @@ export default {
   data() {
     return {
       loading: false,
+      moment: moment,
       title: null,
       images: [],
       examlist: [],
@@ -150,8 +155,19 @@ export default {
   },
   methods: {
     getExamList() {
+      let config;
+      let accessToken = localStorage.getItem("accessToken");
+      if (accessToken) {
+        console.log("accessToken!!", accessToken);
+
+        config = {
+          headers: {
+            accessToken: accessToken
+          }
+        };
+      }
       this.loading = true;
-      axios.get(BASE_URL + "/exam/examList", { header }).then(res => {
+      axios.get(BASE_URL + "/exam/examList", { header }, config).then(res => {
         console.log(res.data.exam);
         let index = this.$route.query.id;
         this.title = this.$route.query.title;
@@ -159,16 +175,30 @@ export default {
 
         this.examlist = res.data.exam;
 
-        this.sortExamList = this.examlist.filter(exam => {
-          if (exam.category == index || exam.author == this.userInfo._id)
-            return exam;
-        });
-
+        // this.sortExamList = this.examlist.filter(exam => {
+        //   if (exam.category == index || exam.author == this.userInfo._id)
+        //     return exam;
+        // });
+        this.sortExamList = this.userInfo.myExam.filter(
+          item => item._id != null
+        );
+        console.log("this.sortExamList", this.sortExamList);
         this.loading = false;
       });
     },
     getLibraries() {
-      axios.get(BASE_URL + "/library", { header }).then(res => {
+      let config;
+      let accessToken = localStorage.getItem("accessToken");
+      if (accessToken) {
+        console.log("accessToken!!", accessToken);
+
+        config = {
+          headers: {
+            accessToken: accessToken
+          }
+        };
+      }
+      axios.get(BASE_URL + "/library", { header, config }).then(res => {
         console.log("res >!!! ", res.data);
 
         res.data.imageInfo.forEach(image => {
@@ -272,7 +302,7 @@ export default {
 }
 
 .conWrap .left article ul li p {
-  height: 20px;
+  height: 16px;
   overflow: hidden;
 }
 
@@ -283,6 +313,7 @@ export default {
 .conWrap .left article ul li:last-child {
   margin-right: 0;
 }
+
 .thumbnail {
   width: 100%;
 }
@@ -304,7 +335,8 @@ article ul li p {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  text-align: center;
+  text-align: left;
+  padding: 0;
 }
 article ul li .inner_box {
   display: flex;

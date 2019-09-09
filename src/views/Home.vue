@@ -59,6 +59,8 @@
               </div>
               <b>{{ results.examId.title }}</b>
               <p>{{ results.examId.description }}</p>
+              <!-- <p>문제푼날짜:{{ results.created_at.substr(0, 10) }}</p> -->
+              <p>문제푼날짜:{{ moment(results.created_at).fromNow() }}</p>
               <div class="inner_box">
                 <div class>
                   <div class="text-center">
@@ -77,6 +79,7 @@
               </div>
               <b>{{ results.title }}</b>
               <p>{{ results.description }}</p>
+              <p>문제만든날짜:{{ results.created_at.substr(0, 10) }}</p>
               <div class="inner_box">
                 <div class>
                   <div class="text-center">
@@ -234,6 +237,8 @@
 import axios from "axios";
 import { mapState } from "vuex";
 import { BASE_URL } from "../config/env";
+import moment from "moment";
+import "moment/locale/ko";
 // import Loading from "../components/Loading";
 // axios.defaults.headers = "Access-Control-Allow-Origin: *";
 const header = {
@@ -248,6 +253,7 @@ export default {
   data() {
     return {
       loading: false,
+      moment: moment,
       images: [],
       examlist: [],
       tExamList: [],
@@ -264,13 +270,28 @@ export default {
     this.getLibraries();
   },
   computed: {
-    ...mapState(["userInfo", "isLogin"])
+    ...mapState(["userInfo", "isLogin"]),
+    created_ats: function() {
+      let date = new Date();
+      return date;
+    }
   },
   methods: {
     getExamList() {
       //store에 저장
+      let config;
+      let accessToken = localStorage.getItem("accessToken");
+      if (accessToken) {
+        console.log("accessToken!!", accessToken);
+
+        config = {
+          headers: {
+            accessToken: accessToken
+          }
+        };
+      }
       this.loading = true;
-      axios.get(BASE_URL + "/exam/examList", { header }).then(res => {
+      axios.get(BASE_URL + "/exam/examList", { header }, config).then(res => {
         console.log(res.data.exam);
         this.examlist = res.data.exam;
         this.tExamList = this.examlist.filter(exam => exam.category == 1);
@@ -283,7 +304,18 @@ export default {
       });
     },
     getLibraries() {
-      axios.get(BASE_URL + "/library", { header }).then(res => {
+      let config;
+      let accessToken = localStorage.getItem("accessToken");
+      if (accessToken) {
+        console.log("accessToken!!", accessToken);
+
+        config = {
+          headers: {
+            accessToken: accessToken
+          }
+        };
+      }
+      axios.get(BASE_URL + "/library", { header, config }).then(res => {
         console.log("res >!!! ", res.data);
 
         res.data.imageInfo.forEach(image => {
