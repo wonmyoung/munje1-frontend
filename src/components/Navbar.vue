@@ -142,6 +142,8 @@ export default {
 .md-content.md-theme-default {
   padding: 0;
   background: #2d4468;
+  min-height: calc(100vh - 64px);
+  height: auto;
 }
 .md-app {
   height: 100vh;

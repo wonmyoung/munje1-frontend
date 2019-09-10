@@ -60,7 +60,7 @@
               <b>{{ results.examId.title }}</b>
               <p>{{ results.examId.description }}</p>
               <!-- <p>문제푼날짜:{{ results.created_at.substr(0, 10) }}</p> -->
-              <p>문제푼날짜:{{ moment(results.created_at).fromNow() }}</p>
+              <p>{{ moment(results.created_at).fromNow() }}</p>
               <div class="inner_box">
                 <div class>
                   <div class="text-center">
@@ -549,6 +549,10 @@ article ul li .count {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  cursor: pointer;
+}
+.right .topLessons ul li:hover {
+  text-decoration: underline;
 }
 p {
   font-size: 13px;

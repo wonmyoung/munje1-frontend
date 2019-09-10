@@ -5,7 +5,6 @@
         <h1>문제 풀기</h1>
         <p>문제이름:{{ exam.title }}</p>
         <p>저자 :{{ exam.author }}</p>
-        <p>카테고리 :{{ exam.category }}</p>
         <p>문제설명 :{{ exam.description }}</p>
         <div class="thumbnailWrap">
           <img :src="exam.thumbnail" class="thumbnail" />
@@ -258,7 +257,7 @@ export default {
 
 .thumbnailWrap {
   width: 100%;
-  margin: 0 auto;
+  margin: 20px auto;
   text-align: center;
 }
 .thumbnail {
