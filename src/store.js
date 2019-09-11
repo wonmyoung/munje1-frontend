@@ -92,6 +92,7 @@ export default new Vuex.Store({
         })
         .catch(err => {
           alert("서버 점검중입니다");
+          console.log(err);
         });
     },
 

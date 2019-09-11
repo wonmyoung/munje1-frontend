@@ -88,14 +88,14 @@ export default {
       axios
         .post(BASE_URL + "/accounts/join", data)
         .then(res => {
-          console.log(res);
-          if (res.status === 409) {
+          if (res.data.code == 409) {
             return alert("이미 회원 가입을 하였습니다.");
           } else {
             this.$router.push({ name: "login" });
           }
         })
         .catch(err => {
+          console.log(err);
           alert("다시 등록 해주세요.");
         });
     },
@@ -112,12 +112,12 @@ export default {
   //   outline: 1px solid #ccc;
 }
 .contentWrap {
-  margin: 30px auto;
+  margin: 20px auto;
   width: 450px;
   border: 1px solid #ccc;
   background: #fff;
   border: 1px solid #ccc;
-  padding: 5% 5% 5% 5%;
+  padding: 4% 5% 3% 5%;
   box-shadow: 0 5px 7px 0 rgba(105, 105, 105, 0.5);
 }
 @media (max-width: 700px) {
@@ -127,8 +127,8 @@ export default {
 }
 
 .contentWrap > h1 {
-  font-size: 30px;
-  margin-bottom: 40px;
+  font-size: 28px;
+  margin-bottom: 30px;
 }
 
 .md-layout > p {
@@ -141,8 +141,10 @@ export default {
 
 .btn {
   width: 100%;
-  height: 40px;
+  height: 50px;
   border-radius: 25px;
+  color: #fff;
+  font-size: 18px;
   background-color: #448aff;
   border: 1px solid #ccc;
 }

@@ -17,6 +17,8 @@
           <li>이름</li>
           <li>이메일</li>
           <li>비밀번호</li>
+          <li>신규 비밀번호</li>
+          <li>신규 비밀번호 확인</li>
         </ul>
         <ul class="write">
           <li>
@@ -27,6 +29,12 @@
           </li>
           <li>
             <input type="password" v-model="password" />
+          </li>
+          <li>
+            <input type="password" v-model="newPassword" />
+          </li>
+          <li>
+            <input type="password" v-model="newPasswordConfirm" />
           </li>
         </ul>
       </div>
@@ -48,7 +56,9 @@ export default {
     return {
       results: null,
       password: null,
-      avatar: null
+      avatar: null,
+      newPasswordConfirm: null,
+      newPassword: null
     };
   },
   computed: {
@@ -57,6 +67,11 @@ export default {
   methods: {
     submit() {
       if (this.password == null) return alert("비밀번호를 입력해주세요");
+      if (this.newPassword) {
+        if (this.newPassword != this.newPasswordConfirm) {
+          return alert("신규 비밀번호를 다시 확인해 주세요");
+        }
+      }
       let accessToken = localStorage.getItem("accessToken");
       let config = {
         headers: {
@@ -67,7 +82,8 @@ export default {
         username: this.userInfo.username,
         email: this.userInfo.email,
         avatar: this.avatar,
-        password: this.password
+        password: this.password,
+        newPassword: this.newPassword
       };
       console.log("data", data);
       axios
@@ -124,10 +140,11 @@ export default {
   width: 100%;
   height: 100%;
 }
+
 .container .profile {
   position: fixed;
   width: 440px;
-  height: 600px;
+  height: 620px;
   background: white;
   top: calc(50% - 280px);
   left: calc(50% - 220px);
@@ -146,7 +163,7 @@ export default {
   color: #000;
 }
 .container .profile h1 {
-  font-size: 30px;
+  font-size: 26px;
   padding: 40px 0 20px;
 }
 .container .profile .circle_img {

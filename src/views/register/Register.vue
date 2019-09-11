@@ -139,7 +139,8 @@ export default {
   data() {
     return {
       form: {},
-      index: 0,
+      index: 0, //문제 번호 인덱스 값
+      idx: 0, //questions 인덱스 값
       isDragging: false,
       questions: [
         {
@@ -270,11 +271,11 @@ export default {
         this.questions.push(data);
       } else {
         //수정
-        console.log("2222");
-
         this.questions = this.questions.map((exam, i) => {
           if (i == this.index) {
             console.log("3333");
+            console.log("i", i);
+            console.log("this.index", this.index);
 
             let data = {
               paths: this.paths,
@@ -304,8 +305,6 @@ export default {
         this.index++;
         console.log("index", this.index);
       } else {
-        console.log("4444");
-
         this.index++;
         this.images = this.questions[this.index].images;
         this.paths = this.questions[this.index].paths;
@@ -334,6 +333,8 @@ export default {
         return alert("썸네일를 넣어 주세요");
       }
       let questionsData = this.questions.filter((question, i) => i > 0);
+      console.log("questionsData >>>", questionsData);
+      console.log("this.questions >>>", this.questions);
       let accessToken = localStorage.getItem("accessToken");
 
       let config = {
@@ -425,7 +426,9 @@ export default {
       axios
         .get(BASE_URL + `/admin/detail/${this.$route.params.id}`)
         .then(res => {
+          console.log("EDIT MODE : res", res);
           this.questions = res.data.exam.questions;
+          this.questions.splice(0, 0, null);
           this.thumbnail = res.data.exam.thumbnail;
           this.category = res.data.exam.category;
           this.description = res.data.exam.description;
@@ -434,6 +437,7 @@ export default {
           this.images = this.questions.map((question, i) => {
             return question.images;
           });
+
           console.log("END > ", this.images);
         });
     }
