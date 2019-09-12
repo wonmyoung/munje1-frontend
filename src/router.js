@@ -3,6 +3,15 @@ import Router from "vue-router";
 // import Agreement from "./views/Agreement.vue";
 
 Vue.use(Router);
+const requireAuth = () => (to, from, next) => {
+  let accessToken = localStorage.getItem("accessToken");
+  if (accessToken == null) {
+    alert("로그인 후 사용가능 합니다.");
+    next("/login");
+  } else {
+    next();
+  }
+};
 
 export default new Router({
   mode: "history",
@@ -19,11 +28,13 @@ export default new Router({
     {
       path: "/register",
       name: "register",
+      beforeEnter: requireAuth(),
       component: () => import("./views/register/Register.vue")
     },
     {
       path: "/allExam",
       name: "allExam",
+      beforeEnter: requireAuth(),
       component: () => import("./views/AllExam.vue")
     },
     {
@@ -59,6 +70,7 @@ export default new Router({
     {
       path: "/registerImage",
       name: "registerImage",
+      beforeEnter: requireAuth(),
       component: () => import("./views/library/RegisterImage.vue")
     },
     {
@@ -74,16 +86,19 @@ export default new Router({
     {
       path: "/profile",
       name: "profile",
+      beforeEnter: requireAuth(),
       component: () => import("./views/Profile.vue")
     },
     {
       path: "/exam/detail/:id",
       name: "detail",
+      beforeEnter: requireAuth(),
       component: () => import("./views/ExamDetail.vue")
     },
     {
       path: "/exam/examResult/:id",
       name: "examResult",
+      beforeEnter: requireAuth(),
       component: () => import("./views/ExamResult.vue")
     },
     {

@@ -13,7 +13,7 @@
           </header>
           <ul class="newWrap">
             <li
-              v-for="(results, i) in userInfo.resultData.filter(item => item.examId != null)"
+              v-for="(results, i) in resultData"
               :key="i"
               @click="moveToDetail(results.examId._id)"
             >
@@ -143,7 +143,8 @@ export default {
       images: [],
       examlist: [],
       sortExamList: [],
-      popularLibraries: []
+      popularLibraries: [],
+      resultData: []
     };
   },
   mounted() {
@@ -182,7 +183,42 @@ export default {
         this.sortExamList = this.userInfo.myExam.filter(
           item => item._id != null
         );
-        console.log("this.sortExamList", this.sortExamList);
+
+        if (this.userInfo._id) {
+          console.log("this.userInfo", this.userInfo);
+
+          let filterData = this.userInfo.resultData.filter(item => {
+            if (item.examId != null) {
+              let data = item.examId;
+              return data;
+            }
+          });
+
+          // console.log("filterData", JSON.stringify(filterData));
+          // this.resultData = uniqueArray(filterData);
+
+          let a = new Array();
+          let prev;
+          JSON.stringify(filterData);
+          // filterData.sort();
+
+          for (let i = 0; i < filterData.length; i++) {
+            // if (filterData[i].examId._id == prev.examId._id) {
+            if (
+              Object.is(JSON.stringify(filterData[i].examId).title, prev) ==
+              false
+            ) {
+              console.log(
+                "Object.isObject.is :>>>>>>>> ",
+                Object.is(JSON.stringify(filterData[i].examId)._id, prev)
+              );
+              a.push(filterData[i]);
+              prev = filterData[i].examId.title;
+            }
+          }
+          console.log("this.resultData", this.resultData);
+          this.resultData = a;
+        }
         this.loading = false;
       });
     },

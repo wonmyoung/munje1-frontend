@@ -50,7 +50,7 @@
           </header>
           <ul class="newWrap">
             <li
-              v-for="(results, i) in userInfo.resultData.filter(item => item.examId != null)"
+              v-for="(results, i) in resultData"
               :key="i"
               @click="moveToDetail(results.examId._id)"
             >
@@ -238,6 +238,7 @@ import axios from "axios";
 import { mapState } from "vuex";
 import { BASE_URL } from "../config/env";
 import moment from "moment";
+import uniqueArray from "../util/uniqueArray";
 import "moment/locale/ko";
 // import Loading from "../components/Loading";
 // axios.defaults.headers = "Access-Control-Allow-Origin: *";
@@ -262,19 +263,16 @@ export default {
       lExamList: [],
       iExamList: [],
       rExamList: [],
-      popularLibraries: []
+      popularLibraries: [],
+      resultData: []
     };
   },
-  mounted() {
+  created() {
     this.getExamList();
     this.getLibraries();
   },
   computed: {
-    ...mapState(["userInfo", "isLogin"]),
-    created_ats: function() {
-      let date = new Date();
-      return date;
-    }
+    ...mapState(["userInfo", "isLogin"])
   },
   methods: {
     getExamList() {
@@ -300,6 +298,39 @@ export default {
         this.lExamList = this.examlist.filter(exam => exam.category == 4);
         this.iExamList = this.examlist.filter(exam => exam.category == 5);
         this.rExamList = this.examlist.filter(exam => exam.category == 6);
+        if (this.userInfo._id) {
+          console.log("this.userInfo", this.userInfo);
+
+          let filterData = this.userInfo.resultData.filter(item => {
+            if (item.examId != null) {
+              let data = item.examId;
+              return data;
+            }
+          });
+
+          console.log("filterData", JSON.stringify(filterData));
+          // this.resultData = uniqueArray(filterData);
+
+          let a = new Array();
+          let prev;
+          JSON.stringify(filterData);
+          // filterData.sort();
+
+          for (let i = 0; i < filterData.length; i++) {
+            // if (filterData[i].examId._id == prev.examId._id) {
+            if (filterData[i].examId._id != prev) {
+              console.log(
+                "filterData[i].examId.title  :>>>>>>>> ",
+                filterData[i].examId.title
+              );
+              console.log("prev :>>>>>>>> ", prev);
+              a.push(filterData[i]);
+              prev = filterData[i].examId._id;
+            }
+          }
+          console.log("this.resultData", this.resultData);
+          this.resultData = a;
+        }
         this.loading = false;
       });
     },

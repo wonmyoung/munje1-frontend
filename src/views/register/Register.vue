@@ -58,7 +58,7 @@
               <ul class="preview">
                 <li class="wrapper">
                   <img :src="thumbnail" class="image" />
-                  <div class="overlay" @click="deleteFile(i)">
+                  <div class="overlay" @click="deleteFile(0)">
                     <i class="material-icons">delete</i>
                   </div>
                 </li>
@@ -154,7 +154,7 @@ export default {
       thumbnail: null,
       status: "PUBLIC",
       images: [],
-      paths: [],
+      // paths: [],
       title: null,
       question: null,
       category: null,
@@ -200,8 +200,11 @@ export default {
       // Array.from(files).forEach(file => this.addImage(file));
     },
     async sendFile() {
+      console.log("sendFile>>>>>>>>");
       let result;
       const file = this.$refs.file.files[0];
+      console.log("file>>>>>>>>", file);
+
       const formdata = new FormData();
       let accessToken = localStorage.getItem("accessToken");
       let config = {
@@ -213,6 +216,7 @@ export default {
       formdata.append("config", config);
       try {
         result = await axios.post(BASE_URL + "/file/upload", formdata, config);
+        console.log("result >>>>", result);
         if (result.status === 200) {
           if (this.index == 0) {
           }
@@ -232,21 +236,30 @@ export default {
     // },
     addFilePath(path) {
       console.log("addFilePath");
+      console.log("this.index > > >", this.index);
+      console.log("path > > >", path);
       if (this.index == 0) {
         this.thumbnail = path;
-        this.paths.push(path);
+        // this.paths.push(path);
         this.images.push(path);
       } else {
-        this.paths.push(path);
+        console.log("this.images11111", this.images);
+        // this.paths.push(path);
         this.images.push(path);
+        console.log("this.images22222", this.images);
       }
     },
     deleteFile(index) {
-      console.log("index > > > >", index);
-      console.log("this.images > > > >", this.images);
-      console.log("this.paths > > > >", this.paths);
-      this.images.splice(index, 1);
-      this.paths.splice(index, 1);
+      if (index == 0) {
+        this.thumbnail = null;
+        this.images.splice(index, 1);
+      } else {
+        console.log("index > > > >", index);
+        console.log("this.images > > > >", this.images);
+        // console.log("this.paths > > > >", this.paths);
+        this.images.splice(index, 1);
+        // this.paths.splice(index, 1);
+      }
     },
     next() {
       /**
@@ -259,12 +272,30 @@ export default {
 
       //먼저 저장 혹은 수정
       console.log("next!!!!!");
-
+      if (this.index == 0) {
+        if (!this.title) {
+          return alert("문제집 이름을 기입해 주세요");
+        }
+        if (!this.category) {
+          return alert("카테고리를 선택해 주세요");
+        }
+        if (!this.thumbnail) {
+          return alert("썸네일은 필수 입니다.");
+        }
+      } else if (this.index > 0) {
+        if (!this.question) {
+          return alert("문제를 입력해 주세요");
+        } else if (this.images.length == 0) {
+          return alert("보기 이미지를 넣어 주세요");
+        } else if (!this.value) {
+          return alert("정답을 입력해 주세요");
+        }
+      }
       if (!this.questions[this.index]) {
         console.log("1111");
         let data = {
           question: this.question,
-          paths: this.paths,
+          // paths: this.paths,
           images: this.images,
           value: this.value
         };
@@ -278,7 +309,7 @@ export default {
             console.log("this.index", this.index);
 
             let data = {
-              paths: this.paths,
+              // paths: this.paths,
               images: this.images,
               value: this.value,
               question: this.question
@@ -299,7 +330,7 @@ export default {
 
       if (!this.questions[this.index + 1]) {
         this.images = [];
-        this.paths = [];
+        // this.paths = [];
         this.question = null;
         this.value = null;
         this.index++;
@@ -307,7 +338,7 @@ export default {
       } else {
         this.index++;
         this.images = this.questions[this.index].images;
-        this.paths = this.questions[this.index].paths;
+        // this.paths = this.questions[this.index].paths;
         this.question = this.questions[this.index].question;
         this.value = this.questions[this.index].value;
       }
@@ -317,7 +348,7 @@ export default {
       this.index--;
       if (this.index > 0) {
         this.question = this.questions[this.index].question;
-        this.paths = this.questions[this.index].paths;
+        // this.paths = this.questions[this.index].paths;
         this.images = this.questions[this.index].images;
         this.value = this.questions[this.index].value;
       }
@@ -368,8 +399,8 @@ export default {
           this.question = null;
           this.value = null;
           this.images = [];
-          this.paths = [];
-          if (this.isEdit == true) {
+          // this.paths = [];
+          if (this.isEdit == true && this.isAdmin == true) {
             this.$router.push({
               name: "questionManage"
             });

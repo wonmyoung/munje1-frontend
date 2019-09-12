@@ -32,11 +32,9 @@
 
 <script>
 import axios from "axios";
-import { ValidationProvider } from "vee-validate";
 import { BASE_URL } from "../config/env";
 
 export default {
-  components: { ValidationProvider },
   data() {
     return {
       email: null,
@@ -111,6 +109,10 @@ export default {
   width: 100%;
   //   outline: 1px solid #ccc;
 }
+.contentWrap > h1 {
+  font-size: 1.7em;
+  margin: 15px;
+}
 .contentWrap {
   margin: 20px auto;
   width: 450px;
@@ -124,11 +126,6 @@ export default {
   .contentWrap {
     width: 80%;
   }
-}
-
-.contentWrap > h1 {
-  font-size: 28px;
-  margin-bottom: 30px;
 }
 
 .md-layout > p {
@@ -147,5 +144,12 @@ export default {
   font-size: 18px;
   background-color: #448aff;
   border: 1px solid #ccc;
+}
+
+@media all and (max-width: 500px) {
+  .contentWrap > p {
+    font-size: 12px;
+    margin: 20px 15px 0;
+  }
 }
 </style>

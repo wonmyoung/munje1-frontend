@@ -23,6 +23,8 @@
       <label for="rd1">내가푼문제({{ userInfo.resultData.length }})</label>
       <input type="radio" name="rd" id="rd2" />
       <label for="rd2">내가만든 문제({{ userInfo.myExam.length }})</label>
+      <input type="radio" name="rd" id="rd3" />
+      <label for="rd3">나의 라이브러리({{ imageInfo.length }})</label>
       <div class="content">
         <div class="content_1">
           <div v-for="(results, i) in userInfo.resultData" :key="i" class="img_box">
@@ -40,6 +42,14 @@
             <img :src="exam.thumbnail" />
           </div>
         </div>
+        <div class="content_3">
+          <div v-for="(image, i) in imageInfo" :key="i" class="img_box">
+            <div @click="moveToLibrary(image._id)" class="black_box">
+              <p>{{ image.title }}</p>
+            </div>
+            <img :src="image.file[0]" />
+          </div>
+        </div>
       </div>
 
       <div id="background" :class="{ on: displayBackground == true ? true : false }">
@@ -53,12 +63,15 @@
 import { mapState } from "vuex";
 import Modalpop from "./Modalpop";
 import { eventBus } from "../main";
+import axios from "axios";
+import { BASE_URL } from "../config/env";
 export default {
   components: { Modalpop },
   data() {
     return {
       currentComponent: null,
-      displayBackground: false
+      displayBackground: false,
+      imageInfo: []
     };
   },
   computed: {
@@ -69,6 +82,7 @@ export default {
       this.displayBackground = false;
       this.currentComponent = null;
     });
+    this.getUserLibrary();
     // this.getUserData();
   },
   methods: {
@@ -77,8 +91,11 @@ export default {
       this.$router.push({ name: "examResult", params: { id: id } });
     },
     moveToExam(id) {
+      this.$router.push({ name: "editExam", params: { id: id } });
+    },
+    moveToLibrary(id) {
       console.log("ididididi", id);
-      this.$router.push({ name: "detail", params: { id: id } });
+      this.$router.push({ name: "editLibrary", params: { id: id } });
     },
     edit(view) {
       this.currentComponent = view;
@@ -87,6 +104,28 @@ export default {
     closeBtn() {
       this.currentComponent = null;
       this.displayBackground = false;
+    },
+    getUserLibrary() {
+      let config;
+      let accessToken = localStorage.getItem("accessToken");
+      if (accessToken) {
+        console.log("accessToken!!", accessToken);
+
+        config = {
+          headers: {
+            accessToken: accessToken
+          }
+        };
+      }
+      this.loading = true;
+      axios.get(BASE_URL + "/library/userLibrary", config).then(res => {
+        console.log("res", res);
+        this.imageInfo = JSON.parse(JSON.stringify(res.data.imageInfo));
+        console.log("this.imageInfo", this.imageInfo);
+        this.backupImageInfo = JSON.parse(JSON.stringify(res.data.imageInfo));
+
+        this.loading = false;
+      });
     }
   }
 };
@@ -191,7 +230,7 @@ input[type="radio"] {
   display: none;
 }
 label {
-  width: 50%;
+  width: 33.33333%;
   height: 40px;
   line-height: 40px;
   float: left;
@@ -270,9 +309,9 @@ label:first-child {
   position: absolute;
 }
 .content > div .black_box p {
-  margin-top: 20%;
+  margin-top: 15%;
   text-align: center;
-  font-size: 20px;
+  font-size: 16px;
   color: white;
   font-weight: bold;
 }
