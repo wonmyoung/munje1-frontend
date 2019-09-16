@@ -137,6 +137,8 @@ export default new Vuex.Store({
             ),
             myExam: JSON.parse(JSON.stringify(response.data.userInfo.myExam)),
             userExam: response.data.userExam
+            // ? JSON.parse(JSON.stringify(response.data.userExam))
+            // : null
           };
           console.log("LOGIN COMMIT!!!11111");
 

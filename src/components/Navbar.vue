@@ -146,7 +146,7 @@ export default {
   height: auto;
 }
 .md-app {
-  height: 100vh;
+  min-height: 100vh;
   /* // border: 1px solid rgba(#000, 0.12); */
   z-index: 9999;
 }

@@ -171,47 +171,10 @@ export default {
 
         this.examlist = res.data.exam;
 
-        // this.sortExamList = this.examlist.filter(exam => {
-        //   if (exam.category == index || exam.author == this.userInfo._id)
-        //     return exam;
-        // });
-        this.sortExamList = this.userInfo.myExam.filter(
-          item => item._id != null
-        );
-
-        if (this.userInfo._id) {
-          console.log("this.userInfo", this.userInfo);
-
-          let filterData = this.userInfo.resultData.filter(item => {
-            if (item.examId != null) {
-              let data = item.examId;
-              return data;
-            }
-          });
-
-          console.log("filterData", JSON.stringify(filterData));
-          // this.resultData = uniqueArray(filterData);
-
-          let a = new Array();
-          let prev;
-          JSON.stringify(filterData);
-          // filterData.sort();
-
-          for (let i = 0; i < filterData.length; i++) {
-            // if (filterData[i].examId._id == prev.examId._id) {
-            if (filterData[i].examId._id != prev) {
-              console.log(
-                "filterData[i].examId.title  :>>>>>>>> ",
-                filterData[i].examId.title
-              );
-              console.log("prev :>>>>>>>> ", prev);
-              a.push(filterData[i]);
-              prev = filterData[i].examId._id;
-            }
-          }
-          console.log("this.resultData", this.resultData);
-          this.resultData = a;
-        }
+        this.sortExamList = this.examlist.filter(exam => {
+          if (exam.category == index || exam.author == this.userInfo._id)
+            return exam;
+        });
       });
       this.loading = false;
     },
