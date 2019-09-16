@@ -46,31 +46,18 @@
         <article v-if="isLogin">
           <header>
             <h2>나의 문제</h2>
-            <a @click="$router.push({name : 'allExam', query:{id : 0, title : '나의문제'}})">See All</a>
+            <a
+              @click="
+                $router.push({
+                  name: 'allExam',
+                  query: { id: 0, title: '나의문제' }
+                })
+              "
+            >See All</a>
           </header>
           <ul class="newWrap">
             <li
-              v-for="(results, i) in resultData"
-              :key="i"
-              @click="moveToDetail(results.examId._id)"
-            >
-              <div class="thumbnail">
-                <img :src="results.examId.thumbnail" />
-              </div>
-              <b>{{ results.examId.title }}</b>
-              <p>{{ results.examId.description }}</p>
-              <!-- <p>문제푼날짜:{{ results.created_at.substr(0, 10) }}</p> -->
-              <p>{{ moment(results.created_at).fromNow() }}</p>
-              <div class="inner_box">
-                <div class>
-                  <div class="text-center">
-                    <v-rating small half-increments color="orange" v-model="results.examId.rating"></v-rating>
-                  </div>
-                </div>
-              </div>
-            </li>
-            <li
-              v-for="(results, i) in userInfo.myExam.filter(item => item._id!= null)"
+              v-for="(results, i) in userInfo.userExam"
               :key="i"
               @click="moveToDetail(results._id)"
             >
@@ -79,7 +66,29 @@
               </div>
               <b>{{ results.title }}</b>
               <p>{{ results.description }}</p>
-              <p>문제만든날짜:{{ results.created_at.substr(0, 10) }}</p>
+              <!-- <p>문제푼날짜:{{ results.created_at.substr(0, 10) }}</p> -->
+              <!-- <p>{{ moment(results.created_at).fromNow() }}</p> -->
+              <div class="inner_box">
+                <div class>
+                  <div class="text-center">
+                    <v-rating small half-increments color="orange" v-model="results.rating"></v-rating>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li
+              v-for="(results, i) in userInfo.myExam.filter(
+                item => item._id != null
+              )"
+              :key="i"
+              @click="moveToDetail(results._id)"
+            >
+              <div class="thumbnail">
+                <img :src="results.thumbnail" />
+              </div>
+              <b>{{ results.title }}</b>
+              <p>{{ results.description }}</p>
+              <!-- <p>문제만든날짜:{{ results.created_at.substr(0, 10) }}</p> -->
               <div class="inner_box">
                 <div class>
                   <div class="text-center">
@@ -93,7 +102,14 @@
         <article>
           <header>
             <h2>택트</h2>
-            <a @click="$router.push({name : 'allExam', query:{id : 1, title : '택트'}})">See All</a>
+            <a
+              @click="
+                $router.push({
+                  name: 'allExam',
+                  query: { id: 1, title: '택트' }
+                })
+              "
+            >See All</a>
           </header>
           <ul class="newWrap">
             <li v-for="(exam, i) in tExamList" :key="exam.id" @click="moveToDetail(exam._id)">
@@ -117,7 +133,14 @@
         <article>
           <header>
             <h2>청자반응</h2>
-            <a @click="$router.push({name : 'allExam', query:{id : 3,title : '청자반응'}})">See All</a>
+            <a
+              @click="
+                $router.push({
+                  name: 'allExam',
+                  query: { id: 3, title: '청자반응' }
+                })
+              "
+            >See All</a>
           </header>
           <ul class="newWrap">
             <li v-for="(exam, i) in cExamList" :key="exam.id" @click="moveToDetail(exam._id)">
@@ -140,7 +163,14 @@
         <article>
           <header>
             <h2>매칭</h2>
-            <a @click="$router.push({name : 'allExam', query:{id : 2, title : '매칭'}})">See All</a>
+            <a
+              @click="
+                $router.push({
+                  name: 'allExam',
+                  query: { id: 2, title: '매칭' }
+                })
+              "
+            >See All</a>
           </header>
           <ul class="newWrap">
             <li v-for="(exam, i) in mExamList" :key="exam.id" @click="moveToDetail(exam._id)">
@@ -163,7 +193,14 @@
         <article>
           <header>
             <h2>LRFFC</h2>
-            <a @click="$router.push({name : 'allExam', query:{id : 4, title : 'LRFFC'}})">See All</a>
+            <a
+              @click="
+                $router.push({
+                  name: 'allExam',
+                  query: { id: 4, title: 'LRFFC' }
+                })
+              "
+            >See All</a>
           </header>
           <ul class="newWrap">
             <li v-for="(exam, i) in lExamList" :key="exam.id" @click="moveToDetail(exam._id)">
@@ -186,7 +223,14 @@
         <article>
           <header>
             <h2>인트라버벌</h2>
-            <a @click="$router.push({name : 'allExam', query:{id : 5, title : '인트라버벌'}})">See All</a>
+            <a
+              @click="
+                $router.push({
+                  name: 'allExam',
+                  query: { id: 5, title: '인트라버벌' }
+                })
+              "
+            >See All</a>
           </header>
           <ul class="newWrap">
             <li v-for="(exam, i) in iExamList" :key="exam.id" @click="moveToDetail(exam._id)">
@@ -209,7 +253,14 @@
         <article>
           <header>
             <h2>읽기</h2>
-            <a @click="$router.push({name : 'allExam', query:{id : 6, title : '읽기'}})">See All</a>
+            <a
+              @click="
+                $router.push({
+                  name: 'allExam',
+                  query: { id: 6, title: '읽기' }
+                })
+              "
+            >See All</a>
           </header>
           <ul class="newWrap">
             <li v-for="(exam, i) in rExamList" :key="exam.id" @click="moveToDetail(exam._id)">
@@ -238,7 +289,6 @@ import axios from "axios";
 import { mapState } from "vuex";
 import { BASE_URL } from "../config/env";
 import moment from "moment";
-import uniqueArray from "../util/uniqueArray";
 import "moment/locale/ko";
 // import Loading from "../components/Loading";
 // axios.defaults.headers = "Access-Control-Allow-Origin: *";
@@ -263,12 +313,13 @@ export default {
       lExamList: [],
       iExamList: [],
       rExamList: [],
-      popularLibraries: [],
-      resultData: []
+      popularLibraries: []
     };
   },
   created() {
-    this.getExamList();
+    this.$nextTick(function() {
+      this.getExamList();
+    });
     this.getLibraries();
   },
   computed: {
@@ -290,7 +341,7 @@ export default {
       }
       this.loading = true;
       axios.get(BASE_URL + "/exam/examList", { header }, config).then(res => {
-        console.log(res.data.exam);
+        console.log("exam----->", res.data.exam);
         this.examlist = res.data.exam;
         this.tExamList = this.examlist.filter(exam => exam.category == 1);
         this.mExamList = this.examlist.filter(exam => exam.category == 2);
@@ -298,42 +349,10 @@ export default {
         this.lExamList = this.examlist.filter(exam => exam.category == 4);
         this.iExamList = this.examlist.filter(exam => exam.category == 5);
         this.rExamList = this.examlist.filter(exam => exam.category == 6);
-        if (this.userInfo._id) {
-          console.log("this.userInfo", this.userInfo);
-
-          let filterData = this.userInfo.resultData.filter(item => {
-            if (item.examId != null) {
-              let data = item.examId;
-              return data;
-            }
-          });
-
-          console.log("filterData", JSON.stringify(filterData));
-          // this.resultData = uniqueArray(filterData);
-
-          let a = new Array();
-          let prev;
-          JSON.stringify(filterData);
-          // filterData.sort();
-
-          for (let i = 0; i < filterData.length; i++) {
-            // if (filterData[i].examId._id == prev.examId._id) {
-            if (filterData[i].examId._id != prev) {
-              console.log(
-                "filterData[i].examId.title  :>>>>>>>> ",
-                filterData[i].examId.title
-              );
-              console.log("prev :>>>>>>>> ", prev);
-              a.push(filterData[i]);
-              prev = filterData[i].examId._id;
-            }
-          }
-          console.log("this.resultData", this.resultData);
-          this.resultData = a;
-        }
-        this.loading = false;
       });
+      this.loading = false;
     },
+
     getLibraries() {
       let config;
       let accessToken = localStorage.getItem("accessToken");

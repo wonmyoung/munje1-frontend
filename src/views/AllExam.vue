@@ -13,20 +13,20 @@
           </header>
           <ul class="newWrap">
             <li
-              v-for="(results, i) in resultData"
+              v-for="(results, i) in userInfo.userExam"
               :key="i"
-              @click="moveToDetail(results.examId._id)"
+              @click="moveToDetail(results._id)"
             >
               <div class="thumbnail">
-                <img :src="results.examId.thumbnail" />
+                <img :src="results.thumbnail" />
               </div>
-              <b>{{ results.examId.title }}</b>
-              <p>{{ results.examId.description }}</p>
-              <p id="date">{{ moment(results.created_at).fromNow() }}</p>
+              <b>{{ results.title }}</b>
+              <p>{{ results.description }}</p>
+              <!-- <p id="date">{{ moment(results.created_at).fromNow() }}</p> -->
               <div class="inner_box">
                 <div class>
                   <div class="text-center">
-                    <v-rating small half-increments color="orange" v-model="results.examId.rating"></v-rating>
+                    <v-rating small half-increments color="orange" v-model="results.rating"></v-rating>
                   </div>
                 </div>
               </div>
@@ -37,7 +37,9 @@
               </div>
               <b>{{ exam.title }}</b>
               <p>{{ exam.description }}</p>
-              <p id="date">문제만든날짜:{{ moment(exam.created_at).format('YYYY-MM-DD')}}</p>
+              <!-- <p id="date">
+                문제만든날짜:{{ moment(exam.created_at).format("YYYY-MM-DD") }}
+              </p>-->
               <div class="inner_box">
                 <div class>
                   <div class="text-center">
@@ -47,18 +49,11 @@
                 <!-- <div class="count">33</div> -->
               </div>
             </li>
-            <!-- <li
-              v-for="(results, i) in userInfo.resultData.filter(item => item.examId != null)"
-              :key="i"
-              @click="moveToDetail(results.examId)"
-            >
-              <div class="thumbnail">{{results}}</div>
-            </li>-->
           </ul>
         </article>
         <article v-else>
           <header>
-            <h2>{{title}}</h2>
+            <h2>{{ title }}</h2>
           </header>
           <ul class="newWrap">
             <li v-for="(exam, i) in sortExamList" :key="exam.id" @click="moveToDetail(exam.id)">
@@ -194,7 +189,7 @@ export default {
             }
           });
 
-          // console.log("filterData", JSON.stringify(filterData));
+          console.log("filterData", JSON.stringify(filterData));
           // this.resultData = uniqueArray(filterData);
 
           let a = new Array();
@@ -204,23 +199,21 @@ export default {
 
           for (let i = 0; i < filterData.length; i++) {
             // if (filterData[i].examId._id == prev.examId._id) {
-            if (
-              Object.is(JSON.stringify(filterData[i].examId).title, prev) ==
-              false
-            ) {
+            if (filterData[i].examId._id != prev) {
               console.log(
-                "Object.isObject.is :>>>>>>>> ",
-                Object.is(JSON.stringify(filterData[i].examId)._id, prev)
+                "filterData[i].examId.title  :>>>>>>>> ",
+                filterData[i].examId.title
               );
+              console.log("prev :>>>>>>>> ", prev);
               a.push(filterData[i]);
-              prev = filterData[i].examId.title;
+              prev = filterData[i].examId._id;
             }
           }
           console.log("this.resultData", this.resultData);
           this.resultData = a;
         }
-        this.loading = false;
       });
+      this.loading = false;
     },
     getLibraries() {
       let config;

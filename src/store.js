@@ -21,7 +21,8 @@ export default new Vuex.Store({
       _id: "",
       resultData: [],
       myExam: [],
-      iaAdmin: false
+      iaAdmin: false,
+      userExam: []
     },
     isLogin: false,
     isLoginEorror: false,
@@ -133,7 +134,8 @@ export default new Vuex.Store({
             resultData: JSON.parse(
               JSON.stringify(response.data.userInfo.resultData)
             ),
-            myExam: JSON.parse(JSON.stringify(response.data.userInfo.myExam))
+            myExam: JSON.parse(JSON.stringify(response.data.userInfo.myExam)),
+            userExam: JSON.parse(JSON.stringify(response.data.userExam))
           };
 
           commit("LOGIN", userInfo);

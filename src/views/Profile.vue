@@ -6,7 +6,9 @@
           <img v-if="userInfo.avatar" :src="userInfo.avatar" />
           <img v-else src="@/assets/images/home/user.png" />
         </div>
-        <md-button class="editBtn" @click="edit('Modalpop')">프로필편집</md-button>
+        <md-button class="editBtn" @click="edit('Modalpop')"
+          >프로필편집</md-button
+        >
       </div>
       <section class="section">
         <header>
@@ -27,9 +29,14 @@
       <label for="rd3">나의 라이브러리({{ imageInfo.length }})</label>
       <div class="content">
         <div class="content_1">
-          <div v-for="(results, i) in userInfo.resultData" :key="i" class="img_box">
+          <div
+            v-for="(results, i) in userInfo.resultData"
+            :key="i"
+            class="img_box"
+          >
             <div @click="moveToResult(results._id)" class="black_box">
               <p>{{ results.examId.title }}</p>
+              <p>{{ moment(results.created_at).fromNow() }}</p>
             </div>
             <img :src="results.examId.thumbnail" />
           </div>
@@ -52,7 +59,10 @@
         </div>
       </div>
 
-      <div id="background" :class="{ on: displayBackground == true ? true : false }">
+      <div
+        id="background"
+        :class="{ on: displayBackground == true ? true : false }"
+      >
         <component v-bind:is="currentComponent"></component>
         <!-- <Modalpop /> -->
       </div>
@@ -65,13 +75,16 @@ import Modalpop from "./Modalpop";
 import { eventBus } from "../main";
 import axios from "axios";
 import { BASE_URL } from "../config/env";
+import moment from "moment";
+
 export default {
   components: { Modalpop },
   data() {
     return {
       currentComponent: null,
       displayBackground: false,
-      imageInfo: []
+      imageInfo: [],
+      moment: moment
     };
   },
   computed: {
@@ -369,114 +382,7 @@ label:first-child {
     font-size: 16px;
   }
 }
-@media all and (max-width: 650px) {
-  /* .introduce_box {
-    width: auto;
-  } */
-  /* .section {
-    float: none;
-  }
-  .section article {
-    box-sizing: border-box;
-    padding-top: 50px;
-  }
-  .section header {
-    box-sizing: border-box;
-    width: auto;
-    padding-top: 30px;
-    padding-left: 20px;
-    display: inline-block;
-  }
-  .section header h1 {
-    font-size: 1rem;
-  }
-  .section header a {
-    display: block;
-    margin-top: 40px;
-    text-align: center;
-  } */
-  /* .section article {
-    font-size: 0.7rem;
-  } */
-  /* .l_box .thumbnail {
-    width: 120px;
-    height: 120px;
-    margin-left: 40px;
-  }
 
-  .content > div div {
-    width: calc(100% - 10px);
-    height: 200px;
-    margin: 5px;
-    background: red;
-  }
-  .content > div div:nth-child(3n) {
-    margin: 5px;
-  }
-  label {
-    font-size: 0.9rem;
-  }
-  .thumbnailWrap {
-    width: 100%;
-    margin: 0 auto;
-    text-align: center;
-  }
-  .thumbnail {
-    width: 500px;
-    height: auto;
-    border: 1px solid #fff;
-    border-radius: 10px;
-    text-align: center;
-  }
-  table {
-    border-collapse: collapse;
-    border-spacing: 0;
-    width: 100%;
-    margin: 0 auto;
-    text-align: center;
-    outline: 1px solid red;
-  }
-
-  th {
-    font-size: 14px;
-    font-weight: normal;
-    border-style: solid;
-    overflow: hidden;
-    word-break: normal;
-    border-color: black;
-  }
-  td,
-  th {
-    line-height: 50px;
-    padding: 10px;
-    border: 1px solid #efefef;
-  }
-  td,
-  th:nth-child(1) {
-    width: 30px;
-  }
-  td,
-  th:nth-child(2) {
-    width: 60px;
-  }
-  th:nth-child(3) {
-    width: 80px;
-  }
-  th:nth-child(4) {
-    width: 80px;
-  }
-  td,
-  th:nth-child(5) {
-    width: 40px;
-  }
-
-  .resultImage {
-    width: 80%;
-    height: 100px;
-    border: 1px solid #efefef;
-    border-radius: 12px;
-  } */
-}
 .btnClose {
   position: relative;
   left: 300px;
