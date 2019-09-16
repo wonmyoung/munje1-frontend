@@ -118,7 +118,7 @@ export default new Router({
       component: () => import("./views/admin/UserManage.vue")
     },
     {
-      path: "admin/dashboard/userManage/userProfile",
+      path: "/admin/dashboard/userManage/userProfile",
       name: "userProfile",
       component: () => import("./views/admin/UserProfile.vue")
     },

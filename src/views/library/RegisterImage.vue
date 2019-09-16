@@ -31,9 +31,22 @@
           <el-input v-else :value="userInfo.username"></el-input>
         </el-form-item>
         <div class="btns">
-          <input type="radio" name="rd" id="rd1" v-model="status" value="PUBLIC" checked />
+          <input
+            type="radio"
+            name="rd"
+            id="rd1"
+            v-model="status"
+            value="PUBLIC"
+            checked
+          />
           <label for="rd1">공개</label>
-          <input type="radio" name="rd" id="rd2" v-model="status" value="PRIVATE" />
+          <input
+            type="radio"
+            name="rd"
+            id="rd2"
+            v-model="status"
+            value="PRIVATE"
+          />
           <label for="rd2">비공개</label>
         </div>
         <el-upload
@@ -50,7 +63,9 @@
         <img :src="files[0]" class="image" />
       </div>
       <div class="btnWrap">
-        <el-button type="primary" class="btn" @click="submit">{{ header }}</el-button>
+        <el-button type="primary" class="btn" @click="submit">{{
+          header
+        }}</el-button>
       </div>
     </div>
   </div>
@@ -138,7 +153,7 @@ export default {
         if (res.status == 200) {
           alert("정상적으로 완료 되었습니다.");
           if (this.isEdit == true) {
-            this.$router.push({ name: "libraryManage" });
+            this.$router.push({ name: "home" });
           } else return this.$router.push({ name: "library" });
         } else {
           alert("서버 오류로 등록 할수 없습니다.");

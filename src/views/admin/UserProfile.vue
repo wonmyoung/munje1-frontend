@@ -15,46 +15,51 @@
         </article>
       </section>
     </div>
-    <ul class="smallbox">
-      <li>
-        나의문제
-        <br />
-        <b>12</b>
-      </li>
-      <li>
-        내가푼 문제
-        <br />
-        <b>14</b>
-      </li>
-      <li>
-        평균점수
-        <br />
-        <b>5점</b>
-      </li>
-    </ul>
-
     <div class="tab">
       <input type="radio" name="rd" id="rd1" checked />
-      <label for="rd1">유저가 푼문제</label>
+      <label for="rd1">내가푼문제({{ userdata.resultData.length }})</label>
       <input type="radio" name="rd" id="rd2" />
-      <label for="rd2">유저가만든 문제</label>
+      <label for="rd2">내가만든 문제({{ userdata.myExam.length }})</label>
+      <input type="radio" name="rd" id="rd3" />
+      <label for="rd3">나의 라이브러리({{ imageInfo.length }})</label>
       <div class="content">
         <div class="content_1">
-          <div v-for="(results, i) in userdata.resultData" :key="i">
-            <router-link @click="moveToResult(results._id)">
-              <h3>{{ results.examId.title }}</h3>
-              <img :src="results.examId.thumbnail" />
-            </router-link>
+          <div
+            v-for="(results, i) in userdata.resultData"
+            :key="i"
+            class="img_box"
+          >
+            <div @click="moveToResult(results._id)" class="black_box">
+              <p>{{ results.examId.title }}</p>
+              <p>{{ moment(results.created_at).fromNow() }}</p>
+            </div>
+            <img :src="results.examId.thumbnail" />
           </div>
         </div>
         <div class="content_2">
-          <div v-for="(exam, i) in userdata.myExam" :key="i">
-            <router-link :to="`/exam/detail/${exam.id}`">
-              <h3>{{ exam.title }}</h3>
-              <img :src="exam.thumbnail" />
-            </router-link>
+          <div v-for="(exam, i) in userdata.myExam" :key="i" class="img_box">
+            <div @click="moveToExam(exam._id)" class="black_box">
+              <p>{{ exam.title }}</p>
+            </div>
+            <img :src="exam.thumbnail" />
           </div>
         </div>
+        <div class="content_3">
+          <div v-for="(image, i) in imageInfo" :key="i" class="img_box">
+            <div @click="moveToLibrary(image._id)" class="black_box">
+              <p>{{ image.title }}</p>
+            </div>
+            <img :src="image.file[0]" />
+          </div>
+        </div>
+      </div>
+
+      <div
+        id="background"
+        :class="{ on: displayBackground == true ? true : false }"
+      >
+        <component v-bind:is="currentComponent"></component>
+        <!-- <Modalpop /> -->
       </div>
     </div>
   </div>
@@ -64,13 +69,17 @@ import { BASE_URL } from "../../config/env";
 import axios from "axios";
 // import Modalpop from "./Modalpop";
 import { eventBus } from "../../main";
+import moment from "moment";
+
 export default {
   // components: { Modalpop },
   data() {
     return {
       currentComponent: null,
       displayBackground: false,
-      userdata: null
+      userdata: null,
+      imageInfo: null,
+      moment: moment
     };
   },
   created() {
@@ -79,6 +88,7 @@ export default {
       this.displayBackground = false;
       this.currentComponent = null;
     });
+    this.getUserLibrary();
   },
   methods: {
     moveToResult(id) {
@@ -118,10 +128,36 @@ export default {
           this.userdata = {
             email: res.data.userInfo.email,
             username: res.data.userInfo.username,
-            resultData: res.data.userInfo.resultData,
-            myExam: res.data.userInfo.myExam
+            resultData: JSON.parse(
+              JSON.stringify(res.data.userInfo.resultData)
+            ),
+            myExam: JSON.parse(JSON.stringify(res.data.userInfo.myExam))
           };
         });
+    },
+    getUserLibrary() {
+      console.log("getUserLibrary!!!");
+      let id = this.$route.query.id;
+      console.log("id!!", id);
+
+      let config;
+      let accessToken = localStorage.getItem("accessToken");
+      if (accessToken) {
+        config = {
+          headers: {
+            accessToken: accessToken
+          }
+        };
+      }
+      this.loading = true;
+      axios.get(BASE_URL + `/library/userLibrary/${id}`, config).then(res => {
+        console.log("getUserLibrary : res", res);
+        this.imageInfo = JSON.parse(JSON.stringify(res.data.imageInfo));
+        console.log("this.imageInfo", this.imageInfo);
+        // this.backupImageInfo = JSON.parse(JSON.stringify(res.data.imageInfo));
+
+        this.loading = false;
+      });
     }
   }
 };
@@ -144,11 +180,13 @@ export default {
   display: block;
 }
 .container {
+  height: calc(100vh - 64px);
   background: #efefef;
+  overflow: hidden;
 }
 .introduce_box {
   max-width: 1200px;
-  padding: 60px 0;
+  padding: 20px 0 0 0;
 }
 .introduce_box .l_box {
   float: left;
@@ -178,7 +216,7 @@ export default {
 .section header h1 {
   margin-top: 5px;
   width: 75%;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
 }
 .editBtn {
   padding: 5px;
@@ -199,32 +237,32 @@ export default {
   text-align: left;
 }
 
-.smallbox {
+.middleBox {
   text-align: center;
-  color: rgb(117, 117, 117);
+  color: rgb(104, 104, 104);
   display: flex;
-  justify-content: space-between;
-  border-top: 1px solid;
+  justify-content: space-around;
+  border-top: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
-  margin-top: 50px;
+  margin-top: 20px;
   padding: 5px 0;
 }
-.smallbox li {
+.middleBox li {
   width: 33.3333%;
 }
-.smallbox li b {
+.middleBox li b {
   color: black;
 }
 .tab {
   max-width: 1200px;
   width: 100%;
-  margin: 0 auto;
+  margin: 20px auto;
 }
 input[type="radio"] {
   display: none;
 }
 label {
-  width: 33%;
+  width: 33.33333%;
   height: 40px;
   line-height: 40px;
   float: left;
@@ -252,7 +290,8 @@ label:first-child {
   background: #fff;
   max-width: 1200px;
   margin: 0 auto;
-  height: 400px;
+  min-height: 315px;
+  height: calc(100vh - 460px);
   position: relative;
   overflow: scroll;
 }
@@ -262,30 +301,57 @@ label:first-child {
   left: 0;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: flex-start;
   opacity: 0;
   transition: all 0.1s;
   width: 100%;
+  padding: 30px 0 30px 25px;
+  box-sizing: border-box;
 }
-.content > div div {
+
+.content > div .img_box {
   width: calc(33.3333% - 20px);
-  height: 200px;
+  max-height: 150px;
+  min-height: 100px;
   margin-right: 20px;
   margin-bottom: 20px;
   outline: 1px solid #efefef;
   margin-bottom: 20px;
+  position: relative;
+}
+.content > div .img_box:hover {
+  outline: none;
+}
+.content > div .img_box:hover .black_box {
+  outline: 3px solid #448aff;
+  color: rgb(243, 243, 11);
+  cursor: pointer;
+}
+.content > div .img_box:hover .black_box p {
+  color: rgb(243, 243, 11);
 }
 .content > div div img {
   width: 100%;
   height: 100%;
 }
-.content > div div:nth-child(3n) {
-  margin: 0;
+.content > div .black_box {
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  position: absolute;
+}
+.content > div .black_box p {
+  margin-top: 15%;
+  text-align: center;
+  font-size: 16px;
+  color: white;
+  font-weight: bold;
 }
 #rd1:checked ~ label:nth-child(2),
 #rd2:checked ~ label:nth-child(4),
 #rd3:checked ~ label:nth-child(6) {
-  background: #ccc;
+  background: #448aff;
+  color: #fff;
 }
 #rd1:checked ~ .content > .content_1,
 #rd2:checked ~ .content > .content_2,
@@ -295,115 +361,47 @@ label:first-child {
   transition: all 0.5s;
   transition-delay: 0.1s;
 }
-
-@media all and (max-width: 650px) {
-  /* .introduce_box {
-    width: auto;
-  } */
-  /* .section {
-    float: none;
-  }
-  .section article {
-    box-sizing: border-box;
-    padding-top: 50px;
-  }
-  .section header {
-    box-sizing: border-box;
-    width: auto;
-    padding-top: 30px;
-    padding-left: 20px;
-    display: inline-block;
-  }
-  .section header h1 {
-    font-size: 1rem;
-  }
-  .section header a {
-    display: block;
-    margin-top: 40px;
-    text-align: center;
-  } */
-  /* .section article {
-    font-size: 0.7rem;
-  } */
-  .l_box .thumbnail {
-    width: 120px;
-    height: 120px;
-    margin-left: 40px;
-  }
-
-  .content > div div {
-    width: calc(100% - 10px);
-    height: 200px;
-    margin: 5px;
-    background: red;
-  }
-  .content > div div:nth-child(3n) {
-    margin: 5px;
-  }
-  label {
-    font-size: 0.9rem;
-  }
-  .thumbnailWrap {
-    width: 100%;
-    margin: 0 auto;
-    text-align: center;
-  }
-  .thumbnail {
-    width: 500px;
-    height: auto;
-    border: 1px solid #fff;
-    border-radius: 10px;
-    text-align: center;
-  }
-  table {
-    border-collapse: collapse;
-    border-spacing: 0;
-    width: 100%;
-    margin: 0 auto;
-    text-align: center;
-    outline: 1px solid red;
-  }
-
-  th {
-    font-size: 14px;
-    font-weight: normal;
-    border-style: solid;
-    overflow: hidden;
-    word-break: normal;
-    border-color: black;
-  }
-  td,
-  th {
-    line-height: 50px;
-    padding: 10px;
-    border: 1px solid #efefef;
-  }
-  td,
-  th:nth-child(1) {
-    width: 30px;
-  }
-  td,
-  th:nth-child(2) {
-    width: 60px;
-  }
-  th:nth-child(3) {
-    width: 80px;
-  }
-  th:nth-child(4) {
-    width: 80px;
-  }
-  td,
-  th:nth-child(5) {
-    width: 40px;
-  }
-
-  .resultImage {
-    width: 80%;
-    height: 100px;
-    border: 1px solid #efefef;
-    border-radius: 12px;
+@media all and (max-width: 1264px) {
+  .content > div .img_box {
+    max-height: 100px;
+    min-height: 80px;
   }
 }
+@media all and (max-width: 900px) {
+  .content > div .img_box {
+    width: calc(50% - 20px);
+  }
+  .content > div .img_box .black_box p {
+    margin: 0;
+    line-height: 100px;
+  }
+}
+@media all and (max-width: 650px) {
+  .content > div {
+    display: block;
+  }
+  .content > div .img_box {
+    width: auto;
+    overflow: hidden;
+  }
+  .content > div .img_box .black_box p {
+    margin: 0;
+    line-height: 130px;
+  }
+  .content > div .img_box img {
+    height: 150px;
+  }
+  .l_box .thumbnail {
+    width: 100px;
+    height: 100px;
+    /* margin-left: 40px; */
+    margin-bottom: 30px;
+  }
+  .content > div .black_box p {
+    font-size: 16px;
+  }
+}
+
 .btnClose {
   position: relative;
   left: 300px;
