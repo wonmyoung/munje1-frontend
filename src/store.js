@@ -34,6 +34,7 @@ export default new Vuex.Store({
       state.isLoginEorror = false;
       state.userInfo = userInfo;
       state.visible = true;
+      console.log("LOGIN COMMIT!!!");
       router.push({ name: "home" });
     },
     loginSuccess(state, obj) {
@@ -84,7 +85,7 @@ export default new Vuex.Store({
         .then(res => {
           let { data } = res;
           localStorage.removeItem("accessToken");
-          console.log("accessToken", data.accessToken);
+          console.log("accessToken111", data.accessToken);
           if (data.accessToken == undefined) {
             alert("이메일과 비밀번호를 정확히 입력해주세요");
           }
@@ -125,7 +126,7 @@ export default new Vuex.Store({
       window.console.log("accessToken", accessToken);
       if (accessToken) {
         axios.get(BASE_URL + "/accounts/profile", config).then(response => {
-          console.log("response", response);
+          console.log("response!!!1", response);
           let userInfo = {
             _id: response.data.userInfo._id,
             username: response.data.userInfo.username,
@@ -135,8 +136,9 @@ export default new Vuex.Store({
               JSON.stringify(response.data.userInfo.resultData)
             ),
             myExam: JSON.parse(JSON.stringify(response.data.userInfo.myExam)),
-            userExam: JSON.parse(JSON.stringify(response.data.userExam))
+            userExam: response.data.userExam
           };
+          console.log("LOGIN COMMIT!!!11111");
 
           commit("LOGIN", userInfo);
         });

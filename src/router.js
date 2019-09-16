@@ -5,6 +5,7 @@ import Router from "vue-router";
 Vue.use(Router);
 const requireAuth = () => (to, from, next) => {
   let accessToken = localStorage.getItem("accessToken");
+  console.log("requireAuth : accessToken", accessToken);
   if (accessToken == null) {
     alert("로그인 후 사용가능 합니다.");
     next("/login");

@@ -19,7 +19,7 @@
         </div>
       </md-toolbar>
       <md-list>
-        <div>
+        <div v-if="isLogin">
           <md-list-item @click="$router.push({ name: 'admin' })">
             <i>
               <img src="@/assets/images/home/005-user.svg" />
