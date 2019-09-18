@@ -6,9 +6,7 @@
           <img v-if="userInfo.avatar" :src="userInfo.avatar" />
           <img v-else src="@/assets/images/home/user.png" />
         </div>
-        <md-button class="editBtn" @click="edit('Modalpop')"
-          >프로필편집</md-button
-        >
+        <md-button class="editBtn" @click="edit('Modalpop')">프로필편집</md-button>
       </div>
       <section class="section">
         <header>
@@ -29,11 +27,7 @@
       <label for="rd3">나의 라이브러리({{ imageInfo.length }})</label>
       <div class="content">
         <div class="content_1">
-          <div
-            v-for="(results, i) in userInfo.resultData"
-            :key="i"
-            class="img_box"
-          >
+          <div v-for="(results, i) in userInfo.resultData" :key="i" class="img_box">
             <div @click="moveToResult(results._id)" class="black_box">
               <p>{{ results.examId.title }}</p>
               <p>{{ moment(results.created_at).fromNow() }}</p>
@@ -59,10 +53,7 @@
         </div>
       </div>
 
-      <div
-        id="background"
-        :class="{ on: displayBackground == true ? true : false }"
-      >
+      <div id="background" :class="{ on: displayBackground == true ? true : false }">
         <component v-bind:is="currentComponent"></component>
         <!-- <Modalpop /> -->
       </div>
@@ -109,7 +100,7 @@ export default {
       this.$router.push({ name: "editExam", params: { id: id } });
     },
     moveToLibrary(id) {
-      console.log("ididididi", id);
+      console.log("moveToLibrary Id", id);
       this.$router.push({ name: "editLibrary", params: { id: id } });
     },
     edit(view) {

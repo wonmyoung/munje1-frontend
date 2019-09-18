@@ -63,9 +63,9 @@
         <img :src="files[0]" class="image" />
       </div>
       <div class="btnWrap">
-        <el-button type="primary" class="btn" @click="submit">{{
-          header
-        }}</el-button>
+        <el-button type="primary" class="btn" @click="submit">
+          {{ header }}
+        </el-button>
       </div>
     </div>
   </div>
@@ -172,20 +172,14 @@ export default {
           accessToken: accessToken
         }
       };
+
       axios
         .get(BASE_URL + `/library/userLibrary/${this.$route.params.id}`, config)
         .then(res => {
-          // console.log("imageInfo", JSON.parse(res.data.imageInfo[0]));
           let libraryInfo = res.data.imageInfo[0];
-
           this.files.push(libraryInfo.file[0]);
-          console.log("files", this.files);
           this.category = libraryInfo.category;
-          console.log("category", this.category);
-
           this.title = libraryInfo.title;
-          console.log("title", this.title);
-
           this.author = libraryInfo.author.username;
           this.status = libraryInfo.status;
           this.dialogVisible = true;
