@@ -104,6 +104,8 @@ export default {
       this.$router.push({ name: "examResult", params: { id: id } });
     },
     moveToExam(id) {
+      console.log("moveToExam Id", id);
+
       this.$router.push({ name: "editExam", params: { id: id } });
     },
     moveToLibrary(id) {
