@@ -177,6 +177,7 @@ export default {
         .get(BASE_URL + `/library/userLibrary/${this.$route.params.id}`, config)
         .then(res => {
           let libraryInfo = res.data.imageInfo[0];
+          console.log("libraryInfo", libraryInfo);
           this.files.push(libraryInfo.file[0]);
           this.category = libraryInfo.category;
           this.title = libraryInfo.title;

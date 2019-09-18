@@ -24,7 +24,11 @@
         </select>
       </div>
       <article
-        v-if="userInfo && imageInfo.filter(image => image.author._id == userInfo._id).length > 0"
+        v-if="
+          userInfo &&
+            imageInfo.filter(image => image.author._id == userInfo._id).length >
+              0
+        "
         class="outLinks"
       >
         <h3>나의 라이브러리</h3>
@@ -103,7 +107,10 @@
           </li>
         </ul>
       </article>
-      <article v-if="imageInfo.filter(image => image.category == '9').length > 0" class="outLinks">
+      <article
+        v-if="imageInfo.filter(image => image.category == '9').length > 0"
+        class="outLinks"
+      >
         <h3>가구</h3>
         <ul>
           <li
@@ -160,7 +167,10 @@
           </li>
         </ul>
       </article>
-      <article v-if="imageInfo.filter(image => image.category == '6').length > 0" class="outLinks">
+      <article
+        v-if="imageInfo.filter(image => image.category == '6').length > 0"
+        class="outLinks"
+      >
         <h3>직업</h3>
         <ul>
           <li
@@ -178,7 +188,10 @@
         </ul>
       </article>
 
-      <article v-if="imageInfo.filter(image => image.category == '8').length > 0" class="outLinks">
+      <article
+        v-if="imageInfo.filter(image => image.category == '8').length > 0"
+        class="outLinks"
+      >
         <h3>탈것</h3>
         <ul>
           <li
@@ -216,7 +229,10 @@
         </ul>
       </article>
 
-      <article v-if="imageInfo.filter(image => image.category == '10').length > 0" class="outLinks">
+      <article
+        v-if="imageInfo.filter(image => image.category == '10').length > 0"
+        class="outLinks"
+      >
         <h3>음식</h3>
         <ul>
           <li
@@ -234,7 +250,10 @@
         </ul>
       </article>
 
-      <article v-if="imageInfo.filter(image => image.category == '11').length > 0" class="outLinks">
+      <article
+        v-if="imageInfo.filter(image => image.category == '11').length > 0"
+        class="outLinks"
+      >
         <h3>기타</h3>
         <ul>
           <li
@@ -280,30 +299,30 @@ export default {
       if (this.category == 0) {
         this.imageInfo = this.backupImageInfo;
         return;
+      } else if (this.category == 12) {
+        this.imageInfo = this.backupImageInfo.filter(
+          image => image.author._id == this.userInfo._id
+        );
+      } else {
+        this.imageInfo = this.backupImageInfo.filter(
+          image => image.category == this.category
+        );
       }
-      this.imageInfo = this.backupImageInfo.filter(
-        image => image.category == this.category
-      );
     },
     getLibrary() {
       let config;
       let accessToken = localStorage.getItem("accessToken");
       if (accessToken) {
-        console.log("accessToken!!", accessToken);
-
         config = {
           headers: {
             accessToken: accessToken
           }
         };
       }
-      console.log("accessToken", accessToken);
       this.loading = true;
       axios.get(BASE_URL + "/library", config).then(res => {
         this.imageInfo = JSON.parse(JSON.stringify(res.data.imageInfo));
-        console.log("this.imageInfo", this.imageInfo);
         this.backupImageInfo = JSON.parse(JSON.stringify(res.data.imageInfo));
-
         this.loading = false;
       });
     }
