@@ -276,7 +276,7 @@ label:first-child {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
-  opacity: 0;
+  visibility: hidden;
   transition: all 0.1s;
   width: 100%;
   padding: 30px 0 30px 25px;
@@ -331,7 +331,7 @@ label:first-child {
 #rd2:checked ~ .content > .content_2,
 #rd3:checked ~ .content > .content_3,
 #rd4:checked ~ .content > .content_4 {
-  opacity: 1;
+  visibility:visible;
   transition: all 0.5s;
   transition-delay: 0.1s;
 }
