@@ -315,7 +315,7 @@ label:first-child {
   position: absolute;
 }
 .content > div .black_box p {
-  margin-top: 15%;
+  margin-top: 10%;
   text-align: center;
   font-size: 16px;
   color: white;
@@ -345,10 +345,9 @@ label:first-child {
   .content > div .img_box {
     width: calc(50% - 20px);
   }
-  .content > div .img_box .black_box p {
-    margin: 0;
-    line-height: 100px;
-  }
+.content > div .black_box p{
+  margin-top:6%;
+}
 }
 @media all and (max-width: 650px) {
   .content > div {
@@ -358,13 +357,12 @@ label:first-child {
     width: auto;
     overflow: hidden;
   }
-  .content > div .img_box .black_box p {
-    margin: 0;
-    line-height: 130px;
-  }
   .content > div .img_box img {
     height: 150px;
   }
+ .content > div .black_box p{
+  margin-top:5%;
+}
   .l_box .thumbnail {
     width: 100px;
     height: 100px;
@@ -375,7 +373,9 @@ label:first-child {
     font-size: 16px;
   }
 }
-
+label{
+  font-size: 15px;
+}
 .btnClose {
   position: relative;
   left: 300px;
@@ -391,5 +391,10 @@ label:first-child {
   text-align: center;
   border: 1px solid #fff;
   color: red;
+}
+@media all and (max-width: 650px) {
+label{
+  font-size: 8px;
+}
 }
 </style>

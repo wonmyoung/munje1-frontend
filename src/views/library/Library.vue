@@ -431,6 +431,7 @@ select {
   font-weight: bold;
 }
 #page .outLinks li {
+  text-align: center;
   flex: 0 1 auto;
   width: 120px;
   height: 90px;
@@ -512,7 +513,7 @@ select {
   #page .outLinks li {
     width: 50px;
     height: 40px;
-    margin: 40px 10px 60px 10px;
+    margin: 25px 10px 85px 10px;
     padding: 0;
   }
 }

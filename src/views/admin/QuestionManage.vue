@@ -185,4 +185,11 @@ h2 {
 .pagenation {
   margin-top: 50px;
 }
+button{
+  display: block;
+  width:80px;
+}
+.el-button+.el-button{
+  margin:10px 0 0 0;
+}
 </style>
