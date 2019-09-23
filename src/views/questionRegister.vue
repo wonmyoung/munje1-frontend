@@ -1,8 +1,5 @@
 <template>
   <div>
-    <div class="libraryWrap" id="libraryWrap">
-      <Library />
-    </div>
     <div class="container">
       <div class="wrap">
         <div class="buttonWrap">
@@ -74,9 +71,7 @@
 </template>
 <script>
 import axios from "axios";
-import Library from "@/views/library/Library";
 export default {
-  components: { Library },
   data() {
     return {
       publicUID: null,

@@ -1,56 +1,187 @@
 <template>
   <div class="container">
     <div class="contentWrap">
-      <div v-if="index == 0" class="intro">
-        <h1>문제 풀기</h1>
-        <p>문제이름:{{ exam.title }}</p>
-        <p>저자 :{{ exam.author }}</p>
-        <p>문제설명 :{{ exam.description }}</p>
-        <div class="thumbnailWrap">
-          <img :src="exam.thumbnail" class="thumbnail" />
+      <a href="javascript:void(0);" class="btnMenu">메뉴버튼</a>
+      <div class>
+        <div v-if="index == 0" class="intro">
+          <div class="munjeWrap">
+            <h1>문제 풀기</h1>
+            <p>{{ exam.title }}</p>
+            <p>
+              저자 :
+              <b>{{ exam.author }}</b>
+            </p>
+            <p>
+              카테고리 :
+              <b>{{ exam.category }}</b>
+            </p>
+            <p>{{ exam.description }}</p>
+            <div class="thumbnailWrap">
+              <img :src="exam.thumbnail" class="thumbnail" />
+            </div>
+          </div>
+          <el-button type="primary" class="btn" @click="next">
+            다음
+            <i class="el-icon-arrow-right"></i>
+          </el-button>
         </div>
+        <div v-else-if="index < exam.questions.length">
+          <div class="munjeWrap">
+            <h3>
+              {{ index }}.
+              <span v-html="exam.questions[index].question"></span>
+            </h3>
+            <!-- <div v-if="exam.questions[index].examples.length">
+              <ul class="examples">
+                <li v-for="(example, i) in exam.questions[index].examples" :key="i">
+                  <el-radio v-model="exam.questions[index].examples.answer" :label="i + 1">
+                    <span class="exampleCircle">{{ i + 1 }}</span>
+                    {{ example }}
+                  </el-radio>
+                </li>
+              </ul>
+            </div>-->
+            <span id="subtitle">보기</span>
+            <el-radio-group v-model="exam.questions[index].answer">
+              <el-radio :label="1">1번</el-radio>
+              <el-radio :label="2">2번</el-radio>
+              <el-radio :label="3">3번</el-radio>
+              <el-radio :label="4">4번</el-radio>
+              <el-radio :label="5">5번</el-radio>
+            </el-radio-group>
+            <div v-show="exam.questions[index].images.length">
+              <ul class="preview">
+                <li v-for="(image, i) in exam.questions[index].images" :key="i">
+                  <el-button type="danger" plain @click="select(image, index)">
+                    <img :src="image" class="questionImage" />
+                  </el-button>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="btnWrap">
+            <el-button type="primary" class="btn" @click="prev">
+              <i class="el-icon-arrow-left"></i>이전
+            </el-button>
+            <el-button class="btn" @click="checkSolution">정답및해설</el-button>
+            <el-button type="primary" class="btn" @click="next">
+              다음
+              <i class="el-icon-arrow-right"></i>
+            </el-button>
+          </div>
+          <div v-show="exam.showSolution" class="munjeWrap">
+            <h3>정답 및 해설</h3>
+            <article>
+              <p class="value">정답 : {{exam.questions[index].value}}</p>
+              <div v-html="exam.questions[index].solution"></div>
+            </article>
+          </div>
+          <div class="commentInputWrap">
+            <h4>댓글작성</h4>
+            <article>
+              <p class="author">작성자 : 이원명</p>
+              <el-input
+                class="textarea"
+                placeholder="댓글을 작성하려면 로그인 해주세요."
+                type="textarea"
+                v-model="content"
+                style="min-height: 60px;"
+              ></el-input>
+              <div class="registerBtnWrap">
+                <el-button type="primary" class="registerComment" @click="registerComment">등록</el-button>
+              </div>
+              <p class="countion">
+                해당 문제와 연관이 없는 내용의 댓글은 운영원칙에 따라 삭제될 수
+                있습니다.
+                <br />또한, 해당 댓글을 상습적으로 등록하면 서비스 이용에 제한을
+                받을 수 있으니 참고 부탁드립니다.
+              </p>
+            </article>
+          </div>
+          <div class="commentWrap">
+            <h4>
+              댓글
+              <b>{{ comments.length }}</b>
+            </h4>
+            <ul>
+              <li class="commentlist" v-for="(comment, i) in comments" :key="i">
+                <p class="author">{{ comment.author.username }}</p>
+                <p class="comment">{{ comment.comment }}</p>
+                <p class="date">{{ moment(comment.created_at).fromNow() }}</p>
+                <span class="replyButton" @click="createReply(i)">답글달기</span>
+                <div v-if="replyMode[i] == true">
+                  <!-- <p class="author">작성자 : 이원명</p> -->
+                  <el-input
+                    class="textarea_reply"
+                    placeholder="댓글을 작성하려면 로그인 해주세요."
+                    v-model="reply"
+                    type="textarea"
+                  ></el-input>
+                  <div class="rightBtnWrap">
+                    <el-button
+                      type="primary"
+                      class="registerReply"
+                      @click="handleReply(comment._id)"
+                    >등록</el-button>
+                  </div>
+                </div>
+                <ul v-show="comment.replys.length>0" class="replyWrap">
+                  <li class="replylist" v-for="(reply, i) in comment.replys" :key="i">
+                    <p class="author">{{ reply.userId.username }}</p>
+                    <p class="comment">{{ reply.content }}</p>
+                    <p class="date">{{ moment(reply.created_at).fromNow() }}</p>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div v-if="isFinish">
+        <table class="tg">
+          <thead>
+            <tr>
+              <th>문제번호</th>
+              <th>정답</th>
+              <th>나의답안</th>
+              <th>정답여부</th>
+            </tr>
+          </thead>
+          <tr v-for="(result, i) in resultData.results" :key="i">
+            <td>{{ result.id }}번</td>
+            <td>{{ result.value }}</td>
+            <td>{{ result.answer }}</td>
+            <td>{{ result.result }}</td>
+          </tr>
+        </table>
+
         <div class="btnWrap">
-          <el-button type="primary" class="btn" @click="nextPage">다음</el-button>
+          <el-button type="primary" class="btn" @click="confirm">확인</el-button>
         </div>
       </div>
-      <div v-else-if="index < exam.questions.length" class="questionWrap">
-        <p class="indexWrap">{{ index }}번</p>
-        <h2>{{ exam.questions[index].question }}</h2>
-        <div v-show="exam.questions[index].images.length">
-          <ul class="preview">
-            <li v-for="(image, i) in exam.questions[index].images" :key="i">
-              <el-button type="danger" plain @click="select(image, index)">
-                <img :src="image" class="questionImage" />
-              </el-button>
-            </li>
-          </ul>
-        </div>
-        <div class="btnWrap">
-          <el-button type="primary" class="btn" @click="nextPage">다음</el-button>
-        </div>
-      </div>
-      <div v-else-if="index == exam.questions.length" class="text-center">
-        <h3>수고하셨습니다. 모든 문제를 푸셨습니다.</h3>
-        <p>문제에 점수를 매겨주세요. {{ rating }}</p>
-        <v-rating v-model="rating" color="orange"></v-rating>
-        <el-button type="primary" class="btn" @click="submit">결과보기</el-button>
-      </div>
+    </div>
+    <div class="menu">
+      <ul>
+        <li>
+          <a href="#">menu1</a>
+        </li>
+      </ul>
+    </div>
+    <div class="btnMenu">
+      <el-button type="primary" icon="el-icon-arrow-up" circle @click="handleMenu"></el-button>
     </div>
   </div>
 </template>
 <script>
-import axios from "axios";
-import shuffle from "../util/shuffle"; //배열을 random으로 반환하는 함수
 import { BASE_URL } from "../config/env";
-import { eventBus } from "../main";
-import ExamResult from "./ExamResult";
-import { mapState } from "vuex";
-
+import axios from "axios";
+import moment from "moment";
 export default {
-  component: { ExamResult },
   data() {
     return {
       index: 0,
+      userValue: null,
       exam: {
         examId: null,
         title: null, //문제집 이름
@@ -58,55 +189,69 @@ export default {
         description: null,
         thumbnail: null,
         author: null,
+        isFinish: false,
+        showSolution: false,
         questions: [
           {
             question: null,
             images: [],
             value: null,
-            answer: null
+            answer: null,
+            examples: [],
+            solution: null
           }
         ]
       },
       resultData: {
         examId: null,
-        results: [
-          {
-            id: null,
-            question: null,
-            answer: null,
-            value: null,
-            result: null
-          }
-        ]
+        results: []
       },
-      rating: null
+      content: "",
+      comments: [],
+      reply: "",
+      moment: moment,
+      replyMode: []
     };
+  },
+  created() {
+    this.getCommentInfo();
+  },
+  computed: {
+    // get: function() {
+    //   return this.index;
+    // },
+    // set: function(index) {
+    //   this.getCommentInfo(index);
+    //   return true;
+    // }
   },
   mounted() {
     this.getExamInfo();
-  },
-  computed: {
-    ...mapState(["userInfo", "isLogin"])
+    // this.getCommentInfo();
   },
   methods: {
     getExamInfo() {
+      console.log("getExamInfo()실행!");
       axios
         .get(BASE_URL + `/exam/detail/${this.$route.params.id}`)
         .then(res => {
+          console.log("res > > ", JSON.parse(res.data.exam));
           let exam = JSON.parse(res.data.exam);
           console.log("exam", exam);
-          this.exam.examId = exam._id;
           this.exam.title = exam.title;
+          this.exam.examId = exam._id;
           this.exam.description = exam.description;
           this.exam.thumbnail = exam.thumbnail;
           this.exam.created_at = exam.created_at;
-          this.exam.author = exam.author == null ? null : exam.author.username;
+          this.exam.author = exam.author.username;
           let item = {
             questions: [
               {
                 value: null,
                 images: [],
-                question: null
+                examples: [],
+                question: null,
+                solution: null
               }
             ]
           };
@@ -114,111 +259,182 @@ export default {
             let data = {
               question: exam.questions[i].question,
               value: exam.questions[i].value,
-              images: shuffle(exam.questions[i].images)
+              images: exam.questions[i].images,
+              solution: exam.questions[i].solution
             };
             item.questions.push(data);
           }
           this.exam.questions = item.questions;
+          console.log("resultData1", this.resultData);
         });
     },
-    nextPage() {
-      console.log("next!!!", 1111);
+    next() {
+      console.log("resultData2", this.resultData);
 
-      if (this.index == 0) {
-        console.log("next!!!", 222);
-
-        this.resultData.examId = this.exam.examId;
-      } else if (this.index > 0) {
-        console.log("next!!!", 333);
-
+      if (this.index > 0) {
+        if (!this.exam.questions[this.index].answer)
+          return alert("답안 선택 후 다음을 눌러주세요.");
+        console.log("index", this.index);
         let answer = this.exam.questions[this.index].answer;
         let value = this.exam.questions[this.index].value;
         let question = this.exam.questions[this.index].question;
-        console.log("answer!!!", answer);
+        let examId = this.exam.examId;
+        console.log("answer!!!");
+        console.log("examId!!!~~~~", examId);
         console.log("value!!!", value);
         let result = null;
         let id = this.index;
         if (answer == value) {
-          result = "정답";
+          result = 1;
         } else {
-          result = "오답";
+          result = 0;
         }
-
-        let data = {
+        let userResult = {
           id: id,
-          question: question,
           answer: answer,
           value: value,
           result: result,
-          rating: this.rating
+          question: question,
+          examId: examId
         };
-        this.resultData.results.push(data);
-        console.log("resultData", this.resultData);
-      }
-
-      this.index++;
-    },
-    submit() {
-      if (this.index == this.exam.questions.length) {
-        console.log("resultData", this.resultData);
-
-        this.resultData.results = this.resultData.results.filter(
-          result => result.id > 0
-        );
+        this.resultData.results.push(userResult);
+        let data = this.resultData;
         let accessToken = localStorage.getItem("accessToken");
-
         let config = {
           headers: {
             accessToken: accessToken
           }
         };
-        let data = {
-          rating: this.rating,
-          results: this.resultData
-        };
         axios
           .post(BASE_URL + "/exam/register/result", data, config)
           .then(res => {
-            if (res.status == 200) {
-              // eventBus.$emit("resultdata", this.resultData);
-              let userInfo = {
-                resultData: this.resultData
-              };
-              this.$store.dispatch("UPDATE_USER_DATA", { userInfo });
-              console.log("res", res);
-              this.$router.push({
-                name: "examResult",
-                params: { id: this.resultData.examId }
-              });
-            }
+            console.log("next : res > >", res);
           });
-        this.index++;
       }
+      console.log("this.exam.questions.length", this.exam.questions.length);
+      console.log("this.exam.questions >>>>>", this.exam.questions);
+      console.log("this.index", this.index);
+      this.exam.showSolution = false;
+      this.index++;
+
+      if (this.index == this.exam.questions.length) {
+        console.log("resultData", this.resultData);
+        let result = confirm("수고하셨습니다!. 모든 문제를 푸셨습니다.");
+        if (result) {
+          this.isFinish = true;
+        }
+      }
+      console.log("resultData", this.resultData);
     },
     select(answer, index) {
       this.exam.questions[index].answer = answer;
-    }
+    },
+    checkSolution() {
+      this.exam.showSolution = !this.exam.showSolution;
+    },
+    confirm() {
+      window.location.href = "/";
+    },
+    registerComment() {
+      let accessToken = localStorage.getItem("accessToken");
+      let config = {
+        headers: {
+          accessToken: accessToken
+        }
+      };
+      let data = {
+        comment: this.content,
+        index: this.index
+      };
+      console.log("registerComment : _id", this.$route.params.id);
+      console.log("this.index>>", this.index);
+      axios
+        .post(
+          BASE_URL + `/comment/register/${this.$route.params.id}`,
+          data,
+          config
+        )
+        .then(res => {
+          this.getCommentInfo();
+          this.content = "";
+        });
+    },
+    getCommentInfo() {
+      let accessToken = localStorage.getItem("accessToken");
+      let config = {
+        headers: {
+          accessToken: accessToken
+        }
+      };
+      axios
+        .get(BASE_URL + `/comment/commentInfo/${this.$route.params.id}`, config)
+        .then(res => {
+          console.log("getCommentInfo : res >>>", res);
+          if (res.data.status == 200) {
+            this.comments = res.data.commentInfo;
+            res.data.commentInfo.map((item, i) => {
+              this.replyMode[i] = false;
+            });
+          }
+        });
+    },
+    createReply(i) {
+      /**배열의 변경을 DOM감지 하기위해서는 push, shift, splice등 사용하여 원형요소가 변형되도록 해야 하거나, 참조하고 있는 주소가 변경되어야 한다 */
+      let list = this.replyMode.map(() => false);
+      list.splice(i, 1, true);
+      this.replyMode = list;
+    },
+    handleReply(id) {
+      console.log("handleReply : id >>>", id);
+
+      let accessToken = localStorage.getItem("accessToken");
+      let config = {
+        headers: {
+          accessToken: accessToken
+        }
+      };
+      let data = {
+        reply: this.reply
+      };
+      axios.post(BASE_URL + `/comment/${id}/reply`, data, config).then(res => {
+        console.log("reply : res >>>", res);
+        if (res.data.status == 200) {
+          this.getCommentInfo();
+          this.reply = "";
+        }
+      });
+    },
+    prev() {
+      this.index--;
+    },
+    handleMenu() {}
   }
 };
 </script>
 <style scoped>
 .container {
-  max-width: 1000px;
+  max-width: 1100px;
   height: auto;
+  display: flex;
+  justify-content: space-between;
+  padding-right: 40px;
 }
 .contentWrap {
-  text-align: left;
-  margin: 10px auto;
-  width: calc(100% - 10px);
-  padding: 1em;
-  border: 1px solid #ccc;
-  background: #fff;
-  box-shadow: 0 5px 7px 0 rgba(105, 105, 105, 0.1);
+  width: 73%;
+  position: relative;
 }
-.contentWrap h1 {
+.munjeWrap h1 {
   font-size: 1.3em;
   font-weight: bold;
   margin: 1em 0 1em 0;
+}
+.questionWrap {
+  width: 800px;
+  padding: 40px;
+  margin: 50px auto;
+  text-align: left;
+  background: #fff;
+  box-shadow: 0 3px 3px 0 rgba(105, 105, 105, 0.1);
 }
 .questionWrap h2 {
   font-size: 22px;
@@ -227,6 +443,26 @@ export default {
   margin-top: 20px;
   margin-bottom: 100px;
   text-align: center;
+}
+h3 {
+  font-size: 18px;
+  color: rgb(99, 99, 99);
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+.value {
+  color: rgb(221, 0, 0);
+  font-weight: bold;
+  margin: 10px 0;
+}
+.munjeWrap {
+  outline: 1px solid #e9e9e9;
+  width: 100%;
+  padding: 40px;
+  margin: 50px auto;
+  text-align: left;
+  background: #fff;
+  box-shadow: 0 3px 3px 0 rgba(105, 105, 105, 0.1);
 }
 
 .indexWrap {
@@ -238,6 +474,27 @@ export default {
   background: #f8e809;
   padding: 12px;
   color: rgb(233, 27, 27);
+}
+.examples {
+  width: 100%;
+  margin: 10px;
+  padding: 10px;
+}
+.examples > li {
+  padding: 5px;
+}
+
+.exampleCircle {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  text-align: center;
+  font-size: 11px;
+  line-height: 20px;
+  /* padding: 10px; */
+  margin-right: 10px;
 }
 #outline {
   padding: 100px;
@@ -257,7 +514,7 @@ export default {
 
 .thumbnailWrap {
   width: 100%;
-  margin: 20px auto;
+  margin: 0 auto;
   text-align: center;
 }
 .thumbnail {
@@ -267,12 +524,73 @@ export default {
   border-radius: 10px;
   text-align: center;
 }
-@media all and (max-width: 500px) {
-  .thumbnail {
+.menu {
+  position: relative;
+  margin: 50px 0;
+  width: 30%;
+  max-width: 250px;
+  min-width: 130px;
+  outline: 1px solid #e6e6e6;
+  height: 700px;
+  background: white;
+  border: 1px solid rgb(255, 255, 255);
+  text-align: left;
+}
+.menu ul {
+  margin-top: 40px;
+  margin-left: -24px;
+}
+.menu ul li {
+  height: 40px;
+  line-height: 40px;
+  transition: all 0.5s;
+}
+.menu ul li:hover {
+  background: #ccc;
+}
+.menu ul li a {
+  font-weight: bold;
+  color: black;
+  padding-left: 20px;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.btnMenu {
+  position: fixed;
+  right: 30px;
+  bottom: 30px;
+  border-radius: 30px;
+  color: #fff;
+  font-size: 14px;
+  padding: 5px;
+  display: inline-block;
+  z-index: 9999;
+  display: none;
+}
+@media all and (max-width: 600px) {
+  .thumbnail,
+  .munjeWrap {
     width: 100%;
   }
-  .el-button {
+  .el-button,
+  .btn {
     width: 100%;
+  }
+  .container {
+    padding: 20px 0;
+    overflow: hidden;
+  }
+  .contentWrap {
+    width: 90%;
+    margin: 0 auto;
+  }
+  .menu {
+    height: 100%;
+    display: none;
+  }
+  .btnMenu {
+    display: block;
   }
 }
 .questionImage {
@@ -298,6 +616,7 @@ export default {
   background: #fff;
   color: rgb(73, 73, 73);
 }
+
 .preview > li > .el-button {
   padding: 3px;
   border: 3px solid #fff;
@@ -305,10 +624,15 @@ export default {
   border-radius: 5px;
 }
 .btnWrap {
+  text-align: center;
+  margin-bottom: 50px;
+}
+.rightBtnWrap {
   text-align: right;
+  margin: 10px 0 20px 0;
 }
 .btn {
-  margin: 20px 0 10px 0;
+  margin: 10px;
 }
 
 .resultImage {
@@ -323,21 +647,24 @@ table {
   width: 100%;
   margin: 0 auto;
   text-align: center;
+  background: #fff;
+  margin: 50px 0 30px;
 }
 
 th {
   font-size: 14px;
+  font-weight: bold;
   font-weight: normal;
   border-style: solid;
   overflow: hidden;
   word-break: normal;
   border-color: black;
+  background: #38c70d;
 }
 td,
 th {
-  line-height: 50px;
-  padding: 10px;
-  border: 1px solid #efefef;
+  padding: 5px;
+  border: 1px solid #ddd;
 }
 td,
 th:nth-child(1) {
@@ -345,29 +672,95 @@ th:nth-child(1) {
 }
 td,
 th:nth-child(2) {
-  width: 60px;
+  width: 140px;
 }
 th:nth-child(3) {
-  width: 80px;
+  width: 50px;
 }
 th:nth-child(4) {
-  width: 80px;
+  width: 50px;
 }
 td,
 th:nth-child(5) {
   width: 40px;
 }
-.text-center {
-  /* padding-top: 10px; */
+.commentInputWrap {
+  margin-bottom: 10px;
+  padding: 20px;
   background: #fff;
-  width: 90%;
-  text-align: center;
-  min-height: 100px;
-  margin: 70px auto;
 }
-h3 {
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 20px;
+.commentInputWrap .author {
+  color: #666;
+  text-align: left;
+  margin-top: 15px;
+}
+.commentInputWrap .countion {
+  color: #555;
+  font-size: 13px;
+  background: #f2f2f2;
+  padding: 10px;
+  margin-top: 15px;
+}
+h4 {
+  text-align: left;
+}
+.comment {
+  margin: 15px;
+}
+.registerBtnWrap {
+  text-align: right;
+}
+.commentWrap {
+  background: #fff;
+  text-align: left;
+  padding: 20px;
+}
+.commentWrap .author {
+  /* text-align: right; */
+  font-size: 13px;
+  color: #666;
+}
+.commentWrap .replyButton {
+  text-align: right;
+  display: inline-block;
+  margin: 0 10px 10px 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 3px;
+  font-size: 12px;
+  color: #666;
+}
+.commentWrap .replyButton:hover {
+  cursor: pointer;
+  background: #efefef;
+}
+.commentWrap .date {
+  text-align: right;
+  margin: 0;
+  font-size: 14px;
+  color: #666;
+}
+.commentWrap .commentlist {
+  border-bottom: 1px solid #eaeaea;
+  margin: 20px 0 20px 0;
+}
+.textarea textarea {
+  min-height: 60px;
+}
+.replyWrap {
+  background: #f9f9f9;
+  padding: 10px;
+}
+.replylist {
+  width: 90%;
+  margin: 0 auto;
+  padding: 10px;
+  border-top: 1px solid #eaeaea;
+}
+#subtitle {
+  margin-right: 20px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 5px;
 }
 </style>

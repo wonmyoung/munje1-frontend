@@ -7,29 +7,14 @@
         <ul>
           <li>
             <a @click="$router.push({ name: 'userManage' })">
-              <img
-                src="../../assets/images/dashboard/page1_ico1.png"
-                alt="icon"
-              />
+              <img src="../../assets/images/dashboard/page1_ico1.png" alt="icon" />
               <b>회원 관리</b>
             </a>
           </li>
           <li>
             <a @click="$router.push({ name: 'questionManage' })">
-              <img
-                src="../../assets/images/dashboard/page1_ico2.png"
-                alt="icon"
-              />
+              <img src="../../assets/images/dashboard/page1_ico2.png" alt="icon" />
               <b>문제집 관리</b>
-            </a>
-          </li>
-          <li>
-            <a @click="$router.push({ name: 'libraryManage' })">
-              <img
-                src="../../assets/images/dashboard/page1_ico3.png"
-                alt="icon"
-              />
-              <b>라이브러리 관리</b>
             </a>
           </li>
         </ul>
@@ -64,9 +49,10 @@ export default {
 .pageWrap {
   width: 100%;
   padding: 2em 0;
+  min-height: 500px;
   max-width: 1200px;
   margin: 0 auto;
-  margin-top: 114px;
+  margin-top: 50px;
   background: #fff;
   padding: 20px;
 }
@@ -169,17 +155,17 @@ export default {
   background: #fff;
   padding: 30px;
 }
-@media all and (max-width: 1490px){
+@media all and (max-width: 1490px) {
   // .pageWrap{
   //   width:90%;
   // }
 }
-@media all and (max-width: 660px){
-  #page1 .outLinks ul{
+@media all and (max-width: 660px) {
+  #page1 .outLinks ul {
     display: block;
   }
-  #page1 .outLinks ul li{
-    width:auto;
+  #page1 .outLinks ul li {
+    width: auto;
   }
 }
 </style>

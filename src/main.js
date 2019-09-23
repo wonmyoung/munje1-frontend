@@ -19,6 +19,7 @@ import "vuetify/dist/vuetify.min.css"; // Ensure you are using css-loader
 // import axios from "axios";
 import ElementUI from "element-ui";
 import moment from "moment";
+import "moment/locale/ko";
 import VueMoment from "vue-moment";
 import "element-ui/lib/theme-chalk/index.css";
 export const eventBus = new Vue();

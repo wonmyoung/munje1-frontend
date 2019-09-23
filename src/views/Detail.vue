@@ -1,13 +1,10 @@
 <template>
   <div>
-    <div class="libraryWrap" id="side-menu">
-      <Library />
-    </div>
     <div class="container">
       <div class="wrap">
-        <div class="buttonWrap">
+        <!-- <div class="buttonWrap">
           <el-button type="primary" class="primary1 location" @click="openSlideMenu">{{ button }}</el-button>
-        </div>
+        </div>-->
         <div
           v-if="index == 0"
           v-bind:class="{
@@ -30,7 +27,7 @@
             </el-form-item>
 
             <el-form-item label="문제집 요약 설명">
-              <el-input v-model="description"></el-input>
+              <el-input v-model="description" type="textarea"></el-input>
             </el-form-item>
             <div class="uploaderWrapp" v-if="!images.length">
               <div class="uploaderWrap">
@@ -127,11 +124,8 @@
 </template>
 <script>
 import axios from "axios";
-import Library from "@/views/Library";
 import { BASE_URL } from "../config/env";
-
 export default {
-  components: { Library },
   data() {
     return {
       form: {},
@@ -206,7 +200,11 @@ export default {
       formdata.append("file", file);
       formdata.append("config", config);
       try {
-        result = await axios.post(BASE_URL + "/file/upload", formdata, config);
+        result = await axios.post(
+          "http://localhost:3001/file/upload",
+          formdata,
+          config
+        );
         console.log("result", result);
         if (result.status === 200) {
           if (this.index == 0) {
@@ -378,7 +376,7 @@ export default {
       };
       if (result) {
         axios
-          .post(BASE_URL + "/exam/register", this.questions, config)
+          .post("http://localhost:3001/exam/register", this.questions, config)
           .then(res => {
             if (res.status === 200) {
               this.$router.push({ name: "home" });
@@ -417,6 +415,9 @@ export default {
 .wrap {
   text-align: left;
 }
+.outlineWrap {
+  background: #fff;
+}
 .buttonWrap {
   text-align: left;
   margin: 0 auto;
@@ -428,9 +429,10 @@ export default {
 }
 .contentWrap {
   margin: 10px auto;
-  width: 90%;
-  padding: 1em;
+  width: 50%;
+  padding: 30px 40px 30px 40px;
   border: 1px solid #ccc;
+  background: #fff;
   box-shadow: 0 5px 7px 0 rgba(105, 105, 105, 0.1);
 }
 

@@ -38,6 +38,25 @@
 
             <el-form-item label="문제집 요약 설명">
               <el-input v-model="description"></el-input>
+              <div class="btns">
+                <input
+                  type="radio"
+                  name="rd"
+                  id="rd1"
+                  v-model="status"
+                  value="PUBLIC"
+                  checked
+                />
+                <label for="rd1">공개</label>
+                <input
+                  type="radio"
+                  name="rd"
+                  id="rd2"
+                  v-model="status"
+                  value="PRIVATE"
+                />
+                <label for="rd2">비공개</label>
+              </div>
             </el-form-item>
             <div class="uploaderWrapp" v-if="!images.length">
               <div class="uploaderWrap">
@@ -49,7 +68,13 @@
                   @drop="OnDrop"
                 >
                   <p>Drag and Drop upload</p>
-                  <input type="file" class="input-file" ref="file" @change="sendFile" multiple />
+                  <input
+                    type="file"
+                    class="input-file"
+                    ref="file"
+                    @change="sendFile"
+                    multiple
+                  />
                 </div>
               </div>
             </div>
@@ -77,34 +102,12 @@
           >
             <h1>문제 등록</h1>
             <el-form ref="form">
-              <span>{{ index }}번</span>
-              <el-form-item>
-                <span>문제</span>
-                <vue-editor
-                  id="editor"
-                  placeholder="문제와 보기를 입력해주세요"
-                  useCustomImageHandler
-                  @image-added="handleImageAdded"
-                  v-model="question"
-                  @dragover.prevent
-                  @drop="OnDrop"
-                ></vue-editor>
-              </el-form-item>
-              <!-- <el-form-item label="문제">
+              <el-form-item label="문제">
+                <span>{{ index }}번</span>
                 <el-input v-model="question"></el-input>
               </el-form-item>
 
-              <div v-if="images.length">
-                <ul class="preview">
-                  <li class="wrapper" v-for="(image, i) in images" :key="i">
-                    <img :src="image" class="questionImage" />
-                    <div class="overlay" @click="deleteFile(i)">
-                      <i class="material-icons">delete</i>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-              <div v-else class="uploaderWrapp">
+              <div class="uploaderWrapp">
                 <div class="uploaderWrap">
                   <div
                     class="uploader"
@@ -114,59 +117,35 @@
                     @drop="OnDrop"
                   >
                     <p>드래그 앤드랍 혹은 Click하여 이미지를 업로드 해주세요</p>
-                    <input type="file" class="input-file" ref="file" @change="sendFile" multiple />
-                  </div>
-                </div>
-              </div>-->
-              <!-- <el-form-item label="보기">
-                <el-input v-model="examples" type="textarea" id="textarea"></el-input>
-              </el-form-item>-->
-              <div class="valueWrap">
-                <span>보기의 정답을 선택해주세요.</span>
-                <el-radio-group v-model="value">
-                  <el-radio :label="1">1번</el-radio>
-                  <el-radio :label="2">2번</el-radio>
-                  <el-radio :label="3">3번</el-radio>
-                  <el-radio :label="4">4번</el-radio>
-                  <el-radio :label="5">5번</el-radio>
-                </el-radio-group>
-              </div>
-              <div v-if="images.length">
-                <ul class="preview">
-                  <li class="wrapper" v-for="(image, i) in images" :key="i">
-                    <img :src="image" class="questionImage" />
-                    <div class="overlay" @click="deleteFile(i)">
-                      <i class="material-icons">delete</i>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-              <div v-else class="uploaderWrapp">
-                <div class="uploaderWrap">
-                  <div
-                    class="uploader"
-                    @dragenter="OnDragEnter"
-                    @dragleave="OnDragLeave"
-                    @dragover.prevent
-                    @drop="OnDrop"
-                  >
-                    <p>드래그 앤드랍 혹은 Click하여 이미지를 업로드 해주세요</p>
-                    <input type="file" class="input-file" ref="file" @change="sendFile" multiple />
+                    <input
+                      type="file"
+                      class="input-file"
+                      ref="file"
+                      @change="sendFile"
+                      multiple
+                    />
                   </div>
                 </div>
               </div>
 
-              <el-form-item>
-                <span>해설</span>
-                <vue-editor
-                  id="editor"
-                  useCustomImageHandler
-                  @image-added="handleImageAdded"
-                  v-model="solution"
-                  @dragover.prevent
-                  @drop="OnDrop"
-                ></vue-editor>
-              </el-form-item>
+              <div v-show="images.length">
+                <ul class="preview">
+                  <li class="wrapper" v-for="(image, i) in images" :key="i">
+                    <div>
+                      <input
+                        id="radio"
+                        type="radio"
+                        :value="image"
+                        v-model="value"
+                      />정답
+                    </div>
+                    <img :src="image" class="questionImage" />
+                    <div class="overlay" @click="deleteFile(i)">
+                      <i class="material-icons">delete</i>
+                    </div>
+                  </li>
+                </ul>
+              </div>
             </el-form>
             <div class="btnWrap">
               <el-button class="default" @click="prev">이전</el-button>
@@ -185,9 +164,6 @@ import { BASE_URL } from "../../config/env";
 import { VueEditor } from "vue2-editor";
 
 export default {
-  components: {
-    VueEditor
-  },
   props: {
     isEdit: {
       type: Boolean,
@@ -205,8 +181,6 @@ export default {
           index: null,
           question: null,
           images: [],
-          // htmlForEditor: "",
-          solution: "",
           value: null
         }
       ],
@@ -214,6 +188,7 @@ export default {
       thumbnail: null,
       status: "PUBLIC",
       images: [],
+      // paths: [],
       title: null,
       question: null,
       category: null,
@@ -221,10 +196,7 @@ export default {
       answer: null,
       value: null,
       button: "라이브러리 열기",
-      show: false,
-      // htmlForEditor: "",
-      solution: "",
-      files: []
+      show: false
     };
   },
   created() {
@@ -236,30 +208,6 @@ export default {
     //   const files = e.dataTransfer.files;
     //   Array.from(files).forEach(file => this.addImage(file));
     // },
-    handleImageAdded: function(file, Editor, cursorLocation, resetUploader) {
-      // An example of using FormData
-      // NOTE: Your key could be different such as:
-      // formData.append('file', file)
-      let accessToken = localStorage.getItem("accessToken");
-      let config = {
-        headers: {
-          accessToken: accessToken
-        }
-      };
-      var formData = new FormData();
-      formData.append("file", file);
-      axios
-        .post("http://localhost:3010/file/upload", formData, config)
-        .then(result => {
-          console.log("result", result);
-          let url = result.data.path; // Get url from response
-          Editor.insertEmbed(cursorLocation, "image", url);
-          resetUploader();
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    },
     OnDragEnter(e) {
       e.preventDefault();
       this.count++;
@@ -358,34 +306,32 @@ export default {
 
       //먼저 저장 혹은 수정
       console.log("next!!!!!");
-      // if (this.index == 0) {
-      //   if (!this.title) {
-      //     return alert("문제집 이름을 기입해 주세요");
-      //   }
-      //   if (!this.category) {
-      //     return alert("카테고리를 선택해 주세요");
-      //   }
-      //   if (!this.thumbnail) {
-      //     return alert("썸네일은 필수 입니다.");
-      //   }
-      // } else if (this.index > 0) {
-      //   if (!this.question) {
-      //     return alert("문제를 입력해 주세요");
-      //   } else if (this.images.length == 0) {
-      //     return alert("보기 이미지를 넣어 주세요");
-      //   } else if (!this.value) {
-      //     return alert("정답을 입력해 주세요");
-      //   }
-      // }
+      if (this.index == 0) {
+        if (!this.title) {
+          return alert("문제집 이름을 기입해 주세요");
+        }
+        if (!this.category) {
+          return alert("카테고리를 선택해 주세요");
+        }
+        if (!this.thumbnail) {
+          return alert("썸네일은 필수 입니다.");
+        }
+      } else if (this.index > 0) {
+        if (!this.question) {
+          return alert("문제를 입력해 주세요");
+        } else if (this.images.length == 0) {
+          return alert("보기 이미지를 넣어 주세요");
+        } else if (!this.value) {
+          return alert("정답을 입력해 주세요");
+        }
+      }
       if (!this.questions[this.index]) {
         console.log("1111");
         let data = {
           question: this.question,
           // paths: this.paths,
           images: this.images,
-          value: this.value,
-          // htmlForEditor: this.htmlForEditor,
-          solution: this.solution
+          value: this.value
         };
         this.questions.push(data);
       } else {
@@ -400,9 +346,7 @@ export default {
               // paths: this.paths,
               images: this.images,
               value: this.value,
-              question: this.question,
-              // htmlForEditor: this.htmlForEditor,
-              solution: this.solution
+              question: this.question
             };
             return data;
           } else {
@@ -423,8 +367,6 @@ export default {
         // this.paths = [];
         this.question = null;
         this.value = null;
-        // this.htmlForEditor = "";
-        this.solution = "";
         this.index++;
         console.log("index", this.index);
       } else {
@@ -443,20 +385,18 @@ export default {
         // this.paths = this.questions[this.index].paths;
         this.images = this.questions[this.index].images;
         this.value = this.questions[this.index].value;
-        // this.htmlForEditor = this.questions[this.index].htmlForEditor;
-        this.solution = this.questions[this.index].solution;
       }
     },
 
     submit() {
       console.log("submit()");
 
-      // confirm("문제 등록을 완료 하시겠습니까?");
-      // if (this.title == null) {
-      //   return alert("문제집 이름을 기입해 주세요");
-      // } else if (!this.thumbnail.length) {
-      //   return alert("썸네일를 넣어 주세요");
-      // }
+      confirm("문제 등록을 완료 하시겠습니까?");
+      if (this.title == null) {
+        return alert("문제집 이름을 기입해 주세요");
+      } else if (!this.thumbnail.length) {
+        return alert("썸네일를 넣어 주세요");
+      }
       let questionsData = this.questions.filter((question, i) => i > 0);
       console.log("questionsData >>>", questionsData);
       console.log("this.questions >>>", this.questions);
@@ -562,6 +502,8 @@ export default {
           this.images = this.questions.map((question, i) => {
             return question.images;
           });
+
+          console.log("END > ", this.images);
         });
     }
   }
@@ -612,8 +554,7 @@ label:nth-child(2) {
 .contentWrap {
   margin: 10px auto;
   width: 60%;
-  min-width: 400px;
-  padding: 30px 80px 30px 80px;
+  padding: 1em;
   border: 1px solid #ccc;
   box-shadow: 0 5px 7px 0 rgba(105, 105, 105, 0.1);
   background: #fff;
@@ -647,7 +588,7 @@ select {
 
 .uploaderWrapp {
   width: 100%;
-  height: 170px;
+  height: 230px;
 }
 
 .uploaderWrap {
@@ -693,7 +634,7 @@ select {
 .questionImage {
   border-radius: 7px;
   border: 1px solid #ccc;
-  width: 100%;
+  width: 200px;
   height: 150px;
   margin-bottom: 10px;
   background-repeat: no-repeat;
@@ -713,7 +654,6 @@ select {
   -ms-transform: translate(-50%, -50%);
   opacity: 0;
   transition: 0.5s;
-  margin: 0 auto;
 }
 .wrapper:hover .overlay {
   opacity: 1;
@@ -743,10 +683,19 @@ select {
 #radio {
   margin-right: 5px;
 }
-.valueWrap {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
+
+.libraryWrap {
+  height: 100%;
+  width: 0;
+  position: absolute;
+  z-index: 10;
+  top: 0;
+  right: 0;
+  /* background-color: #dfdfdf; */
+  /* opacity: 0.9; */
+  overflow-x: hidden;
+  padding-top: 100px;
+  transition: 0.4s;
 }
 
 .side-nav a:hover {
@@ -799,11 +748,5 @@ select {
 }
 .el-button {
   margin: 10px;
-}
-.vue-editor {
-  margin-bottom: 30px;
-}
-#editor {
-  margin-bottom: 30px;
 }
 </style>

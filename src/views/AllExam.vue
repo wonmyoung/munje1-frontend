@@ -26,12 +26,21 @@
               <div class="inner_box">
                 <div class>
                   <div class="text-center">
-                    <v-rating small half-increments color="orange" v-model="results.rating"></v-rating>
+                    <v-rating
+                      small
+                      half-increments
+                      color="orange"
+                      v-model="results.rating"
+                    ></v-rating>
                   </div>
                 </div>
               </div>
             </li>
-            <li v-for="(exam, i) in sortExamList" :key="exam.id" @click="moveToDetail(exam._id)">
+            <li
+              v-for="(exam, i) in sortExamList"
+              :key="exam.id"
+              @click="moveToDetail(exam._id)"
+            >
               <div class="thumbnail">
                 <img :src="exam.thumbnail" />
               </div>
@@ -43,7 +52,12 @@
               <div class="inner_box">
                 <div class>
                   <div class="text-center">
-                    <v-rating small half-increments color="orange" v-model="exam.rating"></v-rating>
+                    <v-rating
+                      small
+                      half-increments
+                      color="orange"
+                      v-model="exam.rating"
+                    ></v-rating>
                   </div>
                 </div>
                 <!-- <div class="count">33</div> -->
@@ -56,7 +70,11 @@
             <h2>{{ title }}</h2>
           </header>
           <ul class="newWrap">
-            <li v-for="(exam, i) in sortExamList" :key="exam.id" @click="moveToDetail(exam.id)">
+            <li
+              v-for="(exam, i) in sortExamList"
+              :key="exam.id"
+              @click="moveToDetail(exam.id)"
+            >
               <div class="thumbnail">
                 <img :src="exam.thumbnail" />
               </div>
@@ -65,7 +83,12 @@
               <div class="inner_box">
                 <div class>
                   <div class="text-center">
-                    <v-rating small half-increments color="orange" v-model="exam.rating"></v-rating>
+                    <v-rating
+                      small
+                      half-increments
+                      color="orange"
+                      v-model="exam.rating"
+                    ></v-rating>
                   </div>
                 </div>
                 <!-- <div class="count">33</div> -->
@@ -82,7 +105,9 @@
             <b v-else>로그인</b>
           </header>
           <div class="button">
-            <a v-if="!isLogin" @click="$router.push({ name: 'login' })">Login</a>
+            <a v-if="!isLogin" @click="$router.push({ name: 'login' })"
+              >Login</a
+            >
             <a v-else @click="$router.push({ name: 'profile' })">Profile</a>
           </div>
         </section>
@@ -95,7 +120,9 @@
               v-for="(exam, i) in examlist.slice(0, 5)"
               :key="exam.id"
               @click="moveToDetail(exam._id)"
-            >{{ i + 1 }}.{{ exam.title }}</li>
+            >
+              {{ i + 1 }}.{{ exam.title }}
+            </li>
           </ul>
         </section>
         <section class="topLessons">
@@ -106,7 +133,9 @@
             <li
               v-for="(library, i) in popularLibraries.filter((lib, i) => i < 5)"
               :key="i"
-            >{{ i + 1 }}.{{ library.title }}</li>
+            >
+              {{ i + 1 }}.{{ library.title }}
+            </li>
           </ul>
         </section>
       </div>
@@ -341,18 +370,7 @@ article ul li .star {
   display: flex;
   justify-content: space-between;
 }
-article ul li .star span {
-  width: 18px;
-  height: 18px;
-  background: url("../assets/images/home/star_off.png") no-repeat center
-    center/contain;
-}
-article ul li .star .on {
-  background-image: url("../assets/images/home/star_on.png");
-}
-article ul li .star .half {
-  background-image: url("../assets/images/home/star_half.png");
-}
+
 article ul li .count {
   width: calc(20% - 5px);
   line-height: 40px;
