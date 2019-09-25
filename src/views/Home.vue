@@ -45,7 +45,7 @@
               <p class="author">{{ exam.author.username }}</p>
               <div class="listDays">
                 <dl>
-                  <dd>23명 참여중</dd>
+                  <dd>{{exam.examinee.length}} 명 참여중</dd>
                 </dl>
                 <dl>
                   <dd>{{ moment(exam.created_at).format("YYYY-MM-DD") }}</dd>

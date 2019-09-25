@@ -34,7 +34,6 @@ export default new Vuex.Store({
       state.isLoginEorror = false;
       state.userInfo = userInfo;
       state.visible = true;
-      console.log("LOGIN COMMIT!!!");
       router.push({ name: "home" });
     },
     loginSuccess(state, obj) {

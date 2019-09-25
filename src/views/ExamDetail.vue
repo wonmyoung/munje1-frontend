@@ -27,10 +27,10 @@
         </div>
         <div v-else-if="index < exam.questions.length">
           <div class="munjeWrap">
-            <h3>
+            <div class="munjeContent">
               {{ index }}.
               <span v-html="exam.questions[index].question"></span>
-            </h3>
+            </div>
             <!-- <div v-if="exam.questions[index].examples.length">
               <ul class="examples">
                 <li v-for="(example, i) in exam.questions[index].examples" :key="i">
@@ -82,7 +82,7 @@
           <div class="commentInputWrap">
             <h4>댓글작성</h4>
             <article>
-              <p class="author">작성자 : 이원명</p>
+              <p class="author">작성자 : {{userInfo.username}}</p>
               <el-input
                 class="textarea"
                 placeholder="댓글을 작성하려면 로그인 해주세요."
@@ -177,6 +177,15 @@
         <li>
           <a href="#">menu1</a>
         </li>
+        <li v-for="(userResult,i) in userResults" :key="i">
+          <table class>
+            <tr v-for="(result, i) in userResult.results" :key="i">
+              <td>{{ result.id }}번</td>
+              <td>{{ result.result }}</td>
+              <td>{{ moment(userResult.created_at).format('YY.MM.DD') }}</td>
+            </tr>
+          </table>
+        </li>
       </ul>
     </div>
     <div class="btnMenu">
@@ -194,6 +203,7 @@
 import { BASE_URL } from "../config/env";
 import axios from "axios";
 import moment from "moment";
+import { mapState } from "vuex";
 export default {
   data() {
     return {
@@ -210,6 +220,7 @@ export default {
         showSolution: false,
         questions: [
           {
+            id: null,
             question: null,
             images: [],
             value: null,
@@ -221,8 +232,10 @@ export default {
       },
       resultData: {
         examId: null,
+        resultId: null,
         results: []
       },
+      userResults: [],
       content: "",
       comments: [],
       reply: "",
@@ -232,20 +245,12 @@ export default {
   },
   created() {
     this.getCommentInfo();
+    this.getExamInfo();
   },
   computed: {
-    // get: function() {
-    //   return this.index;
-    // },
-    // set: function(index) {
-    //   this.getCommentInfo(index);
-    //   return true;
-    // }
+    ...mapState(["userInfo", "isLogin"])
   },
-  mounted() {
-    this.getExamInfo();
-    // this.getCommentInfo();
-  },
+  mounted() {},
   methods: {
     getExamInfo() {
       console.log("getExamInfo()실행!");
@@ -257,6 +262,7 @@ export default {
           console.log("exam", exam);
           this.exam.title = exam.title;
           this.exam.examId = exam._id;
+          this.resultData.examId = exam._id;
           this.exam.description = exam.description;
           this.exam.thumbnail = exam.thumbnail;
           this.exam.created_at = exam.created_at;
@@ -282,15 +288,16 @@ export default {
             item.questions.push(data);
           }
           this.exam.questions = item.questions;
+          this.getResultData();
+
           console.log("resultData1", this.resultData);
         });
     },
     next() {
-      console.log("resultData2", this.resultData);
-
       if (this.index > 0) {
         if (!this.exam.questions[this.index].answer)
           return alert("답안 선택 후 다음을 눌러주세요.");
+
         console.log("index", this.index);
         let answer = this.exam.questions[this.index].answer;
         let value = this.exam.questions[this.index].value;
@@ -306,26 +313,38 @@ export default {
         } else {
           result = 0;
         }
-        let userResult = {
+        let data = {
           id: id,
           answer: answer,
           value: value,
-          result: result,
-          question: question,
-          examId: examId
+          result: result
         };
-        this.resultData.results.push(userResult);
-        let data = this.resultData;
+        this.resultData.results.splice(id - 1, 1, data);
+        // this.resultData.result = this.exam.questions.map((item, i) => {
+        //   if (item.answer !== undefined) {
+        //     let data = {
+        //       id: i++,
+        //       result: item.result,
+        //       answer: item.answer,
+        //       value: item.value
+        //     };
+        //     return data;
+        //   }
+        // });
         let accessToken = localStorage.getItem("accessToken");
         let config = {
           headers: {
             accessToken: accessToken
           }
         };
+        console.log("this.resultData :>", this.resultData);
         axios
-          .post(BASE_URL + "/exam/register/result", data, config)
+          .post(BASE_URL + "/exam/register/result", this.resultData, config)
           .then(res => {
-            console.log("next : res > >", res);
+            if (res.status == 200) {
+              console.log(res);
+              this.resultData.resultId = res.data.resultId;
+            }
           });
       }
       console.log("this.exam.questions.length", this.exam.questions.length);
@@ -353,6 +372,8 @@ export default {
       window.location.href = "/";
     },
     registerComment() {
+      if (!this.isLogin) return alert("로그인 후 사용가능 합니다.");
+
       let accessToken = localStorage.getItem("accessToken");
       let config = {
         headers: {
@@ -403,7 +424,8 @@ export default {
     },
     handleReply(id) {
       console.log("handleReply : id >>>", id);
-
+      console.log("userInfo >>>", this.userInfo);
+      if (!this.isLogin) return alert("로그인 후 사용가능 합니다.");
       let accessToken = localStorage.getItem("accessToken");
       let config = {
         headers: {
@@ -424,6 +446,25 @@ export default {
     prev() {
       this.index--;
     },
+<<<<<<< Updated upstream
+=======
+    getResultData() {
+      let accessToken = localStorage.getItem("accessToken");
+      let config = {
+        headers: {
+          accessToken: accessToken
+        }
+      };
+      axios
+        .get(BASE_URL + `/exam/result/${this.exam.examId}`, config)
+        .then(res => {
+          console.log("resultData : res >>>", res);
+          if (res.status == 200) {
+            this.userResults = res.data.userResult;
+          }
+        });
+    }
+>>>>>>> Stashed changes
   }
 };
 </script>
@@ -443,6 +484,13 @@ export default {
   font-size: 1.3em;
   font-weight: bold;
   margin: 1em 0 1em 0;
+}
+.munjeContent {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 20px 30px 20px 30px;
+  color: #666;
+  margin-bottom: 50px;
 }
 .questionWrap {
   width: 800px;
@@ -472,7 +520,7 @@ h3 {
   margin: 10px 0;
 }
 .munjeWrap {
-  outline: 1px solid #e9e9e9;
+  outline: 1px solid #f7f7f7;
   width: 100%;
   padding: 40px;
   margin: 50px auto;
@@ -547,7 +595,7 @@ h3 {
   width: 30%;
   max-width: 250px;
   min-width: 130px;
-  outline: 1px solid #e6e6e6;
+  outline: 1px solid #efefef;
   height: 700px;
   background: white;
   border: 1px solid rgb(255, 255, 255);
@@ -657,7 +705,7 @@ h3 {
 
 .rightBtnWrap {
   text-align: right;
-  margin: 10px 0 20px 0;
+  margin: 10px 0 10px 0;
 }
 .btn {
   margin: 10px;
@@ -687,7 +735,7 @@ th {
   overflow: hidden;
   word-break: normal;
   border-color: black;
-  background: #38c70d;
+  background: #efefef;
 }
 td,
 th {
@@ -700,7 +748,7 @@ th:nth-child(1) {
 }
 td,
 th:nth-child(2) {
-  width: 140px;
+  width: 50px;
 }
 th:nth-child(3) {
   width: 50px;

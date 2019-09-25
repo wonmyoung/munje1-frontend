@@ -1,19 +1,15 @@
 <template>
   <md-app>
     <md-app-toolbar class="white" md-elevation="0">
-      <md-button
-        v-if="showNavigation == false"
-        class="md-icon-button"
-        @click="showNavigation = true"
-      >
+      <md-button class="md-icon-button" @click="toggleMenu" v-if="!menuVisible">
         <md-icon>menu</md-icon>
       </md-button>
       <span class="md-title" @click="$router.push({ name: 'home' })">LOGO</span>
       <span class="md-title" @click="$router.push({ name: 'home' })">HOME</span>
     </md-app-toolbar>
 
-    <!-- <md-app-drawer :md-active.sync="showNavigation"> -->
-    <md-app-drawer :md-permanent="showNavigation" :md-active.sync="showNavigation">
+    <md-app-drawer :md-active.sync="menuVisible" md-persistent="full">
+      <!-- <md-app-drawer :md-permanent="showNavigation" :md-active.sync="showNavigation"> -->
       <md-toolbar class="md-transparent" md-elevation="0">
         <div class="md-toolbar-section-end">
           <md-button class="md-icon-button md-dense" @click="toggleMenu">
@@ -104,6 +100,8 @@ export default {
 <style scoped>
 .md-app-toolbar {
   box-shadow: 0px 1px 3px 0 rgba(0, 0, 0, 0.2);
+  border-bottom: #fafafa;
+  z-index: 99999;
 }
 .md-app-content {
   padding: 0;
