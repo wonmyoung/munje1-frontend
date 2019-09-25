@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="contentWrap">
-      <a href="javascript:void(0);" class="btnMenu">메뉴버튼</a>
+      <!-- <a href="javascript:void(0);" class="btnMenu">메뉴버튼</a> -->
       <div class>
         <div v-if="index == 0" class="intro">
           <div class="munjeWrap">
@@ -64,11 +64,13 @@
             <el-button type="primary" class="btn" @click="prev">
               <i class="el-icon-arrow-left"></i>이전
             </el-button>
-            <el-button class="btn" @click="checkSolution">정답및해설</el-button>
-            <el-button type="primary" class="btn" @click="next">
+            <div class="change">
+             <el-button type="primary" class="btn" @click="next">
               다음
               <i class="el-icon-arrow-right"></i>
             </el-button>
+            <el-button class="btn" @click="checkSolution">정답및해설</el-button>
+            </div>
           </div>
           <div v-show="exam.showSolution" class="munjeWrap">
             <h3>정답 및 해설</h3>
@@ -106,10 +108,19 @@
             </h4>
             <ul>
               <li class="commentlist" v-for="(comment, i) in comments" :key="i">
-                <p class="author">{{ comment.author.username }}</p>
+                <div class="name">
+                  <div class="left">
+                    <p class="author">{{ comment.author.username }}</p>
+                    <p class="date">{{ moment(comment.created_at).fromNow() }}</p>
+                  </div>
+                  <div class="right">
+                    <a href="#">수정</a>
+                    <a href="#">삭제</a>
+                  </div>
+                </div>
                 <p class="comment">{{ comment.comment }}</p>
-                <p class="date">{{ moment(comment.created_at).fromNow() }}</p>
                 <span class="replyButton" @click="createReply(i)">답글달기</span>
+                <a href="#">댓글보기</a>
                 <div v-if="replyMode[i] == true">
                   <!-- <p class="author">작성자 : 이원명</p> -->
                   <el-input
@@ -169,8 +180,14 @@
       </ul>
     </div>
     <div class="btnMenu">
-      <el-button type="primary" icon="el-icon-arrow-up" circle @click="handleMenu"></el-button>
+      <el-button type="primary" icon="el-icon-arrow-up" circle @click="handleMenu" class="open"></el-button>
     </div>
+     <!-- <div id="background" :class="{ on: displayBackground == true ? true : false }">
+      <div class="modalRight">
+        <a class="rightModalBtnClose" @click="closeModal">✕</a>
+        <component v-bind:is="currentComponent"></component>
+      </div>
+    </div> -->
   </div>
 </template>
 <script>
@@ -407,7 +424,6 @@ export default {
     prev() {
       this.index--;
     },
-    handleMenu() {}
   }
 };
 </script>
@@ -510,6 +526,7 @@ h3 {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
+  padding:0;
 }
 
 .thumbnailWrap {
@@ -526,7 +543,7 @@ h3 {
 }
 .menu {
   position: relative;
-  margin: 50px 0;
+  margin: 50px 0 50px 30px;
   width: 30%;
   max-width: 250px;
   min-width: 130px;
@@ -559,7 +576,7 @@ h3 {
 .btnMenu {
   position: fixed;
   right: 30px;
-  bottom: 30px;
+  top: 65px;
   border-radius: 30px;
   color: #fff;
   font-size: 14px;
@@ -568,12 +585,16 @@ h3 {
   z-index: 9999;
   display: none;
 }
+@media all and (max-width: 822px) {
+  .el-radio-group{
+    margin:30px 0 10px;
+  }
+}
 @media all and (max-width: 600px) {
   .thumbnail,
   .munjeWrap {
     width: 100%;
   }
-  .el-button,
   .btn {
     width: 100%;
   }
@@ -589,8 +610,18 @@ h3 {
     height: 100%;
     display: none;
   }
+  .btnWrap{
+    flex-wrap: wrap;
+  }
+  .btnWrap button{
+    margin:10px 0;
+  }
   .btnMenu {
     display: block;
+  }
+  .btnWrap .change{
+    flex-wrap: wrap;
+    width:100%;
   }
 }
 .questionImage {
@@ -623,10 +654,7 @@ h3 {
   margin: 20px;
   border-radius: 5px;
 }
-.btnWrap {
-  text-align: center;
-  margin-bottom: 50px;
-}
+
 .rightBtnWrap {
   text-align: right;
   margin: 10px 0 20px 0;
@@ -684,10 +712,39 @@ td,
 th:nth-child(5) {
   width: 40px;
 }
+.btnWrap {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  margin-bottom: 50px;
+}
+.btnWrap .change{
+  display: flex;
+  flex-direction: row-reverse;
+}
 .commentInputWrap {
   margin-bottom: 10px;
   padding: 20px;
   background: #fff;
+}
+.commentlist .name{
+  display: flex;
+  justify-content: space-between;
+}
+
+.commentlist .name .right,
+.commentlist .name .left{
+  display: flex;
+}
+.commentlist .name .left .author:after{
+    content: "|";
+    margin:0 10px;
+}
+.commentlist .name .right a{
+  margin-right:10px;
+}
+.commentlist .name .right a:last-child{
+  color:red;
 }
 .commentInputWrap .author {
   color: #666;
