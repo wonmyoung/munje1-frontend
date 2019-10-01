@@ -231,7 +231,7 @@ input[type="radio"] {
   display: none;
 }
 label {
-  width: 33.33333%;
+  width:50%;
   height: 40px;
   line-height: 40px;
   float: left;
