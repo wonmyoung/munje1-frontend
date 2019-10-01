@@ -1,17 +1,9 @@
 <template>
-  <div>
+  <div class>
     <section class="profile">
       <a @click="closeModal">X</a>
       <h1>프로필 편집</h1>
-      <div class="circle_img">
-        <img v-if="avatar" :src="avatar" />
-        <img v-else-if="userInfo.avatar" :src="userInfo.avatar" />
-        <img v-else src="@/assets/images/home/user.png" />
-        <label for="btnFile" class="btnFile">
-          <img src="@/assets/images/home/ico_camera.png" alt="사진변경" />
-          <input type="file" class="input-file" ref="file" id="btnFile" @change="sendFile" />
-        </label>
-      </div>
+
       <div class="article">
         <ul class="no_write">
           <li>이름</li>
@@ -144,9 +136,9 @@ export default {
 .container .profile {
   position: fixed;
   width: 440px;
-  height: 620px;
+  height: 500px;
   background: white;
-  top: calc(50% - 280px);
+  top: calc(50% - 240px);
   left: calc(50% - 220px);
   border: 1px solid #efefef;
   text-align: center;

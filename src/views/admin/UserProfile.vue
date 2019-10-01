@@ -1,11 +1,6 @@
 <template>
   <div class="container">
     <div class="introduce_box clearfix">
-      <div class="l_box">
-        <div class="thumbnail">
-          <img src="../../assets/images/home/스마트폰-사진.jpg" />
-        </div>
-      </div>
       <section class="section">
         <header>
           <h1>{{ userdata.username }}</h1>
@@ -20,20 +15,15 @@
       <label for="rd1">내가푼문제({{ userdata.resultData.length }})</label>
       <input type="radio" name="rd" id="rd2" />
       <label for="rd2">내가만든 문제({{ userdata.myExam.length }})</label>
-      <input type="radio" name="rd" id="rd3" />
-      <label for="rd3">나의 라이브러리({{ imageInfo.length }})</label>
       <div class="content">
         <div class="content_1">
-          <div
-            v-for="(results, i) in userdata.resultData"
-            :key="i"
-            class="img_box"
-          >
+          <div v-for="(results, i) in userdata.resultData" :key="i" class="img_box">
             <div @click="moveToResult(results._id)" class="black_box">
-              <p>{{ results.examId.title }}</p>
+              <p>{{ results.title }}</p>
               <p>{{ moment(results.created_at).fromNow() }}</p>
             </div>
-            <img :src="results.examId.thumbnail" />
+            <img v-if="results.thumbnail" :src="results.thumbnail" />
+            <img v-else src="@/assets/images/home/스마트폰-사진.jpg" alt="photo" />
           </div>
         </div>
         <div class="content_2">
@@ -41,23 +31,13 @@
             <div @click="moveToExam(exam._id)" class="black_box">
               <p>{{ exam.title }}</p>
             </div>
-            <img :src="exam.thumbnail" />
-          </div>
-        </div>
-        <div class="content_3">
-          <div v-for="(image, i) in imageInfo" :key="i" class="img_box">
-            <div @click="moveToLibrary(image._id)" class="black_box">
-              <p>{{ image.title }}</p>
-            </div>
-            <img :src="image.file[0]" />
+            <img v-if="exam.thumbnail" :src="exam.thumbnail" />
+            <img v-else src="@/assets/images/home/스마트폰-사진.jpg" alt="photo" />
           </div>
         </div>
       </div>
 
-      <div
-        id="background"
-        :class="{ on: displayBackground == true ? true : false }"
-      >
+      <div id="background" :class="{ on: displayBackground == true ? true : false }">
         <component v-bind:is="currentComponent"></component>
         <!-- <Modalpop /> -->
       </div>
@@ -134,30 +114,6 @@ export default {
             myExam: JSON.parse(JSON.stringify(res.data.userInfo.myExam))
           };
         });
-    },
-    getUserLibrary() {
-      console.log("getUserLibrary!!!");
-      let id = this.$route.query.id;
-      console.log("id!!", id);
-
-      let config;
-      let accessToken = localStorage.getItem("accessToken");
-      if (accessToken) {
-        config = {
-          headers: {
-            accessToken: accessToken
-          }
-        };
-      }
-      this.loading = true;
-      axios.get(BASE_URL + `/library/userLibrary/${id}`, config).then(res => {
-        console.log("getUserLibrary : res", res);
-        this.imageInfo = JSON.parse(JSON.stringify(res.data.imageInfo));
-        console.log("this.imageInfo", this.imageInfo);
-        // this.backupImageInfo = JSON.parse(JSON.stringify(res.data.imageInfo));
-
-        this.loading = false;
-      });
     }
   }
 };

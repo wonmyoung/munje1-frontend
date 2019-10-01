@@ -1,21 +1,21 @@
 <template>
   <div class="container">
     <div class="introduce_box clearfix">
-      <div class="l_box">
-        <div class="thumbnail">
-          <img v-if="userInfo.avatar" :src="userInfo.avatar" />
-          <img v-else src="@/assets/images/home/user.png" />
-        </div>
-        <md-button class="editBtn" @click="edit('Modalpop')">프로필편집</md-button>
-      </div>
-      <section class="section">
-        <header>
-          <h1>{{ userInfo.username }}</h1>
-        </header>
-        <article>
-          <p>{{ userInfo.email }}</p>
-        </article>
-      </section>
+      <el-row>
+        <el-col :span="6">
+          <div class="grid-content">
+            <h1>{{ userInfo.username }}</h1>
+            <p>{{ userInfo.email }}</p>
+          </div>
+        </el-col>
+        <el-col :span="18">
+          <div class="grid-content">
+            <md-button class="editBtn" @click="edit('Modalpop')"
+              >프로필편집</md-button
+            >
+          </div>
+        </el-col>
+      </el-row>
     </div>
 
     <div class="tab">
@@ -23,16 +23,24 @@
       <label for="rd1">내가푼문제({{ userInfo.resultData.length }})</label>
       <input type="radio" name="rd" id="rd2" />
       <label for="rd2">내가만든 문제({{ userInfo.myExam.length }})</label>
-      <input type="radio" name="rd" id="rd3" />
-      <label for="rd3">나의 라이브러리({{ imageInfo.length }})</label>
+
       <div class="content">
         <div class="content_1">
-          <div v-for="(results, i) in userInfo.resultData" :key="i" class="img_box">
+          <div
+            v-for="(results, i) in userInfo.resultData"
+            :key="i"
+            class="img_box"
+          >
             <div @click="moveToResult(results._id)" class="black_box">
-              <p>{{ results.examId.title }}</p>
+              <p>{{ results.title }}</p>
               <p>{{ moment(results.created_at).fromNow() }}</p>
             </div>
-            <img :src="results.examId.thumbnail" />
+            <img v-if="results.thumbnail" :src="results.thumbnail" />
+            <img
+              v-else
+              src="@/assets/images/home/스마트폰-사진.jpg"
+              alt="photo"
+            />
           </div>
         </div>
         <div class="content_2">
@@ -40,20 +48,20 @@
             <div @click="moveToExam(exam._id)" class="black_box">
               <p>{{ exam.title }}</p>
             </div>
-            <img :src="exam.thumbnail" />
-          </div>
-        </div>
-        <div class="content_3">
-          <div v-for="(image, i) in imageInfo" :key="i" class="img_box">
-            <div @click="moveToLibrary(image._id)" class="black_box">
-              <p>{{ image.title }}</p>
-            </div>
-            <img :src="image.file[0]" />
+            <img v-if="exam.thumbnail" :src="exam.thumbnail" />
+            <img
+              v-else
+              src="@/assets/images/home/스마트폰-사진.jpg"
+              alt="photo"
+            />
           </div>
         </div>
       </div>
 
-      <div id="background" :class="{ on: displayBackground == true ? true : false }">
+      <div
+        id="background"
+        :class="{ on: displayBackground == true ? true : false }"
+      >
         <component v-bind:is="currentComponent"></component>
         <!-- <Modalpop /> -->
       </div>
@@ -74,7 +82,6 @@ export default {
     return {
       currentComponent: null,
       displayBackground: false,
-      imageInfo: [],
       moment: moment
     };
   },
@@ -86,8 +93,8 @@ export default {
       this.displayBackground = false;
       this.currentComponent = null;
     });
-    this.getUserLibrary();
     // this.getUserData();
+    this.getProfile();
   },
   methods: {
     moveToResult(id) {
@@ -99,10 +106,6 @@ export default {
 
       this.$router.push({ name: "editExam", params: { id: id } });
     },
-    moveToLibrary(id) {
-      console.log("moveToLibrary Id", id);
-      this.$router.push({ name: "editLibrary", params: { id: id } });
-    },
     edit(view) {
       this.currentComponent = view;
       this.displayBackground = true;
@@ -111,26 +114,15 @@ export default {
       this.currentComponent = null;
       this.displayBackground = false;
     },
-    getUserLibrary() {
-      let config;
+    getProfile() {
       let accessToken = localStorage.getItem("accessToken");
-      if (accessToken) {
-        console.log("accessToken!!", accessToken);
-
-        config = {
-          headers: {
-            accessToken: accessToken
-          }
-        };
-      }
-      this.loading = true;
-      axios.get(BASE_URL + "/library/userLibrary", config).then(res => {
-        console.log("res", res);
-        this.imageInfo = JSON.parse(JSON.stringify(res.data.imageInfo));
-        console.log("this.imageInfo", this.imageInfo);
-        this.backupImageInfo = JSON.parse(JSON.stringify(res.data.imageInfo));
-
-        this.loading = false;
+      let config = {
+        headers: {
+          accessToken: accessToken
+        }
+      };
+      axios.get(BASE_URL + "/accounts/profile", config).then(res => {
+        console.log("profile : res", res);
       });
     }
   }
@@ -157,6 +149,9 @@ export default {
   height: calc(100vh - 64px);
   background: #efefef;
   overflow: hidden;
+}
+.grid-content {
+  text-align: left;
 }
 .introduce_box {
   max-width: 1200px;
@@ -264,7 +259,7 @@ label:first-child {
   background: #fff;
   max-width: 1200px;
   margin: 0 auto;
-  min-height: 315px;
+  min-height: 400px;
   height: calc(100vh - 460px);
   position: relative;
   overflow: scroll;
@@ -331,7 +326,7 @@ label:first-child {
 #rd2:checked ~ .content > .content_2,
 #rd3:checked ~ .content > .content_3,
 #rd4:checked ~ .content > .content_4 {
-  visibility:visible;
+  visibility: visible;
   transition: all 0.5s;
   transition-delay: 0.1s;
 }
@@ -345,9 +340,9 @@ label:first-child {
   .content > div .img_box {
     width: calc(50% - 20px);
   }
-.content > div .black_box p{
-  margin-top:6%;
-}
+  .content > div .black_box p {
+    margin-top: 6%;
+  }
 }
 @media all and (max-width: 650px) {
   .content > div {
@@ -360,9 +355,9 @@ label:first-child {
   .content > div .img_box img {
     height: 150px;
   }
- .content > div .black_box p{
-  margin-top:5%;
-}
+  .content > div .black_box p {
+    margin-top: 5%;
+  }
   .l_box .thumbnail {
     width: 100px;
     height: 100px;
@@ -373,7 +368,7 @@ label:first-child {
     font-size: 16px;
   }
 }
-label{
+label {
   font-size: 15px;
 }
 .btnClose {
@@ -393,8 +388,8 @@ label{
   color: red;
 }
 @media all and (max-width: 650px) {
-label{
-  font-size: 8px;
-}
+  label {
+    font-size: 8px;
+  }
 }
 </style>

@@ -84,7 +84,6 @@ export default new Vuex.Store({
         .then(res => {
           let { data } = res;
           localStorage.removeItem("accessToken");
-          console.log("accessToken111", data.accessToken);
           if (data.accessToken == undefined) {
             alert("이메일과 비밀번호를 정확히 입력해주세요");
           }
@@ -134,8 +133,8 @@ export default new Vuex.Store({
             resultData: JSON.parse(
               JSON.stringify(response.data.userInfo.resultData)
             ),
-            myExam: JSON.parse(JSON.stringify(response.data.userInfo.myExam)),
-            userExam: response.data.userExam
+            myExam: JSON.parse(JSON.stringify(response.data.userInfo.myExam))
+            // userExam: response.data.userExam
             // ? JSON.parse(JSON.stringify(response.data.userExam))
             // : null
           };

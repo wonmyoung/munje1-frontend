@@ -77,9 +77,8 @@
           >
             <h1>문제 등록</h1>
             <el-form ref="form">
-              <span>{{ index }}번</span>
               <el-form-item>
-                <span>문제</span>
+                <span>{{ index }}번 문제</span>
                 <vue-editor
                   id="editor"
                   placeholder="문제와 보기를 입력해주세요"
@@ -121,16 +120,22 @@
               <!-- <el-form-item label="보기">
                 <el-input v-model="examples" type="textarea" id="textarea"></el-input>
               </el-form-item>-->
+              <p>문제의 정답을 선택해주세요.</p>
               <div class="valueWrap">
-                <span>보기의 정답을 선택해주세요.</span>
-                <el-radio-group v-model="value">
-                  <el-radio :label="1">1번</el-radio>
-                  <el-radio :label="2">2번</el-radio>
-                  <el-radio :label="3">3번</el-radio>
-                  <el-radio :label="4">4번</el-radio>
-                  <el-radio :label="5">5번</el-radio>
-                </el-radio-group>
+                <input type="radio" value="1" v-model="value" />1번
+                <input type="radio" value="2" v-model="value" />2번
+                <input type="radio" value="3" v-model="value" />3번
+                <input type="radio" value="4" v-model="value" />4번
+                <input type="radio" value="5" v-model="value" /> 5번
+                <!-- <el-radio-group v-model="value"> -->
+                <!-- <radio :label="1">1번</radio>
+                <radio :label="2">2번</radio>
+                <radio :label="3">3번</radio>
+                <radio :label="4">4번</radio>
+                <radio :label="5">5번</radio>-->
+                <!-- </el-radio-group> -->
               </div>
+
               <div v-if="images.length">
                 <ul class="preview">
                   <li class="wrapper" v-for="(image, i) in images" :key="i">
@@ -160,6 +165,7 @@
                 <span>해설</span>
                 <vue-editor
                   id="editor"
+                  placeholder="정답의 해설을 입력해 주세요."
                   useCustomImageHandler
                   @image-added="handleImageAdded"
                   v-model="solution"
@@ -744,9 +750,11 @@ select {
   margin-right: 5px;
 }
 .valueWrap {
+  width: 400px;
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-start;
+  justify-content: space-around;
+  margin-bottom: 30px;
 }
 
 .side-nav a:hover {

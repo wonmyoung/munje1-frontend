@@ -1,37 +1,77 @@
 <template>
   <div class="container">
     <div id="pageWrap">
-      <section class="configBox">
+      <div style="margin:0 auto;">
+        <el-input
+          style="width: 600px;margin:40px 0;"
+          placeholder="search"
+          v-model="searchWord"
+          class="search"
+        >
+          <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
+        </el-input>
+      </div>
+      <div class="configBox">
+        <a>최신문제</a>
+        <a>인기문제</a>
+        <a>나의문제</a>
+        <!-- <select>
+          <option value="best">인기문제</option>
+          <option value="latest">최신문제</option>
+          <option value="difficulty">난이도별</option>
+        </select>
         <select>
           <option value="best">인기문제</option>
           <option value="latest">최신문제</option>
           <option value="difficulty">난이도별</option>
         </select>
-      </section>
+        <select>
+          <option value="best">인기문제</option>
+          <option value="latest">최신문제</option>
+          <option value="difficulty">난이도별</option>
+        </select>-->
+      </div>
 
       <section class="examList">
-        <ul>
-          <li
+        <ul v-if="userInfo._id" class="userExam">
+          <!-- <li
             class="userExam"
-            v-for="(results, i) in userInfo.userExam"
+            v-for="(exam, i) in userExam"
             :key="i"
-            @click="moveToDetail(results._id)"
+            @click="moveToDetail(exam._id)"
           >
             <div class="thumbnail">
-              <img :src="results.thumbnail" />
+              <img :src="exam.exam.thumbnail" />
             </div>
-            <b>{{ results.title }}</b>
-            <p>{{ results.description }}</p>
-            <!-- <p>문제푼날짜:{{ results.created_at.substr(0, 10) }}</p> -->
-            <!-- <p>{{ moment(results.created_at).fromNow() }}</p> -->
-            <div class="inner_box">
-              <div class>
-                <div class="text-center">
-                  <v-rating small half-increments color="orange" v-model="results.rating"></v-rating>
-                </div>
+            <b>{{ exam.exam.title }}</b>
+            <p>{{ exam.exam.description }}</p>
+            <p>문제푼날짜:{{ results.created_at.substr(0, 10) }}</p>
+            <p>내가푼 문제</p>
+          </li>-->
+          <li v-for="(exam, i) in userExam" :key="exam._id" @click="moveToDetail(exam._id)">
+            <!-- <em class="memberType tutor">초1수학</em> -->
+            <div class="photo">
+              <img v-if="exam.thumbnail" :src="exam.thumbnail" alt="photo" />
+              <img v-else src="@/assets/images/home/스마트폰-사진.jpg" alt="photo" />
+            </div>
+            <div class="contentWrap">
+              <p class="title">
+                <b>{{ exam.title }}</b>
+              </p>
+              <!-- <p class="author">{{ exam.author.username }}</p> -->
+              <div class="listDays">
+                <dl>
+                  <dd>{{ exam.examinee.length }} 명 참여중</dd>
+                </dl>
+                <dl>
+                  <dd>{{ moment(exam.created_at).fromNow() }}</dd>
+                </dl>
               </div>
             </div>
           </li>
+          <p id="more">더보기</p>
+        </ul>
+        <ul>
           <li v-for="(exam, i) in examlist" :key="exam.id" @click="moveToDetail(exam._id)">
             <!-- <em class="memberType tutor">초1수학</em> -->
             <div class="photo">
@@ -45,7 +85,7 @@
               <p class="author">{{ exam.author.username }}</p>
               <div class="listDays">
                 <dl>
-                  <dd>{{exam.examinee.length}} 명 참여중</dd>
+                  <dd>{{ exam.examinee.length }} 명 참여중</dd>
                 </dl>
                 <dl>
                   <dd>{{ moment(exam.created_at).format("YYYY-MM-DD") }}</dd>
@@ -77,7 +117,9 @@ export default {
     return {
       images: [],
       examlist: [],
-      moment: moment
+      userExam: [],
+      moment: moment,
+      searchWord: null
     };
   },
   mounted() {
@@ -88,10 +130,32 @@ export default {
   },
   methods: {
     getExamList() {
+      let accessToken = localStorage.getItem("accessToken");
+
+      let config;
+      if (accessToken !== null) {
+        config = {
+          headers: {
+            accessToken: accessToken
+          }
+        };
+      }
       //store에 저장
-      axios.get(BASE_URL + "/exam/examList", { header }).then(res => {
-        console.log(res);
+      axios.get(BASE_URL + "/exam/examList", config).then(res => {
+        console.log("getExamList", res);
         this.examlist = res.data.exam;
+        this.userExam = res.data.userExam;
+      });
+    },
+    search() {
+      let params = {
+        searchWord: this.searchWord
+      };
+      axios.get(BASE_URL + "/exam/examList", { params }).then(res => {
+        if (res.status == 200) {
+          this.examlist = res.data.exam;
+          this.userExam = res.data.userExam;
+        }
       });
     },
     moveToDetail(id) {
@@ -117,13 +181,24 @@ export default {
   flex-wrap: wrap;
   margin: 0 -10px;
 }
-#pageWrap .examList ul .userExam {
-  border-bottom: 1px solid #ccc;
-  margin: 20px 0 20px 0;
+#pageWrap .examList .userExam {
+  border-bottom: 1px solid #dedede;
+  margin: 20px 0 50px 0;
+}
+#more {
+  display: block;
+  text-align: left;
 }
 #pageWrap .configBox {
-  text-align: right;
-  margin-bottom: 30px;
+  max-width: 1100px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: flex-end;
+}
+#pageWrap .configBox a {
+  margin-left: 30px;
+  text-decoration: underline;
+  letter-spacing: 1px;
 }
 
 #pageWrap .configBox select {
@@ -145,7 +220,7 @@ export default {
   width: 120px;
 }
 .contentWrap {
-  padding: 20px;
+  padding: 10px 20px 10px 20px;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
@@ -159,8 +234,9 @@ export default {
 }
 
 #pageWrap .examList .author {
-  font-size: 15px;
+  font-size: 14px;
   text-align: left;
+  margin: 0;
 }
 #pageWrap .examList .author:after {
   content: "";
@@ -173,8 +249,8 @@ export default {
   box-sizing: border-box;
   flex: 0 1 auto;
   /* width: calc(20% - 20px); */
-  width: 220px;
-  margin: 0 10px 20px;
+  width: 200px;
+  margin: 0 10px 30px;
   position: relative;
   box-shadow: 0 4px 5px 2px rgba(153, 153, 153, 0.1);
 }
@@ -223,9 +299,9 @@ export default {
 }
 
 #pageWrap .listDays {
-  border-top: 1px solid #e8e8e8;
-  padding-top: 10px;
-  margin-top: 10px;
+  /* border-top: 1px solid #e8e8e8; */
+  /* padding-top: 10px; */
+  /* margin-top: 10px; */
 }
 
 #pageWrap .listDays dl {

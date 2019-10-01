@@ -17,9 +17,9 @@ const requireAuth = () => (to, from, next) => {
 export default new Router({
   mode: "history",
   base: process.env.BASE_URL,
-  scrollBehavior() {
-    return { x: 0, y: 0 };
-  },
+  // scrollBehavior() {
+  //   return { x: 0, y: 0 };
+  // },
   routes: [
     {
       path: "/",
@@ -29,7 +29,7 @@ export default new Router({
     {
       path: "/register",
       name: "register",
-      // beforeEnter: requireAuth(),
+      beforeEnter: requireAuth(),
       component: () => import("./views/register/Register.vue")
     },
     {
@@ -129,5 +129,12 @@ export default new Router({
       name: "libraryManage",
       component: () => import("./views/admin/LibraryManage.vue")
     }
-  ]
+  ],
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition;
+    } else {
+      return { x: 0, y: 0 };
+    }
+  }
 });
