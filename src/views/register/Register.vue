@@ -126,14 +126,8 @@
                 <input type="radio" value="2" v-model="value" />2번
                 <input type="radio" value="3" v-model="value" />3번
                 <input type="radio" value="4" v-model="value" />4번
-                <input type="radio" value="5" v-model="value" /> 5번
-                <!-- <el-radio-group v-model="value"> -->
-                <!-- <radio :label="1">1번</radio>
-                <radio :label="2">2번</radio>
-                <radio :label="3">3번</radio>
-                <radio :label="4">4번</radio>
-                <radio :label="5">5번</radio>-->
-                <!-- </el-radio-group> -->
+                <input type="radio" value="5" v-model="value" />
+ 5번
               </div>
 
               <div v-if="images.length">
@@ -439,6 +433,7 @@ export default {
         // this.paths = this.questions[this.index].paths;
         this.question = this.questions[this.index].question;
         this.value = this.questions[this.index].value;
+        this.solution = this.questions[this.index].solution;
       }
     },
     prev() {
@@ -498,6 +493,7 @@ export default {
           this.questions = [];
           this.question = null;
           this.value = null;
+          this.solution = null;
           this.images = [];
           // this.paths = [];
           if (this.isEdit == true && this.isAdmin == true) {

@@ -32,12 +32,7 @@ export default new Router({
       beforeEnter: requireAuth(),
       component: () => import("./views/register/Register.vue")
     },
-    {
-      path: "/allExam",
-      name: "allExam",
-      beforeEnter: requireAuth(),
-      component: () => import("./views/AllExam.vue")
-    },
+
     {
       path: "/editExam/:id",
       name: "editExam",
@@ -59,12 +54,6 @@ export default new Router({
       component: () => import("./views/SignUp.vue")
     },
 
-    {
-      path: "/registerImage",
-      name: "registerImage",
-      beforeEnter: requireAuth(),
-      component: () => import("./views/library/RegisterImage.vue")
-    },
     {
       path: "/dragAndDrop",
       name: "dragAndDrop",
@@ -123,11 +112,6 @@ export default new Router({
       path: "/admin/dashboard/questionManage",
       name: "questionManage",
       component: () => import("./views/admin/QuestionManage.vue")
-    },
-    {
-      path: "/admin/dashboard/libraryManage",
-      name: "libraryManage",
-      component: () => import("./views/admin/LibraryManage.vue")
     }
   ],
   scrollBehavior(to, from, savedPosition) {

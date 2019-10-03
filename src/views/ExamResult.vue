@@ -1,35 +1,30 @@
 <template>
   <div class="container">
+    <div id="date">
+      {{ moment(userResult.created_at).format("YYYY년 MM월 DD일") }}
+    </div>
     <table class="tg">
       <thead>
         <tr>
           <th>번호</th>
-          <th>문제</th>
           <th>정답</th>
           <th>나의답안</th>
-          <th>정답여부</th>
+          <th>결과</th>
         </tr>
       </thead>
-      <tr
-        v-show="userResult.length > 0"
-        v-for="(results, i) in userResult"
-        :key="i"
-      >
-        <td>{{ results.id }}번</td>
-        <td>{{ results.question }}</td>
-        <td>
-          <img :src="results.value" class="resultImage" />
-        </td>
-        <td>
-          <img :src="results.answer" class="resultImage" />
-        </td>
-        <td>{{ results.result }}</td>
+      <tr v-for="(result, i) in userResult.results" :key="i">
+        <td>{{ result.id }}번</td>
+        <td>{{ result.value }}번</td>
+        <td>{{ result.answer }}</td>
+        <td>{{ result.result }}</td>
       </tr>
 
       <tr v-show="userResult == null">
         데이터가 없습니다.
       </tr>
     </table>
+
+    <div id="totalScore">채점 결과 : {{ sum.length }}</div>
 
     <div class="btnWrap">
       <a href="/">확인</a>
@@ -40,35 +35,42 @@
 import axios from "axios";
 import { BASE_URL } from "../config/env";
 import { mapState } from "vuex";
-import { eventBus } from "../main";
+import moment from "moment";
 
 export default {
   data() {
     return {
       index: 0,
-      userResult: []
+      moment: moment,
+      userResult: null,
+      sum: 0
     };
   },
   created() {
-    this.getResultInfo();
-    // eventBus.$on("resultdata", data => {
-    //   console.log("this.userResult~");
-    //   console.log("resultdata!!!", data);
-    //   this.userResult = data.results;
-    // });
+    this.getUserResult();
   },
   computed: {
     ...mapState(["userInfo", "isLogin"])
   },
   methods: {
-    getResultInfo() {
-      let resultData = this.$store.state.userInfo.resultData;
-      console.log("resultData of getResultInfo", resultData);
+    getUserResult() {
+      let accessToken = localStorage.getItem("accessToken");
 
-      // let result = resultData.filter(
-      //   result => result._id == this.$route.params.id
-      // );
-      this.userResult = resultData[resultData.length - 1].results;
+      let config = {
+        headers: {
+          accessToken: accessToken
+        }
+      };
+      console.log("this.route", this.$route);
+      axios
+        .get(BASE_URL + `/exam/userResult/${this.$route.params.id}`, config)
+        .then(res => {
+          this.userResult = res.data.userResult;
+          console.log("this.userResult;;;", this.userResult);
+          this.sum = this.userResult.results.filter(
+            (result, i) => result.result == "정답"
+          );
+        });
     },
     confirm() {
       this.vm.$forceUpdate();
@@ -82,7 +84,12 @@ export default {
   height: auto;
   padding: 50px;
 }
-
+#date {
+  text-align: left;
+  margin-left: 45px;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
 .indexWrap {
   text-align: right;
   border: 1px solid #f8e809;
@@ -190,7 +197,8 @@ th {
   overflow: hidden;
   word-break: normal;
   border-color: black;
-  background: rgb(0, 204, 0);
+  background: #ddd;
+  font-weight: bold;
 }
 td,
 th {
@@ -216,29 +224,39 @@ td,
 th:nth-child(5) {
   width: 40px;
 }
-@media all and (max-width: 800px){
-  .container{
-    padding:160px 0 0 0;
+#totalScore {
+  width: 90%;
+  margin-top: 30px;
+  text-align: right;
+  font-weight: bold;
+  font-size: 20px;
+}
+#totalScore::after {
+  content: "점";
+}
+@media all and (max-width: 800px) {
+  .container {
+    padding: 160px 0 0 0;
   }
-  .tg{
-    width:95%;
+  .tg {
+    width: 95%;
     font-size: 11px;
   }
-  .tg th{
+  .tg th {
     font-size: 11px;
   }
   .tg td,
-  .tg th{
+  .tg th {
     line-height: 20px;
-    padding:3px;
+    padding: 3px;
   }
   /* .tg td{
     padding:3px;
   } */
   .resultImage {
-  height: auto;
+    height: auto;
+  }
 }
-} 
 @media all and (max-width: 500px) {
   .thumbnail {
     width: 100%;

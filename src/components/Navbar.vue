@@ -5,7 +5,7 @@
         <md-icon>menu</md-icon>
       </md-button>
       <!-- <span class="md-title" @click="$router.push({ name: 'home' })">LOGO</span> -->
-      <span class="md-title" @click="$router.push({ name: 'home' })">HOME</span>
+      <span class="md-title" @click="moveTo()">HOME</span>
     </md-app-toolbar>
 
     <md-app-drawer :md-active.sync="menuVisible" md-persistent="full">
@@ -28,20 +28,7 @@
             <span class="md-list-item-text">관리자</span>
           </md-list-item>
         </div>
-        <div v-if="isLogin">
-          <md-list-item @click="$router.push({ name: 'profile' })">
-            <i>
-              <img src="@/assets/images/home/id-card.svg" />
-            </i>
-            <span class="md-list-item-text">{{ userInfo.username }}</span>
-          </md-list-item>
-          <md-list-item @click="logout">
-            <i>
-              <img src="@/assets/images/home/006-lock.svg" />
-            </i>
-            <span class="md-list-item-text">로그아웃</span>
-          </md-list-item>
-        </div>
+
         <div v-else>
           <md-list-item @click="$router.push({ name: 'login' })">
             <i>
@@ -69,6 +56,20 @@
           </i>
           <span class="md-list-item-text">문제등록</span>
         </md-list-item>
+        <div v-if="isLogin">
+          <md-list-item @click="$router.push({ name: 'profile' })">
+            <i>
+              <img src="@/assets/images/home/id-card.svg" />
+            </i>
+            <span class="md-list-item-text">{{ userInfo.username }}</span>
+          </md-list-item>
+          <md-list-item @click="logout">
+            <i>
+              <img src="@/assets/images/home/006-lock.svg" />
+            </i>
+            <span class="md-list-item-text">로그아웃</span>
+          </md-list-item>
+        </div>
       </md-list>
     </md-app-drawer>
 
@@ -110,6 +111,9 @@ export default {
       let result = confirm("로그아웃 하시겠습니까?");
       if (result == false) return;
       this.$store.dispatch("LOGOUT");
+    },
+    moveTo() {
+      window.location.href = "/";
     }
   }
 };

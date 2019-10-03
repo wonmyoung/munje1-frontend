@@ -6,19 +6,25 @@
         <div v-if="index == 0" class="intro">
           <div class="munjeWrap">
             <h1>문제 풀기</h1>
-            <p>제목 : {{ exam.title }}</p>
+            <div class="thumbnailWrap">
+              <img :src="exam.thumbnail" class="thumbnail" />
+            </div>
+            <p>
+              제목 :
+              <b>{{ exam.title }}</b>
+            </p>
             <p>
               저자 :
               <b>{{ exam.author }}</b>
             </p>
-            <p>
+            <!-- <p>
               카테고리 :
               <b>{{ exam.category }}</b>
+            </p>-->
+            <p>
+              문제집 요약설명 :
+              <b>{{ exam.description }}</b>
             </p>
-            <p>문제집 요약설명 : {{ exam.description }}</p>
-            <div class="thumbnailWrap">
-              <img :src="exam.thumbnail" class="thumbnail" />
-            </div>
           </div>
           <el-button type="primary" class="btn" @click="next">
             다음
@@ -30,7 +36,7 @@
             <div class="munjeContent">
               <el-row>
                 <el-col :span="1">
-                  <div class="grid-content bg-purple">{{ index }}.</div>
+                  <div class="grid-content bg-purple bold">{{ index }}.</div>
                 </el-col>
                 <el-col :span="23">
                   <div
@@ -80,9 +86,13 @@
                 다음
                 <i class="el-icon-arrow-right"></i>
               </el-button>
-              <el-button class="btn" @click="checkSolution"
-                >정답및해설</el-button
-              >
+              <el-button
+                :class="{
+                  btnToggle: exam.showSolution,
+                  btn: !exam.showSolution
+                }"
+                @click="checkSolution"
+              >정답및해설</el-button>
             </div>
           </div>
           <div v-show="exam.showSolution" class="munjeWrap">
@@ -104,12 +114,7 @@
                 style="min-height: 60px;"
               ></el-input>
               <div class="registerBtnWrap">
-                <el-button
-                  type="primary"
-                  class="registerComment"
-                  @click="registerComment"
-                  >등록</el-button
-                >
+                <el-button type="primary" class="registerComment" @click="registerComment">등록</el-button>
               </div>
               <p class="countion">
                 해당 문제와 연관이 없는 내용의 댓글은 운영원칙에 따라 삭제될 수
@@ -129,36 +134,25 @@
                 <div class="name">
                   <div class="left">
                     <p class="author">{{ comment.author.username }}</p>
-                    <p class="date">
-                      {{ moment(comment.created_at).fromNow() }}
-                    </p>
+                    <p class="date">{{ moment(comment.created_at).fromNow() }}</p>
                   </div>
                   <div v-if="userInfo._id == comment.author._id" class="right">
                     <a @click="editComment(i)">수정</a>
                     <a @click="deleteComment(comment._id)">삭제</a>
                   </div>
                 </div>
-                <p v-show="commentEditMode[i] !== true" class="comment">
-                  {{ comment.comment }}
-                </p>
+                <p v-show="commentEditMode[i] !== true" class="comment">{{ comment.comment }}</p>
                 <div v-show="commentEditMode[i] == true">
-                  <el-input
-                    calss="textarea"
-                    type="textarea"
-                    v-model="comment.comment"
-                  ></el-input>
+                  <el-input calss="textarea" type="textarea" v-model="comment.comment"></el-input>
                   <div class="registerBtnWrap">
                     <el-button
                       type="primary"
                       class="registerComment"
                       @click="submitComment(comment._id, comment.comment)"
-                      >등록</el-button
-                    >
+                    >등록</el-button>
                   </div>
                 </div>
-                <span class="replyButton" @click="createReply(i)"
-                  >답글달기</span
-                >
+                <span class="replyButton" @click="createReply(i)">답글달기</span>
                 <div v-if="replyMode[i] == true">
                   <el-input
                     class="textarea_reply"
@@ -171,16 +165,11 @@
                       type="primary"
                       class="registerReply"
                       @click="handleReply(comment._id)"
-                      >등록</el-button
-                    >
+                    >등록</el-button>
                   </div>
                 </div>
                 <ul v-show="comment.replys.length > 0" class="replyWrap">
-                  <li
-                    class="replylist"
-                    v-for="(reply, i) in comment.replys"
-                    :key="i"
-                  >
+                  <li class="replylist" v-for="(reply, i) in comment.replys" :key="i">
                     <p class="author">{{ reply.userId.username }}</p>
                     <p class="comment">{{ reply.content }}</p>
                     <p class="date">{{ moment(reply.created_at).fromNow() }}</p>
@@ -212,15 +201,13 @@
               <th></th>
               <th></th>
               <th>정답개수</th>
-              <th>{{ sum.length }}</th>
+              <th style="font-weight:bold;font-size:16px;">{{ sum.length }}</th>
             </tr>
           </thead>
         </table>
 
         <div class="btnWrap">
-          <el-button type="primary" class="btn" @click="confirm"
-            >확인</el-button
-          >
+          <el-button type="primary" class="btn" @click="confirm">확인</el-button>
         </div>
       </div>
     </div>
@@ -235,9 +222,7 @@
         <!-- {{ userResults[0].results }} -->
         <div v-if="userResults[0].results !== undefined">
           <ul v-show="display">
-            <p>
-              {{ moment(userResults[0].created_at).format("YYYY년 MM월 DD일") }}
-            </p>
+            <p>{{ moment(userResults[0].created_at).format("YYYY년 MM월 DD일") }}</p>
             <li>
               <table class="menuTable">
                 <tr>
@@ -257,13 +242,7 @@
       </div>
     </div>
     <div class="btnMenu">
-      <el-button
-        type="primary"
-        icon="el-icon-arrow-up"
-        circle
-        @click="handleMenu"
-        class="open"
-      ></el-button>
+      <el-button type="primary" icon="el-icon-arrow-up" circle @click="handleMenu" class="open"></el-button>
     </div>
     <!-- <div id="background" :class="{ on: displayBackground == true ? true : false }">
       <div class="modalRight">
@@ -379,8 +358,8 @@ export default {
     },
     next() {
       if (this.index > 0) {
-        if (!this.exam.questions[this.index].answer)
-          return alert("답안 선택 후 다음을 눌러주세요.");
+        // if (!this.exam.questions[this.index].answer)
+        //   return alert("답안 선택 후 다음을 눌러주세요.");
 
         console.log("index", this.index);
         let answer = this.exam.questions[this.index].answer;
@@ -458,7 +437,11 @@ export default {
       this.exam.showSolution = !this.exam.showSolution;
     },
     confirm() {
-      window.location.href = "/";
+      console.log("confirm", this.$route.params.id);
+      this.index = 0;
+      this.isFinish = false;
+      this.getCommentInfo();
+      this.getExamInfo();
     },
     registerComment() {
       if (!this.isLogin) return alert("로그인 후 사용가능 합니다.");
@@ -656,6 +639,10 @@ h3 {
   padding: 12px;
   color: rgb(233, 27, 27);
 }
+.bold {
+  font-weight: bold;
+  font-size: 14px;
+}
 .examples {
   width: 100%;
   margin: 10px;
@@ -707,6 +694,7 @@ h3 {
 .thumbnailWrap {
   width: 100%;
   margin: 0 auto;
+  margin-bottom: 20px;
   text-align: center;
 }
 .thumbnail {
@@ -723,7 +711,7 @@ h3 {
   max-width: 250px;
   min-width: 130px;
   outline: 1px solid #efefef;
-  height: 700px;
+  min-height: 700px;
   background: white;
   border: 1px solid rgb(255, 255, 255);
   text-align: left;
@@ -871,7 +859,11 @@ td {
 .btn {
   margin: 10px;
 }
-
+.btnToggle {
+  margin: 10px;
+  background: #409eff;
+  color: #fff;
+}
 .resultImage {
   width: 80%;
   height: 100px;

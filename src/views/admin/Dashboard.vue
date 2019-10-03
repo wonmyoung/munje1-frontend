@@ -7,13 +7,19 @@
         <ul>
           <li>
             <a @click="$router.push({ name: 'userManage' })">
-              <img src="../../assets/images/dashboard/page1_ico1.png" alt="icon" />
+              <img
+                src="../../assets/images/dashboard/page1_ico1.png"
+                alt="icon"
+              />
               <b>회원 관리</b>
             </a>
           </li>
           <li>
             <a @click="$router.push({ name: 'questionManage' })">
-              <img src="../../assets/images/dashboard/page1_ico2.png" alt="icon" />
+              <img
+                src="../../assets/images/dashboard/page1_ico2.png"
+                alt="icon"
+              />
               <b>문제집 관리</b>
             </a>
           </li>
@@ -27,8 +33,6 @@ export default {
   components: {},
   data() {
     return {
-      title: "교육원설정",
-
       subMenu: 1,
       show: true,
       displayBackground: false

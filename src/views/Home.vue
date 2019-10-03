@@ -2,30 +2,12 @@
   <div class="container">
     <div id="pageWrap">
       <div style="margin:0 auto;">
-        <el-input
-          style="width: 600px;margin:40px 0;"
-          placeholder="search"
-          v-model="searchWord"
-          class="search"
-        >
-          <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
+        <el-input placeholder="search" v-model="searchWord" class="search">
+          <el-button slot="append" icon="el-icon-search" @keyup.enter="search" @click="search"></el-button>
         </el-input>
       </div>
       <div class="configBox">
-        <a>최신문제</a>
-        <a>인기문제</a>
-        <a>나의문제</a>
         <!-- <select>
-          <option value="best">인기문제</option>
-          <option value="latest">최신문제</option>
-          <option value="difficulty">난이도별</option>
-        </select>
-        <select>
-          <option value="best">인기문제</option>
-          <option value="latest">최신문제</option>
-          <option value="difficulty">난이도별</option>
-        </select>
-        <select>
           <option value="best">인기문제</option>
           <option value="latest">최신문제</option>
           <option value="difficulty">난이도별</option>
@@ -33,8 +15,10 @@
       </div>
 
       <section class="examList">
-        <ul v-if="userInfo._id" class="userExam">
-          <!-- <li
+        <div v-if="userInfo._id" class="examWrap">
+          <p id="subtitle">내가푼 문제</p>
+          <ul>
+            <!-- <li
             class="userExam"
             v-for="(exam, i) in userExam"
             :key="i"
@@ -47,53 +31,83 @@
             <p>{{ exam.exam.description }}</p>
             <p>문제푼날짜:{{ results.created_at.substr(0, 10) }}</p>
             <p>내가푼 문제</p>
-          </li>-->
-          <li v-for="(exam, i) in userExam" :key="exam._id" @click="moveToDetail(exam._id)">
-            <!-- <em class="memberType tutor">초1수학</em> -->
-            <div class="photo">
-              <img v-if="exam.thumbnail" :src="exam.thumbnail" alt="photo" />
-              <img v-else src="@/assets/images/home/스마트폰-사진.jpg" alt="photo" />
-            </div>
-            <div class="contentWrap">
-              <p class="title">
-                <b>{{ exam.title }}</b>
-              </p>
-              <!-- <p class="author">{{ exam.author.username }}</p> -->
-              <div class="listDays">
-                <dl>
-                  <dd>{{ exam.examinee.length }} 명 참여중</dd>
-                </dl>
-                <dl>
-                  <dd>{{ moment(exam.created_at).fromNow() }}</dd>
-                </dl>
+            </li>-->
+            <li v-for="(exam, i) in userExam" :key="exam._id" @click="moveToDetail(exam._id)">
+              <!-- <em class="memberType tutor">초1수학</em> -->
+              <div class="photo">
+                <img v-if="exam.thumbnail" :src="exam.thumbnail" alt="photo" />
+                <img v-else src="@/assets/images/home/스마트폰-사진.jpg" alt="photo" />
               </div>
-            </div>
-          </li>
-          <p id="more">더보기</p>
-        </ul>
-        <ul>
-          <li v-for="(exam, i) in examlist" :key="exam.id" @click="moveToDetail(exam._id)">
-            <!-- <em class="memberType tutor">초1수학</em> -->
-            <div class="photo">
-              <img v-if="exam.thumbnail" :src="exam.thumbnail" alt="photo" />
-              <img v-else src="@/assets/images/home/스마트폰-사진.jpg" alt="photo" />
-            </div>
-            <div class="contentWrap">
-              <p class="title">
-                <b>{{ exam.title }}</b>
-              </p>
-              <p class="author">{{ exam.author.username }}</p>
-              <div class="listDays">
-                <dl>
-                  <dd>{{ exam.examinee.length }} 명 참여중</dd>
-                </dl>
-                <dl>
-                  <dd>{{ moment(exam.created_at).format("YYYY-MM-DD") }}</dd>
-                </dl>
+              <div class="contentWrap">
+                <p class="title">
+                  <b>{{ exam.title }}</b>
+                </p>
+                <!-- <p class="author">{{ exam.author.username }}</p> -->
+                <div class="listDays">
+                  <dl>
+                    <dd>{{ exam.examinee.length }} 명 참여중</dd>
+                  </dl>
+                  <dl>
+                    <dd>{{ moment(exam.created_at).fromNow() }}</dd>
+                  </dl>
+                </div>
               </div>
-            </div>
-          </li>
-        </ul>
+            </li>
+            <!-- <p id="more">더보기</p> -->
+          </ul>
+        </div>
+        <div class="exam examWrap">
+          <p id="subtitle">최신 문제</p>
+          <ul>
+            <li v-for="(exam, i) in examlist" :key="exam.id" @click="moveToDetail(exam._id)">
+              <!-- <em class="memberType tutor">초1수학</em> -->
+              <div class="photo">
+                <img v-if="exam.thumbnail" :src="exam.thumbnail" alt="photo" />
+                <img v-else src="@/assets/images/home/스마트폰-사진.jpg" alt="photo" />
+              </div>
+              <div class="contentWrap">
+                <p class="title">
+                  <b>{{ exam.title }}</b>
+                </p>
+                <p class="author">{{ exam.author.username }}</p>
+                <div class="listDays">
+                  <dl>
+                    <dd>{{ exam.examinee.length }} 명 참여중</dd>
+                  </dl>
+                  <dl>
+                    <dd>{{ moment(exam.created_at).format("YYYY-MM-DD") }}</dd>
+                  </dl>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="exam">
+          <p id="subtitle">인기 문제</p>
+          <ul>
+            <li v-for="(exam, i) in examlist" :key="exam.id" @click="moveToDetail(exam._id)">
+              <!-- <em class="memberType tutor">초1수학</em> -->
+              <div class="photo">
+                <img v-if="exam.thumbnail" :src="exam.thumbnail" alt="photo" />
+                <img v-else src="@/assets/images/home/스마트폰-사진.jpg" alt="photo" />
+              </div>
+              <div class="contentWrap">
+                <p class="title">
+                  <b>{{ exam.title }}</b>
+                </p>
+                <p class="author">{{ exam.author.username }}</p>
+                <div class="listDays">
+                  <dl>
+                    <dd>{{ exam.examinee.length }} 명 참여중</dd>
+                  </dl>
+                  <dl>
+                    <dd>{{ moment(exam.created_at).format("YYYY-MM-DD") }}</dd>
+                  </dl>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
       </section>
     </div>
     <!-- //page -->
@@ -175,13 +189,24 @@ export default {
 #pageWrap .pageWrap {
   width: 100%;
 }
-
+#pageWrap .search {
+  width: 90%;
+  max-width: 600px;
+  margin: 40px 0 40px 0;
+}
 #pageWrap .examList ul {
   display: flex;
   flex-wrap: wrap;
   margin: 0 -10px;
 }
-#pageWrap .examList .userExam {
+#pageWrap .examList #subtitle {
+  text-align: left;
+  width: 100%;
+  font-weight: bold;
+  color: #333;
+  margin: 20px 30px;
+}
+#pageWrap .examList .examWrap {
   border-bottom: 1px solid #dedede;
   margin: 20px 0 50px 0;
 }
@@ -199,6 +224,7 @@ export default {
   margin-left: 30px;
   text-decoration: underline;
   letter-spacing: 1px;
+  color: #555;
 }
 
 #pageWrap .configBox select {
@@ -206,6 +232,7 @@ export default {
   width: 120px;
   padding-left: 8px;
   border: 1px solid #c4c4c4;
+  background: #fff;
 }
 
 #pageWrap .configBox select:nth-child(2) {
@@ -252,7 +279,10 @@ export default {
   width: 200px;
   margin: 0 10px 30px;
   position: relative;
-  box-shadow: 0 4px 5px 2px rgba(153, 153, 153, 0.1);
+  box-shadow: 0 3px 4px 2px rgba(197, 197, 197, 0.1);
+}
+#pageWrap .examList li:hover {
+  box-shadow: 0 4px 5px 2px rgba(199, 199, 199, 0.4);
 }
 @media all and (max-width: 500px) {
   #pageWrap .examList li {

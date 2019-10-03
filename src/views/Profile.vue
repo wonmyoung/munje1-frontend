@@ -6,13 +6,12 @@
           <div class="grid-content">
             <h1>{{ userInfo.username }}</h1>
             <p>{{ userInfo.email }}</p>
+            <!-- <p>{{ userResults }}</p> -->
           </div>
         </el-col>
         <el-col :span="18">
           <div class="grid-content">
-            <md-button class="editBtn" @click="edit('Modalpop')"
-              >프로필편집</md-button
-            >
+            <md-button class="editBtn" @click="edit('Modalpop')">프로필편집</md-button>
           </div>
         </el-col>
       </el-row>
@@ -20,27 +19,19 @@
 
     <div class="tab">
       <input type="radio" name="rd" id="rd1" checked />
-      <label for="rd1">내가푼문제({{ userInfo.resultData.length }})</label>
+      <label for="rd1">내가푼문제({{ userResults.length }})</label>
       <input type="radio" name="rd" id="rd2" />
       <label for="rd2">내가만든 문제({{ userInfo.myExam.length }})</label>
 
       <div class="content">
         <div class="content_1">
-          <div
-            v-for="(results, i) in userInfo.resultData"
-            :key="i"
-            class="img_box"
-          >
-            <div @click="moveToResult(results._id)" class="black_box">
-              <p>{{ results.title }}</p>
-              <p>{{ moment(results.created_at).fromNow() }}</p>
+          <div v-for="(result, i) in userResults" :key="i" class="img_box">
+            <div @click="moveToResult(result._id)" class="black_box">
+              <p>{{ result.title }}</p>
+              <p>{{ moment(result.created_at).fromNow() }}</p>
             </div>
-            <img v-if="results.thumbnail" :src="results.thumbnail" />
-            <img
-              v-else
-              src="@/assets/images/home/스마트폰-사진.jpg"
-              alt="photo"
-            />
+            <img v-if="result.thumbnail" :src="result.thumbnail" />
+            <img v-else src="@/assets/images/home/스마트폰-사진.jpg" alt="photo" />
           </div>
         </div>
         <div class="content_2">
@@ -49,19 +40,12 @@
               <p>{{ exam.title }}</p>
             </div>
             <img v-if="exam.thumbnail" :src="exam.thumbnail" />
-            <img
-              v-else
-              src="@/assets/images/home/스마트폰-사진.jpg"
-              alt="photo"
-            />
+            <img v-else src="@/assets/images/home/스마트폰-사진.jpg" alt="photo" />
           </div>
         </div>
       </div>
 
-      <div
-        id="background"
-        :class="{ on: displayBackground == true ? true : false }"
-      >
+      <div id="background" :class="{ on: displayBackground == true ? true : false }">
         <component v-bind:is="currentComponent"></component>
         <!-- <Modalpop /> -->
       </div>
@@ -82,7 +66,8 @@ export default {
     return {
       currentComponent: null,
       displayBackground: false,
-      moment: moment
+      moment: moment,
+      userResults: []
     };
   },
   computed: {
@@ -95,6 +80,7 @@ export default {
     });
     // this.getUserData();
     this.getProfile();
+    this.getUserResults();
   },
   methods: {
     moveToResult(id) {
@@ -123,6 +109,18 @@ export default {
       };
       axios.get(BASE_URL + "/accounts/profile", config).then(res => {
         console.log("profile : res", res);
+      });
+    },
+    getUserResults() {
+      let accessToken = localStorage.getItem("accessToken");
+      let config = {
+        headers: {
+          accessToken: accessToken
+        }
+      };
+      axios.get(BASE_URL + "/exam/userResult", config).then(res => {
+        this.userResults = res.data.userResults;
+        console.log("userResults!!!!!", this.userResults);
       });
     }
   }
@@ -231,7 +229,7 @@ input[type="radio"] {
   display: none;
 }
 label {
-  width:50%;
+  width: 50%;
   height: 40px;
   line-height: 40px;
   float: left;
