@@ -18,21 +18,11 @@
         <div v-if="userInfo._id" class="examWrap">
           <p id="subtitle">내가푼 문제</p>
           <ul>
-            <!-- <li
-            class="userExam"
-            v-for="(exam, i) in userExam"
-            :key="i"
-            @click="moveToDetail(exam._id)"
-          >
-            <div class="thumbnail">
-              <img :src="exam.exam.thumbnail" />
-            </div>
-            <b>{{ exam.exam.title }}</b>
-            <p>{{ exam.exam.description }}</p>
-            <p>문제푼날짜:{{ results.created_at.substr(0, 10) }}</p>
-            <p>내가푼 문제</p>
-            </li>-->
-            <li v-for="(exam, i) in userExam" :key="exam._id" @click="moveToDetail(exam._id)">
+            <li
+              v-for="(exam, i) in userExam"
+              :key="exam._id"
+              @click="moveToDetail(exam._id,exam.status)"
+            >
               <!-- <em class="memberType tutor">초1수학</em> -->
               <div class="photo">
                 <img v-if="exam.thumbnail" :src="exam.thumbnail" alt="photo" />
@@ -43,13 +33,9 @@
                   <b>{{ exam.title }}</b>
                 </p>
                 <!-- <p class="author">{{ exam.author.username }}</p> -->
-                <div class="listDays">
-                  <dl>
-                    <dd>{{ exam.examinee.length }} 명 참여중</dd>
-                  </dl>
-                  <dl>
-                    <dd>{{ moment(exam.created_at).fromNow() }}</dd>
-                  </dl>
+                <div class="listInfo">
+                  <span>{{ exam.examinee.length }} 명 참여중</span>
+                  <span id="dayInfo">{{ moment(exam.created_at).fromNow() }}</span>
                 </div>
               </div>
             </li>
@@ -57,9 +43,13 @@
           </ul>
         </div>
         <div class="exam examWrap">
-          <p id="subtitle">최신 문제</p>
+          <p id="subtitle">인기 문제</p>
           <ul>
-            <li v-for="(exam, i) in examlist" :key="exam.id" @click="moveToDetail(exam._id)">
+            <li
+              v-for="(exam, i) in examlist"
+              :key="exam.id"
+              @click="moveToDetail(exam._id,exam.status)"
+            >
               <!-- <em class="memberType tutor">초1수학</em> -->
               <div class="photo">
                 <img v-if="exam.thumbnail" :src="exam.thumbnail" alt="photo" />
@@ -70,22 +60,22 @@
                   <b>{{ exam.title }}</b>
                 </p>
                 <p class="author">{{ exam.author.username }}</p>
-                <div class="listDays">
-                  <dl>
-                    <dd>{{ exam.examinee.length }} 명 참여중</dd>
-                  </dl>
-                  <dl>
-                    <dd>{{ moment(exam.created_at).format("YYYY-MM-DD") }}</dd>
-                  </dl>
+                <div class="listInfo">
+                  <span>{{ exam.examinee.length }} 명 참여중</span>
+                  <span id="dayInfo">{{ moment(exam.created_at).fromNow() }}</span>
                 </div>
               </div>
             </li>
           </ul>
         </div>
         <div class="exam">
-          <p id="subtitle">인기 문제</p>
+          <p id="subtitle">최신 문제</p>
           <ul>
-            <li v-for="(exam, i) in examlist" :key="exam.id" @click="moveToDetail(exam._id)">
+            <li
+              v-for="(exam, i) in examlist"
+              :key="exam.id"
+              @click="moveToDetail(exam._id,exam.status)"
+            >
               <!-- <em class="memberType tutor">초1수학</em> -->
               <div class="photo">
                 <img v-if="exam.thumbnail" :src="exam.thumbnail" alt="photo" />
@@ -96,13 +86,9 @@
                   <b>{{ exam.title }}</b>
                 </p>
                 <p class="author">{{ exam.author.username }}</p>
-                <div class="listDays">
-                  <dl>
-                    <dd>{{ exam.examinee.length }} 명 참여중</dd>
-                  </dl>
-                  <dl>
-                    <dd>{{ moment(exam.created_at).format("YYYY-MM-DD") }}</dd>
-                  </dl>
+                <div class="listInfo">
+                  <span>{{ exam.examinee.length }} 명 참여중</span>
+                  <span id="dayInfo">{{ moment(exam.created_at).fromNow() }}</span>
                 </div>
               </div>
             </li>
@@ -110,8 +96,8 @@
         </div>
       </section>
     </div>
-    <!-- //page -->
   </div>
+
   <!-- //page -->
 </template>
 <script>
@@ -119,6 +105,7 @@ import axios from "axios";
 import { mapState } from "vuex";
 import { BASE_URL } from "../config/env";
 import moment from "moment";
+import pivatePwd from "./pivatePwd";
 const header = {
   "Access-Control-Allow-Origin": "*",
   "Content-Type": "application/json",
@@ -133,7 +120,11 @@ export default {
       examlist: [],
       userExam: [],
       moment: moment,
-      searchWord: null
+      searchWord: null,
+      dialogVisible: false,
+      password: null,
+      displayBackground: false,
+      currentComponent: null
     };
   },
   mounted() {
@@ -162,6 +153,8 @@ export default {
       });
     },
     search() {
+      console.log("search!!!!");
+
       let params = {
         searchWord: this.searchWord
       };
@@ -172,8 +165,12 @@ export default {
         }
       });
     },
-    moveToDetail(id) {
-      this.$router.push({ name: "examDetail", params: { id: id } });
+    moveToDetail(id, status) {
+      if (status == "PRIVATE") {
+        this.$router.push({ name: "pivate", params: { id: id } });
+      } else {
+        this.$router.push({ name: "examDetail", params: { id: id } });
+      }
     }
   }
 };
@@ -247,17 +244,20 @@ export default {
   width: 120px;
 }
 .contentWrap {
-  padding: 10px 20px 10px 20px;
+  padding: 10px;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
 }
+
 #pageWrap .examList .title b {
   font-size: 14px;
   display: block;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+  margin: 0;
+  padding: 0;
 }
 
 #pageWrap .examList .author {
@@ -328,25 +328,31 @@ export default {
   height: 100%;
 }
 
-#pageWrap .listDays {
-  /* border-top: 1px solid #e8e8e8; */
-  /* padding-top: 10px; */
-  /* margin-top: 10px; */
+#pageWrap .listInfo {
+  text-align: left;
+  color: #555;
 }
-
-#pageWrap .listDays dl {
+#pageWrap .listInfo span {
+  font-size: 13px;
+  padding-right: 5px;
+}
+#pageWrap .listInfo #dayInfo:before {
+  content: "•";
+  padding-right: 5px;
+}
+/* #pageWrap .listInfo dl {
   display: flex;
   font-size: 13px;
 }
 
-#pageWrap .listDays dt {
+#pageWrap .listInfo dt {
   flex: 0 1 auto;
   width: 100px;
 }
 
-#pageWrap .listDays dd {
+#pageWrap .listInfo dd {
   flex: 0 1 auto;
-}
+} */
 
 #pageWrap .examList .status {
   width: 100px;

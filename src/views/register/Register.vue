@@ -25,19 +25,18 @@
             <el-form-item label="카테고리">
               <el-input v-model="category"></el-input>
             </el-form-item>
-            <!-- <el-form-item label="카테고리">
-              <select v-model="category">
-                <option :value="1">택스</option>
-                <option :value="2">청자반응</option>
-                <option :value="3">매팅</option>
-                <option :value="4">LRFFC</option>
-                <option :value="5">인트라버벌</option>
-                <option :value="6">읽기</option>
-              </select>
-            </el-form-item>-->
 
             <el-form-item label="문제집 요약 설명">
               <el-input v-model="description"></el-input>
+            </el-form-item>
+            <div class="btns">
+              <input type="radio" name="rd" id="rd1" v-model="status" value="PUBLIC" checked />
+              <label for="rd1">공개</label>
+              <input type="radio" name="rd" id="rd2" v-model="status" value="PRIVATE" />
+              <label for="rd2">비공개</label>
+            </div>
+            <el-form-item v-show="status == 'PRIVATE'" label="문제집 비밀번호 설정">
+              <el-input v-model="password" type="password"></el-input>
             </el-form-item>
             <div class="uploaderWrapp" v-if="!images.length">
               <div class="uploaderWrap">
@@ -65,7 +64,7 @@
             </div>
           </el-form>
           <div class="btnWrap">
-            <el-button class="btn" @click="next">다음</el-button>
+            <el-button type="primary" @click="next">다음</el-button>
           </div>
         </div>
         <div v-else>
@@ -78,7 +77,7 @@
             <h1>문제 등록</h1>
             <el-form ref="form">
               <el-form-item>
-                <span>{{ index }}번 문제</span>
+                <h2>{{ index }}번 문제</h2>
                 <vue-editor
                   id="editor"
                   placeholder="문제와 보기를 입력해주세요"
@@ -120,15 +119,6 @@
               <!-- <el-form-item label="보기">
                 <el-input v-model="examples" type="textarea" id="textarea"></el-input>
               </el-form-item>-->
-              <p>문제의 정답을 선택해주세요.</p>
-              <div class="valueWrap">
-                <input type="radio" value="1" v-model="value" />1번
-                <input type="radio" value="2" v-model="value" />2번
-                <input type="radio" value="3" v-model="value" />3번
-                <input type="radio" value="4" v-model="value" />4번
-                <input type="radio" value="5" v-model="value" />
- 5번
-              </div>
 
               <div v-if="images.length">
                 <ul class="preview">
@@ -154,9 +144,19 @@
                   </div>
                 </div>
               </div>
-
+              <p>문제의 정답을 선택해주세요.</p>
+              <div class="valueWrap">
+                <input id="radio" type="radio" value="1" v-model="value" />
+                <span>1번</span>
+                <input id="radio" type="radio" value="2" v-model="value" />2번
+                <input id="radio" type="radio" value="3" v-model="value" />3번
+                <input id="radio" type="radio" value="4" v-model="value" />4번
+                <input id="radio" type="radio" value="5" v-model="value" />
+                5번
+              </div>
+              <div id="line"></div>
               <el-form-item>
-                <span>해설</span>
+                <h2>해설</h2>
                 <vue-editor
                   id="editor"
                   placeholder="정답의 해설을 입력해 주세요."
@@ -167,11 +167,35 @@
                   @drop="OnDrop"
                 ></vue-editor>
               </el-form-item>
+              <div v-if="images.length">
+                <ul class="preview">
+                  <li class="wrapper" v-for="(image, i) in images" :key="i">
+                    <img :src="image" class="questionImage" />
+                    <div class="overlay" @click="deleteFile(i)">
+                      <i class="material-icons">delete</i>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div v-else class="uploaderWrapp">
+                <div class="uploaderWrap">
+                  <div
+                    class="uploader"
+                    @dragenter="OnDragEnter"
+                    @dragleave="OnDragLeave"
+                    @dragover.prevent
+                    @drop="OnDrop"
+                  >
+                    <p>드래그 앤드랍 혹은 Click하여 이미지를 업로드 해주세요</p>
+                    <input type="file" class="input-file" ref="file" @change="sendFile" multiple />
+                  </div>
+                </div>
+              </div>
             </el-form>
             <div class="btnWrap">
-              <el-button class="default" @click="prev">이전</el-button>
-              <el-button class="btn" @click="next">저장후 다음</el-button>
-              <el-button class="btn" @click="submit">완료하기</el-button>
+              <el-button @click="prev">이전</el-button>
+              <el-button type="primary" @click="next">저장후 다음</el-button>
+              <el-button type="primary" @click="submit">완료</el-button>
             </div>
           </div>
         </div>
@@ -211,6 +235,7 @@ export default {
         }
       ],
       count: null,
+      password: null,
       thumbnail: null,
       status: "PUBLIC",
       images: [],
@@ -450,14 +475,6 @@ export default {
     },
 
     submit() {
-      console.log("submit()");
-
-      // confirm("문제 등록을 완료 하시겠습니까?");
-      // if (this.title == null) {
-      //   return alert("문제집 이름을 기입해 주세요");
-      // } else if (!this.thumbnail.length) {
-      //   return alert("썸네일를 넣어 주세요");
-      // }
       let questionsData = this.questions.filter((question, i) => i > 0);
       console.log("questionsData >>>", questionsData);
       console.log("this.questions >>>", this.questions);
@@ -474,7 +491,8 @@ export default {
         category: this.category,
         description: this.description,
         questions: questionsData,
-        status: this.status
+        status: this.status,
+        password: this.password
       };
       let address;
       if (this.isEdit == true) {
@@ -484,7 +502,6 @@ export default {
       }
       axios.post(address, data, config).then(res => {
         console.log("status", res);
-
         if (res.status === 200) {
           console.log("questions", this.questions);
           console.log("status", res);
@@ -561,6 +578,7 @@ export default {
           this.description = res.data.exam.description;
           this.title = res.data.exam.title;
           this.status = res.data.status;
+          this.password = res.data.password;
           this.images = this.questions.map((question, i) => {
             return question.images;
           });
@@ -574,6 +592,17 @@ export default {
 .container {
   max-width: 100%;
   height: auto;
+}
+h2 {
+  font-size: 16px;
+  font-weight: bold;
+}
+#line {
+  border-bottom: 1px solid #eee;
+  margin-bottom: 20px;
+}
+.btns {
+  margin-bottom: 20px;
 }
 .btns input[type="radio"] {
   display: none;
@@ -655,6 +684,11 @@ select {
 .uploaderWrap {
   position: relative;
 }
+.uploaderWrap p {
+  text-align: center;
+  margin-top: 50px;
+  color: #999;
+}
 .uploader {
   position: absolute;
   top: 0;
@@ -662,7 +696,7 @@ select {
   /* left: calc(50% - 150px); */
   width: 100%;
   min-height: 150px;
-  outline: 2px dashed #ccc;
+  outline: 1px dashed #ccc;
   /* margin: 10px 0 10px 0; */
 }
 .uploader:hover {
@@ -743,10 +777,17 @@ select {
   padding: 0;
 }
 #radio {
-  margin-right: 5px;
+  margin-right: -30px;
+  margin-top: 5px;
+}
+@media all and (max-width: 600px) {
+  #radio {
+    margin-right: -10px;
+  }
 }
 .valueWrap {
-  width: 400px;
+  max-width: 400px;
+  widows: 100%;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;

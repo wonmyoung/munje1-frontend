@@ -53,7 +53,11 @@ export default new Router({
       name: "signup",
       component: () => import("./views/SignUp.vue")
     },
-
+    {
+      path: "/pivate/:id",
+      name: "pivate",
+      component: () => import("./views/pivatePwd.vue")
+    },
     {
       path: "/dragAndDrop",
       name: "dragAndDrop",

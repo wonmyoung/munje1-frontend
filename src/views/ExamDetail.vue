@@ -2,185 +2,173 @@
   <div class="container">
     <div class="contentWrap">
       <!-- <a href="javascript:void(0);" class="btnMenu">메뉴버튼</a> -->
-      <div class>
-        <div v-if="index == 0" class="intro">
-          <div class="munjeWrap">
-            <h1>문제 풀기</h1>
-            <div class="thumbnailWrap">
-              <img :src="exam.thumbnail" class="thumbnail" />
-            </div>
-            <p>
-              제목 :
-              <b>{{ exam.title }}</b>
-            </p>
-            <p>
-              저자 :
-              <b>{{ exam.author }}</b>
-            </p>
-            <!-- <p>
+      <div v-if="index == 0 && resultData.resultId == null" class="intro">
+        <div class="munjeWrap">
+          <h1>문제 풀기</h1>
+          <div class="thumbnailWrap">
+            <img :src="exam.thumbnail" class="thumbnail" />
+          </div>
+          <p>
+            제목 :
+            <b>{{ exam.title }}</b>
+          </p>
+          <p>
+            저자 :
+            <b>{{ exam.author }}</b>
+          </p>
+          <!-- <p>
               카테고리 :
               <b>{{ exam.category }}</b>
-            </p>-->
-            <p>
-              문제집 요약설명 :
-              <b>{{ exam.description }}</b>
-            </p>
-          </div>
-          <el-button type="primary" class="btn" @click="next">
-            다음
-            <i class="el-icon-arrow-right"></i>
-          </el-button>
+          </p>-->
+          <p>
+            문제집 요약설명 :
+            <b>{{ exam.description }}</b>
+          </p>
         </div>
-        <div v-else-if="index < exam.questions.length">
-          <div class="munjeWrap">
-            <div class="munjeContent">
-              <el-row>
-                <el-col :span="1">
-                  <div class="grid-content bg-purple bold">{{ index }}.</div>
-                </el-col>
-                <el-col :span="23">
-                  <div
-                    class="grid-content bg-purple-light left"
-                    v-html="exam.questions[index].question"
-                  ></div>
-                </el-col>
-              </el-row>
-              <!-- <span>{{ index }}.</span>
-              <span v-html="exam.questions[index].question"></span>-->
-            </div>
-            <!-- <div v-if="exam.questions[index].examples.length">
-              <ul class="examples">
-                <li v-for="(example, i) in exam.questions[index].examples" :key="i">
-                  <el-radio v-model="exam.questions[index].examples.answer" :label="i + 1">
-                    <span class="exampleCircle">{{ i + 1 }}</span>
-                    {{ example }}
-                  </el-radio>
-                </li>
-              </ul>
-            </div>-->
-            <span id="subtitle">보기</span>
-            <el-radio-group v-model="exam.questions[index].answer">
-              <el-radio :label="1">1번</el-radio>
-              <el-radio :label="2">2번</el-radio>
-              <el-radio :label="3">3번</el-radio>
-              <el-radio :label="4">4번</el-radio>
-              <el-radio :label="5">5번</el-radio>
-            </el-radio-group>
-            <div v-show="exam.questions[index].images.length">
-              <ul class="preview">
-                <li v-for="(image, i) in exam.questions[index].images" :key="i">
-                  <el-button type="danger" plain @click="select(image, index)">
-                    <img :src="image" class="questionImage" />
-                  </el-button>
-                </li>
-              </ul>
-            </div>
+        <el-button type="primary" class="btn" @click="next">
+          다음
+          <i class="el-icon-arrow-right"></i>
+        </el-button>
+      </div>
+      <div v-else-if="index < exam.questions.length && isFinish == false">
+        <div class="munjeWrap">
+          <div class="munjeContent">
+            <el-row>
+              <el-col :span="1">
+                <div class="grid-content bg-purple bold">{{ index }}.</div>
+              </el-col>
+              <el-col :span="23">
+                <div
+                  class="grid-content bg-purple-light left"
+                  v-html="exam.questions[index].question"
+                ></div>
+              </el-col>
+            </el-row>
           </div>
 
-          <div class="btnWrap">
-            <el-button type="primary" class="btn" @click="prev">
-              <i class="el-icon-arrow-left"></i>이전
-            </el-button>
-            <div class="change">
-              <el-button type="primary" class="btn" @click="next">
-                다음
-                <i class="el-icon-arrow-right"></i>
-              </el-button>
-              <el-button
-                :class="{
-                  btnToggle: exam.showSolution,
-                  btn: !exam.showSolution
-                }"
-                @click="checkSolution"
-              >정답및해설</el-button>
-            </div>
-          </div>
-          <div v-show="exam.showSolution" class="munjeWrap">
-            <h3>정답 및 해설</h3>
-            <article>
-              <p class="value">정답 : {{ exam.questions[index].value }}</p>
-              <div v-html="exam.questions[index].solution"></div>
-            </article>
-          </div>
-          <div class="commentInputWrap">
-            <h4>댓글작성</h4>
-            <article>
-              <p class="author">작성자 : {{ userInfo.username }}</p>
-              <el-input
-                class="textarea"
-                placeholder="댓글을 작성하려면 로그인 해주세요."
-                type="textarea"
-                v-model="content"
-                style="min-height: 60px;"
-              ></el-input>
-              <div class="registerBtnWrap">
-                <el-button type="primary" class="registerComment" @click="registerComment">등록</el-button>
-              </div>
-              <p class="countion">
-                해당 문제와 연관이 없는 내용의 댓글은 운영원칙에 따라 삭제될 수
-                있습니다.
-                <br />또한, 해당 댓글을 상습적으로 등록하면 서비스 이용에 제한을
-                받을 수 있으니 참고 부탁드립니다.
-              </p>
-            </article>
-          </div>
-          <div class="commentWrap">
-            <h4>
-              댓글
-              <b>{{ comments.length }}</b>
-            </h4>
-            <ul>
-              <li class="commentlist" v-for="(comment, i) in comments" :key="i">
-                <div class="name">
-                  <div class="left">
-                    <p class="author">{{ comment.author.username }}</p>
-                    <p class="date">{{ moment(comment.created_at).fromNow() }}</p>
-                  </div>
-                  <div v-if="userInfo._id == comment.author._id" class="right">
-                    <a @click="editComment(i)">수정</a>
-                    <a @click="deleteComment(comment._id)">삭제</a>
-                  </div>
-                </div>
-                <p v-show="commentEditMode[i] !== true" class="comment">{{ comment.comment }}</p>
-                <div v-show="commentEditMode[i] == true">
-                  <el-input calss="textarea" type="textarea" v-model="comment.comment"></el-input>
-                  <div class="registerBtnWrap">
-                    <el-button
-                      type="primary"
-                      class="registerComment"
-                      @click="submitComment(comment._id, comment.comment)"
-                    >등록</el-button>
-                  </div>
-                </div>
-                <span class="replyButton" @click="createReply(i)">답글달기</span>
-                <div v-if="replyMode[i] == true">
-                  <el-input
-                    class="textarea_reply"
-                    placeholder="댓글을 작성하려면 로그인 해주세요."
-                    v-model="reply"
-                    type="textarea"
-                  ></el-input>
-                  <div class="rightBtnWrap">
-                    <el-button
-                      type="primary"
-                      class="registerReply"
-                      @click="handleReply(comment._id)"
-                    >등록</el-button>
-                  </div>
-                </div>
-                <ul v-show="comment.replys.length > 0" class="replyWrap">
-                  <li class="replylist" v-for="(reply, i) in comment.replys" :key="i">
-                    <p class="author">{{ reply.userId.username }}</p>
-                    <p class="comment">{{ reply.content }}</p>
-                    <p class="date">{{ moment(reply.created_at).fromNow() }}</p>
-                  </li>
-                </ul>
+          <span id="subtitle">보기</span>
+          <el-radio-group v-model="exam.questions[index].answer">
+            <el-radio :label="1">1번</el-radio>
+            <el-radio :label="2">2번</el-radio>
+            <el-radio :label="3">3번</el-radio>
+            <el-radio :label="4">4번</el-radio>
+            <el-radio :label="5">5번</el-radio>
+          </el-radio-group>
+          <div v-show="exam.questions[index].images.length">
+            <ul class="preview">
+              <li v-for="(image, i) in exam.questions[index].images" :key="i">
+                <el-button type="danger" plain @click="select(image, index)">
+                  <img :src="image" class="questionImage" />
+                </el-button>
               </li>
             </ul>
           </div>
         </div>
+
+        <div class="btnWrap">
+          <el-button type="primary" class="btn" @click="prev">
+            <i class="el-icon-arrow-left"></i>이전
+          </el-button>
+          <div class="change">
+            <el-button type="primary" class="btn" @click="next">
+              다음
+              <i class="el-icon-arrow-right"></i>
+            </el-button>
+            <el-button
+              :class="{
+                btnToggle: exam.showSolution,
+                btn: !exam.showSolution
+              }"
+              @click="checkSolution"
+            >정답및해설</el-button>
+          </div>
+        </div>
+        <div v-show="exam.showSolution" class="munjeWrap">
+          <h3>정답 및 해설</h3>
+          <article>
+            <p class="value">정답 : {{ exam.questions[index].value }}</p>
+            <div v-html="exam.questions[index].solution"></div>
+          </article>
+        </div>
+        <div class="commentInputWrap">
+          <h4>댓글작성</h4>
+          <article>
+            <p class="author">작성자 : {{ userInfo.username }}</p>
+            <el-input
+              class="textarea"
+              placeholder="댓글을 작성하려면 로그인 해주세요."
+              type="textarea"
+              v-model="content"
+              style="min-height: 60px;"
+            ></el-input>
+            <div class="registerBtnWrap">
+              <el-button type="primary" class="registerComment" @click="registerComment">등록</el-button>
+            </div>
+            <p class="countion">
+              해당 문제와 연관이 없는 내용의 댓글은 운영원칙에 따라 삭제될 수
+              있습니다.
+              <br />또한, 해당 댓글을 상습적으로 등록하면 서비스 이용에 제한을
+              받을 수 있으니 참고 부탁드립니다.
+            </p>
+          </article>
+        </div>
+        <div class="commentWrap">
+          <h4>
+            댓글
+            <b>{{ comments.length }}</b>
+          </h4>
+          <ul>
+            <li class="commentlist" v-for="(comment, i) in comments" :key="i">
+              <div class="name">
+                <div class="left">
+                  <p class="author">{{ comment.author.username }}</p>
+                  <p class="date">{{ moment(comment.created_at).fromNow() }}</p>
+                </div>
+                <div v-if="userInfo._id == comment.author._id" class="right">
+                  <a @click="editComment(i)">수정</a>
+                  <a @click="deleteComment(comment._id)">삭제</a>
+                </div>
+              </div>
+              <p v-show="commentEditMode[i] !== true" class="comment">{{ comment.comment }}</p>
+              <div v-show="commentEditMode[i] == true">
+                <el-input calss="textarea" type="textarea" v-model="comment.comment"></el-input>
+                <div class="registerBtnWrap">
+                  <el-button
+                    type="primary"
+                    class="registerComment"
+                    @click="submitComment(comment._id, comment.comment)"
+                  >등록</el-button>
+                </div>
+              </div>
+              <span class="replyButton" @click="createReply(i)">답글달기</span>
+              <div v-if="replyMode[i] == true">
+                <el-input
+                  class="textarea_reply"
+                  placeholder="댓글을 작성하려면 로그인 해주세요."
+                  v-model="reply"
+                  type="textarea"
+                ></el-input>
+                <div class="rightBtnWrap">
+                  <el-button
+                    type="primary"
+                    class="registerReply"
+                    @click="handleReply(comment._id)"
+                  >등록</el-button>
+                </div>
+              </div>
+              <ul v-show="comment.replys.length > 0" class="replyWrap">
+                <span class="u_cbox_ico_reply"></span>
+                <li class="replylist" v-for="(reply, i) in comment.replys" :key="i">
+                  <p class="author">{{ reply.userId.username }}</p>
+                  <p class="comment">{{ reply.content }}</p>
+                  <p class="date">{{ moment(reply.created_at).fromNow() }}</p>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
       </div>
-      <div v-if="isFinish">
+      <div v-else-if="isFinish == true">
         <table class="resultTable">
           <thead>
             <tr>
@@ -219,22 +207,41 @@
         <i v-show="display == true" class="el-icon-arrow-up"></i>
       </a>
       <div class="resultWrap">
-        <!-- {{ userResults[0].results }} -->
-        <div v-if="userResults[0].results !== undefined">
+        <div v-if="userResults[0] !== undefined">
           <ul v-show="display">
             <p>{{ moment(userResults[0].created_at).format("YYYY년 MM월 DD일") }}</p>
             <li>
               <table class="menuTable">
                 <tr>
                   <th>번호</th>
-                  <th>나의선택</th>
-                  <th>정답</th>
+                  <th>{{moment(userResults[0].results[0].created_at).fromNow()}}</th>
+                  <th>{{moment(userResults[1].results[0].created_at).fromNow()}}</th>
+                  <th>{{moment(userResults[2].results[0].created_at).fromNow()}}</th>
                 </tr>
-                <tr v-for="(result, i) in userResults[0].results" :key="i">
-                  <td>{{ result.id }}번</td>
-                  <td>{{ result.answer }}</td>
-                  <td>{{ result.result }}</td>
-                </tr>
+                <td>
+                  <tr v-for="(question, i) in exam.questions.filter((q,i)=>i>0)" :key="i">{{ i+1 }}</tr>
+                </td>
+                <td>
+                  <tr
+                    v-for="(result,i) in userResults[0].results"
+                    :key="i"
+                    :class="{good : result.result == 1, bad : result.result == 0}"
+                  ></tr>
+                </td>
+                <td>
+                  <tr
+                    v-for="(result,i) in userResults[1].results"
+                    :key="i"
+                    :class="{good : result.result == 1, bad : result.result == 0}"
+                  ></tr>
+                </td>
+                <td>
+                  <tr
+                    v-for="(result,i) in userResults[2].results"
+                    :key="i"
+                    :class="{good : result.result == 1, bad : result.result == 0}"
+                  ></tr>
+                </td>
               </table>
             </li>
           </ul>
@@ -263,7 +270,9 @@ export default {
       index: 0,
       userValue: null,
       display: false,
-      activeNames: ["0"],
+      // activeNames: ["0"],
+      isFinish: false,
+
       exam: {
         examId: null,
         title: null, //문제집 이름
@@ -287,13 +296,12 @@ export default {
       },
       resultData: {
         examId: null,
+        finish: false,
         resultId: null,
         results: []
       },
       sum: [],
-      userResults: {
-        results: []
-      },
+      userResults: [],
       content: "",
       comments: [],
       reply: "",
@@ -305,24 +313,26 @@ export default {
   created() {
     this.getCommentInfo();
     this.getExamInfo();
+    this.getResultData();
   },
   computed: {
     ...mapState(["userInfo", "isLogin"])
-    // userResults: function() {
-    //   let userResults = userResults[0].results == undefined ? [] : userResults;
-    //   return userResults;
-    // }
   },
   mounted() {},
   methods: {
     getExamInfo() {
-      console.log("getExamInfo()실행!");
+      let accessToken = localStorage.getItem("accessToken");
+      let config = {
+        headers: {
+          accessToken: accessToken
+        }
+      };
       axios
-        .get(BASE_URL + `/exam/detail/${this.$route.params.id}`)
+        .get(BASE_URL + `/exam/detail/${this.$route.params.id}`, config)
         .then(res => {
-          console.log("res > > ", JSON.parse(res.data.exam));
+          console.log("getExamInfo : res > > ", res);
           let exam = JSON.parse(res.data.exam);
-          console.log("exam", exam);
+
           this.exam.title = exam.title;
           this.exam.examId = exam._id;
           this.resultData.examId = exam._id;
@@ -330,6 +340,7 @@ export default {
           this.exam.thumbnail = exam.thumbnail;
           this.exam.created_at = exam.created_at;
           this.exam.author = exam.author.username;
+
           let item = {
             questions: [
               {
@@ -341,40 +352,57 @@ export default {
               }
             ]
           };
+
+          let data;
+
           for (let i = 0; i < exam.questions.length; i++) {
-            let data = {
-              question: exam.questions[i].question,
-              value: exam.questions[i].value,
-              images: exam.questions[i].images,
-              solution: exam.questions[i].solution
-            };
+            if (
+              res.data.preExam &&
+              res.data.preExam.finish == false &&
+              res.data.preExam.results[i] !== undefined
+            ) {
+              data = {
+                question: exam.questions[i].question,
+                value: exam.questions[i].value,
+                images: exam.questions[i].images,
+                solution: exam.questions[i].solution,
+                answer: res.data.preExam.results[i].answer
+              };
+            } else {
+              data = {
+                question: exam.questions[i].question,
+                value: exam.questions[i].value,
+                images: exam.questions[i].images,
+                solution: exam.questions[i].solution
+              };
+            }
             item.questions.push(data);
           }
-          this.exam.questions = item.questions;
-          this.getResultData();
 
-          console.log("resultData1", this.resultData);
+          this.exam.questions = item.questions;
+          let results = res.data.preExam.results;
+          if (res.data.preExam.finish == false) {
+            this.resultData.results = res.data.preExam.results;
+            this.resultData.examId = this.$route.params.id;
+            this.resultData.resultId = res.data.preExam._id;
+            this.index = results[results.length - 1].id;
+            console.log("this.index", this.index);
+          }
         });
     },
     next() {
       if (this.index > 0) {
-        // if (!this.exam.questions[this.index].answer)
-        //   return alert("답안 선택 후 다음을 눌러주세요.");
-
-        console.log("index", this.index);
         let answer = this.exam.questions[this.index].answer;
         let value = this.exam.questions[this.index].value;
         let question = this.exam.questions[this.index].question;
         let examId = this.exam.examId;
-        console.log("answer!!!");
-        console.log("examId!!!~~~~", examId);
-        console.log("value!!!", value);
+
         let result = null;
         let id = this.index;
         if (answer == value) {
-          result = "정답";
+          result = 1;
         } else {
-          result = "오답";
+          result = 0;
         }
         let data = {
           id: id,
@@ -384,51 +412,43 @@ export default {
           created_at: new Date()
         };
         this.resultData.results.splice(id - 1, 1, data);
+        if (this.index + 1 == this.exam.questions.length) {
+          let result = confirm("수고하셨습니다!. 모든 문제를 푸셨습니다.");
+          if (result) {
+            this.sum = this.resultData.results.filter(
+              (result, i) => result.result == 1
+            );
+            this.isFinish = true;
+            this.index++;
+            this.resultData.finish = true;
+          }
+        } else {
+          this.isFinish = false;
+          this.index++;
+          this.resultData.finish = false;
+        }
+        // this.resultData.finish = this.finish;
 
-        // this.resultData.result = this.exam.questions.map((item, i) => {
-        //   if (item.answer !== undefined) {
-        //     let data = {
-        //       id: i++,
-        //       result: item.result,
-        //       answer: item.answer,
-        //       value: item.value
-        //     };
-        //     return data;
-        //   }
-        // });
         let accessToken = localStorage.getItem("accessToken");
         let config = {
           headers: {
             accessToken: accessToken
           }
         };
-        console.log("this.resultData :>", this.resultData);
+        console.log("this.isFinish : ", this.isFinish);
+        console.log("this.resultData :before ", this.resultData);
+
         axios
           .post(BASE_URL + "/exam/register/result", this.resultData, config)
           .then(res => {
             if (res.status == 200) {
-              console.log(res);
               this.resultData.resultId = res.data.resultId;
             }
           });
+      } else {
+        this.index++;
       }
-      console.log("this.exam.questions.length", this.exam.questions.length);
-      console.log("this.exam.questions >>>>>", this.exam.questions);
-      console.log("this.index", this.index);
       this.exam.showSolution = false;
-      this.index++;
-
-      if (this.index == this.exam.questions.length) {
-        console.log("resultData", this.resultData);
-        let result = confirm("수고하셨습니다!. 모든 문제를 푸셨습니다.");
-        if (result) {
-          this.sum = this.resultData.results.filter(
-            (result, i) => result.result == "정답"
-          );
-          this.isFinish = true;
-        }
-      }
-      console.log("resultData", this.resultData);
     },
     select(answer, index) {
       this.exam.questions[index].answer = answer;
@@ -437,10 +457,15 @@ export default {
       this.exam.showSolution = !this.exam.showSolution;
     },
     confirm() {
-      console.log("confirm", this.$route.params.id);
-      this.index = 0;
+      /**
+       * 초기화
+       */
+      this.exam.questions = null;
       this.isFinish = false;
-      this.getCommentInfo();
+      this.index = 0;
+      this.resultData.resultId = null;
+
+      this.getResultData();
       this.getExamInfo();
     },
     registerComment() {
@@ -517,6 +542,8 @@ export default {
       this.index--;
     },
     getResultData() {
+      console.log("getResultData>>>>");
+
       let accessToken = localStorage.getItem("accessToken");
       let config = {
         headers: {
@@ -524,15 +551,11 @@ export default {
         }
       };
       axios
-        .get(BASE_URL + `/exam/result/${this.exam.examId}`, config)
+        .get(BASE_URL + `/exam/result/${this.$route.params.id}`, config)
         .then(res => {
           if (res.status == 200) {
             this.userResults = res.data.userResult;
-            console.log(
-              "userResults[0].results",
-              JSON.stringify(res.data.userResult)
-            );
-            console.log("userResults[0]", this.userResults);
+            console.log("res.data.userResult>>>>", res.data.userResult);
           }
         });
     },
@@ -708,7 +731,7 @@ h3 {
   position: relative;
   margin: 50px 0 50px 30px;
   width: 30%;
-  max-width: 250px;
+  max-width: 280px;
   min-width: 130px;
   outline: 1px solid #efefef;
   min-height: 700px;
@@ -752,15 +775,28 @@ td {
   text-align: center;
   line-height: 20px;
 }
-
+.menuTable tr {
+  text-align: center;
+}
 .menuTable th:nth-child(1) {
-  width: 30%;
+  width: 15%;
 }
 .menuTable th:nth-child(2) {
-  width: 40%;
+  width: 25%;
 }
 .menuTable th:nth-child(3) {
-  width: 30%;
+  width: 25%;
+}
+.menuTable th:nth-child(4) {
+  width: 25%;
+}
+.good:after {
+  content: "O";
+  color: black;
+}
+.bad:after {
+  content: "X";
+  color: red;
 }
 /* .menuTable tr,
 td {
@@ -792,9 +828,9 @@ td {
   .munjeWrap {
     width: 100%;
   }
-  .btn {
+  /* .btn {
     width: 100%;
-  }
+  } */
   .container {
     padding: 20px 0;
     overflow: hidden;
@@ -807,19 +843,19 @@ td {
     height: 100%;
     display: none;
   }
-  .btnWrap {
+  /* .btnWrap {
     flex-wrap: wrap;
   }
   .btnWrap button {
     margin: 10px 0;
-  }
+  } */
   .btnMenu {
     display: block;
   }
-  .btnWrap .change {
+  /* .btnWrap .change {
     flex-wrap: wrap;
     width: 100%;
-  }
+  } */
 }
 .questionImage {
   width: 200px;
@@ -1015,6 +1051,15 @@ h4 {
 .replyWrap {
   background: #f9f9f9;
   padding: 10px;
+  position: relative;
+}
+.replyWrap .u_cbox_ico_reply {
+  position: absolute;
+  top: 19px;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  background-position: -19px -125px;
 }
 .replylist {
   width: 90%;

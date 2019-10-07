@@ -12,43 +12,21 @@
       "
       style="width: 100%"
     >
-      <el-table-column
-        border
-        center
-        label="번호"
-        prop="index"
-        width="70"
-      ></el-table-column>
-      <el-table-column
-        sortable
-        label="작성일"
-        prop="date"
-        width="120"
-      ></el-table-column>
+      <el-table-column border center label="번호" prop="index" width="70"></el-table-column>
+      <el-table-column sortable label="작성일" prop="date" width="120"></el-table-column>
       <el-table-column sortable label="저자" prop="author"></el-table-column>
       <el-table-column label="제목" prop="title"></el-table-column>
-      <el-table-column
-        label="설명"
-        prop="description"
-        width="140"
-      ></el-table-column>
-      <el-table-column
-        label="Rating"
-        prop="rating"
-        width="140"
-        sortable
-      ></el-table-column>
+      <el-table-column label="설명" prop="description" width="140"></el-table-column>
+      <el-table-column label="상태" prop="status" width="140" sortable></el-table-column>
       <el-table-column align="right">
         <template slot-scope="scope">
-          <el-button size="mini" @click="handleEdit(scope.$index, scope.row)"
-            >Edit</el-button
-          >
+          <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">Edit</el-button>
           <el-button
+            v-if="scope.row.status !== 'DELETE'"
             size="mini"
             type="danger"
             @click="handleDelete(scope.$index, scope.row)"
-            >Delete</el-button
-          >
+          >Delete</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -70,7 +48,6 @@
 import axios from "axios";
 import { BASE_URL } from "../../config/env";
 import moment from "moment";
-import vueMomentJs from "vue-momentjs";
 const header = {
   "Access-Control-Allow-Origin": "*",
   "Content-Type": "application/json",
@@ -89,7 +66,7 @@ export default {
           author: null,
           title: null,
           description: 0,
-          rating: 0
+          status: null
         }
       ],
       search: "",
@@ -100,12 +77,12 @@ export default {
     };
   },
   created() {
-    this.getUserlist();
+    this.getExamlist();
     this.handleCurrentChange(1);
   },
   methods: {
     handleEdit(index, row) {
-      console.log(row);
+      console.log("111", row);
       this.$router.push({ name: "editExam", params: { id: row.id } });
     },
     handleDelete(index, row) {
@@ -126,11 +103,11 @@ export default {
       axios.get(BASE_URL + `/exam/delete/${id}`, config).then(res => {
         console.log("res.data> ", res.data);
         if (res.status == 200) {
-          this.getUserlist();
+          this.getExamlist();
         }
       });
     },
-    getUserlist() {
+    getExamlist() {
       let accessToken = localStorage.getItem("accessToken");
 
       let config = {
@@ -150,7 +127,7 @@ export default {
             index: i + 1,
             date: moment(exam.created_at).format("YYYY-MM-DD"),
             author: exam.author == undefined ? null : exam.author.username,
-            rating: exam.rating,
+            status: exam.status,
             description: exam.description,
             title: exam.title
           };
@@ -185,11 +162,11 @@ h2 {
 .pagenation {
   margin-top: 50px;
 }
-button{
+button {
   display: block;
-  width:80px;
+  width: 80px;
 }
-.el-button+.el-button{
-  margin:10px 0 0 0;
+.el-button + .el-button {
+  margin: 10px 0 0 0;
 }
 </style>
