@@ -254,13 +254,11 @@ label:first-child {
 
 .content {
   clear: both;
-  background: #fff;
   max-width: 1200px;
   margin: 0 auto;
   min-height: 400px;
   height: calc(100vh - 460px);
   position: relative;
-  overflow: scroll;
 }
 .content > div {
   position: absolute;
@@ -272,7 +270,7 @@ label:first-child {
   visibility: hidden;
   transition: all 0.1s;
   width: 100%;
-  padding: 30px 0 30px 25px;
+  padding: 30px 0;
   box-sizing: border-box;
 }
 
@@ -280,11 +278,12 @@ label:first-child {
   width: calc(33.3333% - 20px);
   max-height: 150px;
   min-height: 100px;
-  margin-right: 20px;
-  margin-bottom: 20px;
   outline: 1px solid #efefef;
   margin-bottom: 20px;
   position: relative;
+}
+.content > div .img_box:nth-child(3n-1) {
+  margin: 0 30px;
 }
 .content > div .img_box:hover {
   outline: none;
@@ -329,20 +328,37 @@ label:first-child {
   transition-delay: 0.1s;
 }
 @media all and (max-width: 1264px) {
-  .content > div .img_box {
+  div .img_box {
     max-height: 100px;
     min-height: 80px;
   }
 }
-@media all and (max-width: 900px) {
-  .content > div .img_box {
-    width: calc(50% - 20px);
-  }
-  .content > div .black_box p {
-    margin-top: 6%;
+@media all and (max-width: 1024px) {
+  .content > div .img_box:nth-child(3n-1) {
+    margin-bottom: 20px;
   }
 }
-@media all and (max-width: 650px) {
+@media all and (max-width: 900px) {
+  .content div {
+    width: 100%;
+  }
+  .content div .img_box {
+    width: calc(50% - 10px);
+  }
+  .content > div .img_box[data-v-ced23842]:nth-child(2n-1) {
+    margin-right: 20px;
+  }
+  .content > div .img_box[data-v-ced23842]:nth-child(3n-1) {
+    margin: 0 0 20px 0;
+  }
+  .content p {
+    margin-top: 6%;
+  }
+  .el-col-6 {
+    margin-right: 30px;
+  }
+}
+@media all and (max-width: 550px) {
   .content > div {
     display: block;
   }
@@ -356,18 +372,21 @@ label:first-child {
   .content > div .black_box p {
     margin-top: 5%;
   }
+  .content > div .img_box[data-v-ced23842]:nth-child(2n-1) {
+    margin-right: 0px;
+  }
   .l_box .thumbnail {
     width: 100px;
     height: 100px;
     /* margin-left: 40px; */
     margin-bottom: 30px;
   }
-  .content > div .black_box p {
+  div .black_box p {
     font-size: 16px;
   }
-}
-label {
-  font-size: 15px;
+  label {
+    font-size: 15px;
+  }
 }
 .btnClose {
   position: relative;
@@ -384,10 +403,5 @@ label {
   text-align: center;
   border: 1px solid #fff;
   color: red;
-}
-@media all and (max-width: 650px) {
-  label {
-    font-size: 8px;
-  }
 }
 </style>
