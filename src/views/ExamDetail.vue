@@ -1073,4 +1073,8 @@ h4 {
   padding: 10px;
   border-radius: 5px;
 }
+td tr {
+  width: 100%;
+  display: block;
+}
 </style>
