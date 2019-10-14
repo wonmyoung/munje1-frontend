@@ -780,6 +780,14 @@ select {
   margin-right: -30px;
   margin-top: 5px;
 }
+@media all and (max-width: 1000px) {
+  .contentWrap[data-v-09939685] {
+    padding: 26px 40px 30px 40px;
+  }
+  .btnWrap[data-v-09939685] button {
+    width: 100%;
+  }
+}
 @media all and (max-width: 600px) {
   #radio {
     margin-right: -10px;
