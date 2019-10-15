@@ -157,7 +157,6 @@
                 </div>
               </div>
               <ul v-show="comment.replys.length > 0" class="replyWrap">
-                <span class="u_cbox_ico_reply"></span>
                 <li class="replylist" v-for="(reply, i) in comment.replys" :key="i">
                   <p class="author">{{ reply.userId.username }}</p>
                   <p class="comment">{{ reply.content }}</p>
@@ -1051,16 +1050,8 @@ h4 {
 .replyWrap {
   background: #f9f9f9;
   padding: 10px;
-  position: relative;
 }
-.replyWrap .u_cbox_ico_reply {
-  position: absolute;
-  top: 19px;
-  left: 0;
-  width: 10px;
-  height: 10px;
-  background-position: -19px -125px;
-}
+
 .replylist {
   width: 90%;
   margin: 0 auto;
