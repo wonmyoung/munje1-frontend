@@ -839,8 +839,12 @@ td {
     margin: 0 auto;
   }
   .menu {
-    height: 100%;
-    display: none;
+    width: 200px;
+    height: calc(100vh - 56px);
+    position: absolute;
+    top: 56px;
+    right: 0;
+    margin: 0;
   }
   /* .btnWrap {
     flex-wrap: wrap;
@@ -849,7 +853,12 @@ td {
     margin: 10px 0;
   } */
   .btnMenu {
+    position: absolute;
     display: block;
+    bottom: 30px;
+    right: 20px;
+    height: 50px;
+    bottom: 20px;
   }
   /* .btnWrap .change {
     flex-wrap: wrap;
