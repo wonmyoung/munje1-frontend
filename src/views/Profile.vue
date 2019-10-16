@@ -152,7 +152,8 @@ export default {
   text-align: left;
 }
 .introduce_box {
-  max-width: 1200px;
+  max-width: 1203px;
+  margin: 0 auto;
   padding: 20px 0 0 0;
 }
 .introduce_box .l_box {
