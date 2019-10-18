@@ -1,94 +1,115 @@
 <template>
-  <div>
-    <div class="container">
-      <div class="wrap">
-        <!-- <div class="buttonWrap">
+  <div class="container">
+    <div class="wrap moveRight">
+      <!-- <div class="buttonWrap">
           <el-button
             type="primary"
             class="primary1 location"
             @click="openSlideMenu"
             >{{ button }}</el-button
           >
-        </div>-->
+      </div>-->
+      <div
+        v-if="index == 0"
+        v-bind:class="{
+          contentWrap: show == false,
+          contentWrap2: show == true
+        }"
+      >
+        <h1>문제 등록</h1>
+        <el-form :model="form">
+          <el-form-item label="문제집 이름">
+            <el-input v-model="title"></el-input>
+          </el-form-item>
+          <el-form-item label="카테고리">
+            <el-input v-model="category"></el-input>
+          </el-form-item>
+
+          <el-form-item label="문제집 요약 설명">
+            <el-input v-model="description"></el-input>
+          </el-form-item>
+          <div class="btns">
+            <input
+              type="radio"
+              name="rd"
+              id="rd1"
+              v-model="status"
+              value="PUBLIC"
+              checked
+            />
+            <label for="rd1">공개</label>
+            <input
+              type="radio"
+              name="rd"
+              id="rd2"
+              v-model="status"
+              value="PRIVATE"
+            />
+            <label for="rd2">비공개</label>
+          </div>
+          <el-form-item
+            v-show="status == 'PRIVATE'"
+            label="문제집 비밀번호 설정"
+          >
+            <el-input v-model="password" type="password"></el-input>
+          </el-form-item>
+          <div class="uploaderWrapp" v-if="!images.length">
+            <div class="uploaderWrap">
+              <div
+                class="uploader"
+                @dragenter="OnDragEnter"
+                @dragleave="OnDragLeave"
+                @dragover.prevent
+                @drop="OnDrop"
+              >
+                <p>Drag and Drop upload</p>
+                <input
+                  type="file"
+                  class="input-file"
+                  ref="file"
+                  @change="sendFile"
+                  multiple
+                />
+              </div>
+            </div>
+          </div>
+          <div v-show="thumbnail">
+            <ul class="preview">
+              <li class="wrapper">
+                <img :src="thumbnail" class="image" />
+                <div class="overlay" @click="deleteFile(0, thumbnail)">
+                  <i class="material-icons">delete</i>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </el-form>
+        <div class="btnWrap">
+          <el-button type="primary" @click="next">다음</el-button>
+        </div>
+      </div>
+      <div v-else>
         <div
-          v-if="index == 0"
           v-bind:class="{
             contentWrap: show == false,
             contentWrap2: show == true
           }"
         >
           <h1>문제 등록</h1>
-          <el-form :model="form">
-            <el-form-item label="문제집 이름">
-              <el-input v-model="title"></el-input>
+          <el-form ref="form">
+            <el-form-item>
+              <h2>{{ index }}번 문제</h2>
+              <vue-editor
+                id="editor"
+                placeholder="문제와 보기를 입력해주세요"
+                useCustomImageHandler
+                @image-added="handleImageAdded"
+                v-model="question"
+                @dragover.prevent
+                @drop="OnDrop"
+              ></vue-editor>
             </el-form-item>
-            <el-form-item label="카테고리">
-              <el-input v-model="category"></el-input>
-            </el-form-item>
-
-            <el-form-item label="문제집 요약 설명">
-              <el-input v-model="description"></el-input>
-            </el-form-item>
-            <div class="btns">
-              <input type="radio" name="rd" id="rd1" v-model="status" value="PUBLIC" checked />
-              <label for="rd1">공개</label>
-              <input type="radio" name="rd" id="rd2" v-model="status" value="PRIVATE" />
-              <label for="rd2">비공개</label>
-            </div>
-            <el-form-item v-show="status == 'PRIVATE'" label="문제집 비밀번호 설정">
-              <el-input v-model="password" type="password"></el-input>
-            </el-form-item>
-            <div class="uploaderWrapp" v-if="!images.length">
-              <div class="uploaderWrap">
-                <div
-                  class="uploader"
-                  @dragenter="OnDragEnter"
-                  @dragleave="OnDragLeave"
-                  @dragover.prevent
-                  @drop="OnDrop"
-                >
-                  <p>Drag and Drop upload</p>
-                  <input type="file" class="input-file" ref="file" @change="sendFile" multiple />
-                </div>
-              </div>
-            </div>
-            <div v-show="thumbnail">
-              <ul class="preview">
-                <li class="wrapper">
-                  <img :src="thumbnail" class="image" />
-                  <div class="overlay" @click="deleteFile(0)">
-                    <i class="material-icons">delete</i>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </el-form>
-          <div class="btnWrap">
-            <el-button type="primary" @click="next">다음</el-button>
-          </div>
-        </div>
-        <div v-else>
-          <div
-            v-bind:class="{
-              contentWrap: show == false,
-              contentWrap2: show == true
-            }"
-          >
-            <h1>문제 등록</h1>
-            <el-form ref="form">
-              <el-form-item>
-                <h2>{{ index }}번 문제</h2>
-                <vue-editor
-                  id="editor"
-                  placeholder="문제와 보기를 입력해주세요"
-                  useCustomImageHandler
-                  @image-added="handleImageAdded"
-                  v-model="question"
-                  @dragover.prevent
-                  @drop="OnDrop"
-                ></vue-editor>
-              </el-form-item>
-              <!-- <el-form-item label="문제">
+            <!-- <el-form-item label="문제">
                 <el-input v-model="question"></el-input>
               </el-form-item>
 
@@ -115,88 +136,69 @@
                     <input type="file" class="input-file" ref="file" @change="sendFile" multiple />
                   </div>
                 </div>
-              </div>-->
-              <!-- <el-form-item label="보기">
+            </div>-->
+            <!-- <el-form-item label="보기">
                 <el-input v-model="examples" type="textarea" id="textarea"></el-input>
-              </el-form-item>-->
+            </el-form-item>-->
 
-              <div v-if="images.length">
-                <ul class="preview">
-                  <li class="wrapper" v-for="(image, i) in images" :key="i">
-                    <img :src="image" class="questionImage" />
-                    <div class="overlay" @click="deleteFile(i)">
-                      <i class="material-icons">delete</i>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-              <div v-else class="uploaderWrapp">
-                <div class="uploaderWrap">
-                  <div
-                    class="uploader"
-                    @dragenter="OnDragEnter"
-                    @dragleave="OnDragLeave"
-                    @dragover.prevent
-                    @drop="OnDrop"
-                  >
-                    <p>드래그 앤드랍 혹은 Click하여 이미지를 업로드 해주세요</p>
-                    <input type="file" class="input-file" ref="file" @change="sendFile" multiple />
+            <div v-if="images.length">
+              <ul class="preview">
+                <li class="wrapper" v-for="(image, i) in images" :key="i">
+                  <img :src="image" class="questionImage" />
+                  <div class="overlay" @click="deleteFile(i, image)">
+                    <i class="material-icons">delete</i>
                   </div>
-                </div>
-              </div>
-              <p>문제의 정답을 선택해주세요.</p>
-              <div class="valueWrap">
-                <input id="radio" type="radio" value="1" v-model="value" />
-                <span>1번</span>
-                <input id="radio" type="radio" value="2" v-model="value" />2번
-                <input id="radio" type="radio" value="3" v-model="value" />3번
-                <input id="radio" type="radio" value="4" v-model="value" />4번
-                <input id="radio" type="radio" value="5" v-model="value" />
-                5번
-              </div>
-              <div id="line"></div>
-              <el-form-item>
-                <h2>해설</h2>
-                <vue-editor
-                  id="editor"
-                  placeholder="정답의 해설을 입력해 주세요."
-                  useCustomImageHandler
-                  @image-added="handleImageAdded"
-                  v-model="solution"
+                </li>
+              </ul>
+            </div>
+            <div v-else class="uploaderWrapp">
+              <div class="uploaderWrap">
+                <div
+                  class="uploader"
+                  @dragenter="OnDragEnter"
+                  @dragleave="OnDragLeave"
                   @dragover.prevent
                   @drop="OnDrop"
-                ></vue-editor>
-              </el-form-item>
-              <div v-if="images.length">
-                <ul class="preview">
-                  <li class="wrapper" v-for="(image, i) in images" :key="i">
-                    <img :src="image" class="questionImage" />
-                    <div class="overlay" @click="deleteFile(i)">
-                      <i class="material-icons">delete</i>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-              <div v-else class="uploaderWrapp">
-                <div class="uploaderWrap">
-                  <div
-                    class="uploader"
-                    @dragenter="OnDragEnter"
-                    @dragleave="OnDragLeave"
-                    @dragover.prevent
-                    @drop="OnDrop"
-                  >
-                    <p>드래그 앤드랍 혹은 Click하여 이미지를 업로드 해주세요</p>
-                    <input type="file" class="input-file" ref="file" @change="sendFile" multiple />
-                  </div>
+                >
+                  <p>드래그 앤드랍 혹은 Click하여 이미지를 업로드 해주세요</p>
+                  <input
+                    type="file"
+                    class="input-file"
+                    ref="file"
+                    @change="sendFile"
+                    multiple
+                  />
                 </div>
               </div>
-            </el-form>
-            <div class="btnWrap">
-              <el-button @click="prev">이전</el-button>
-              <el-button type="primary" @click="next">저장후 다음</el-button>
-              <el-button type="primary" @click="submit">완료</el-button>
             </div>
+            <p>문제의 정답을 선택해주세요.</p>
+            <div class="valueWrap">
+              <input id="radio" type="radio" value="1" v-model="value" />
+              <span>1번</span>
+              <input id="radio" type="radio" value="2" v-model="value" />2번
+              <input id="radio" type="radio" value="3" v-model="value" />3번
+              <input id="radio" type="radio" value="4" v-model="value" />4번
+              <input id="radio" type="radio" value="5" v-model="value" />
+              5번
+            </div>
+            <div id="line"></div>
+            <el-form-item>
+              <h2>해설</h2>
+              <vue-editor
+                id="editor"
+                placeholder="정답의 해설을 입력해 주세요."
+                useCustomImageHandler
+                @image-added="handleImageAdded"
+                v-model="solution"
+                @dragover.prevent
+                @drop="OnDrop"
+              ></vue-editor>
+            </el-form-item>
+          </el-form>
+          <div class="btnWrap">
+            <el-button @click="prev">이전</el-button>
+            <el-button type="primary" @click="next">저장후 다음</el-button>
+            <el-button type="primary" @click="submit">완료</el-button>
           </div>
         </div>
       </div>
@@ -296,17 +298,45 @@ export default {
     OnDropOver() {
       console.log("OnDropOver");
     },
+    // async OnDrop(e) {
+    //   console.log("onDrop!!!");
+    //   e.preventDefault();
+    //   e.stopPropagation();
+    //   let imageUrl = e.dataTransfer.getData("text/html");
+    //   let rex = /src="?([^"\s]+)"?\s*/;
+    //   let url = rex.exec(imageUrl);
+    //   let file = url[1];
+    //   console.log("url!!!", url);
+    //   console.log("file!!!", file);
+    //   this.addFilePath(file);
+    //   // let files = e.dataTransfer.files;
+    //   // Array.from(files).forEach(file => this.addImage(file));
+    // },
     async OnDrop(e) {
       console.log("onDrop!!!");
       e.preventDefault();
       e.stopPropagation();
-      let imageUrl = e.dataTransfer.getData("text/html");
-      let rex = /src="?([^"\s]+)"?\s*/;
-      let url = rex.exec(imageUrl);
-      let file = url[1];
-      console.log("url!!!", url);
+      let file = e.dataTransfer.files[0];
       console.log("file!!!", file);
-      this.addFilePath(file);
+      let accessToken = localStorage.getItem("accessToken");
+      let config = {
+        headers: {
+          accessToken: accessToken
+        }
+      };
+      const formdata = new FormData();
+      formdata.append("file", file);
+
+      let result = await axios.post(
+        BASE_URL + "/file/upload",
+        formdata,
+        config
+      );
+      console.log("result", result);
+      if (result) {
+        this.addFilePath(result.data.path);
+      }
+      // this.addImage(file);
       // let files = e.dataTransfer.files;
       // Array.from(files).forEach(file => this.addImage(file));
     },
@@ -337,14 +367,14 @@ export default {
       }
       this.addFilePath(result.data.path);
     },
-    // addImage(file) {
-    //   console.log("addImage");
-    //   this.files.push(file);
-    //   const image = new Image();
-    //   const reader = new FileReader();
-    //   reader.onload = e => this.images.push(e.target.result);
-    //   reader.readAsDataURL(file);
-    // },
+    addImage(file) {
+      console.log("addImage");
+      this.files.push(file);
+      const image = new Image();
+      const reader = new FileReader();
+      reader.onload = e => this.images.push(e.target.result);
+      reader.readAsDataURL(file);
+    },
     addFilePath(path) {
       console.log("addFilePath");
       console.log("this.index > > >", this.index);
@@ -360,16 +390,21 @@ export default {
         console.log("this.images22222", this.images);
       }
     },
-    deleteFile(index) {
-      if (index == 0) {
-        this.thumbnail = null;
-        this.images.splice(index, 1);
+    async deleteFile(index, image) {
+      console.log("image > > > >", image);
+
+      let result = await axios.get(BASE_URL + `/file/delete?path=${image}`);
+      if (result) {
+        if (index == 0) {
+          this.thumbnail = null;
+          this.images.splice(index, 1);
+        } else {
+          console.log("index > > > >", index);
+          console.log("this.images > > > >", this.images);
+          this.images.splice(index, 1);
+        }
       } else {
-        console.log("index > > > >", index);
-        console.log("this.images > > > >", this.images);
-        // console.log("this.paths > > > >", this.paths);
-        this.images.splice(index, 1);
-        // this.paths.splice(index, 1);
+        alert("이미지 삭제에 실패 했습니다.");
       }
     },
     next() {
@@ -590,7 +625,6 @@ export default {
 
 <style scoped>
 .container {
-  max-width: 100%;
   height: auto;
 }
 h2 {
@@ -641,7 +675,7 @@ label:nth-child(2) {
   width: 150px;
 }
 .contentWrap {
-  margin: 10px auto;
+  margin: 70px auto;
   width: 60%;
   min-width: 400px;
   padding: 30px 80px 30px 80px;
@@ -730,7 +764,7 @@ select {
   border-radius: 7px;
   border: 1px solid #ccc;
   width: 100%;
-  height: 150px;
+  height: auto;
   margin-bottom: 10px;
   background-repeat: no-repeat;
   background-size: cover;

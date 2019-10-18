@@ -1,9 +1,14 @@
 <template>
   <div class="container">
     <div id="pageWrap">
-      <div style="margin:0 auto;">
+      <div style="margin:30px auto;">
         <el-input placeholder="search" v-model="searchWord" class="search">
-          <el-button slot="append" icon="el-icon-search" @keyup.enter="search" @click="search"></el-button>
+          <el-button
+            slot="append"
+            icon="el-icon-search"
+            @keyup.enter="search"
+            @click="search"
+          ></el-button>
         </el-input>
       </div>
       <div class="configBox">
@@ -21,12 +26,16 @@
             <li
               v-for="(exam, i) in userExam"
               :key="exam._id"
-              @click="moveToDetail(exam._id,exam.status)"
+              @click="moveToDetail(exam._id, exam.status)"
             >
               <!-- <em class="memberType tutor">초1수학</em> -->
               <div class="photo">
                 <img v-if="exam.thumbnail" :src="exam.thumbnail" alt="photo" />
-                <img v-else src="@/assets/images/home/스마트폰-사진.jpg" alt="photo" />
+                <img
+                  v-else
+                  src="@/assets/images/home/스마트폰-사진.jpg"
+                  alt="photo"
+                />
               </div>
               <div class="contentWrap">
                 <p class="title">
@@ -35,7 +44,9 @@
                 <!-- <p class="author">{{ exam.author.username }}</p> -->
                 <div class="listInfo">
                   <span>{{ exam.examinee.length }} 명 참여중</span>
-                  <span id="dayInfo">{{ moment(exam.created_at).fromNow() }}</span>
+                  <span id="dayInfo">{{
+                    moment(exam.created_at).fromNow()
+                  }}</span>
                 </div>
               </div>
             </li>
@@ -48,12 +59,16 @@
             <li
               v-for="(exam, i) in examlist"
               :key="exam.id"
-              @click="moveToDetail(exam._id,exam.status)"
+              @click="moveToDetail(exam._id, exam.status)"
             >
               <!-- <em class="memberType tutor">초1수학</em> -->
               <div class="photo">
                 <img v-if="exam.thumbnail" :src="exam.thumbnail" alt="photo" />
-                <img v-else src="@/assets/images/home/스마트폰-사진.jpg" alt="photo" />
+                <img
+                  v-else
+                  src="@/assets/images/home/스마트폰-사진.jpg"
+                  alt="photo"
+                />
               </div>
               <div class="contentWrap">
                 <p class="title">
@@ -62,7 +77,9 @@
                 <p class="author">{{ exam.author.username }}</p>
                 <div class="listInfo">
                   <span>{{ exam.examinee.length }} 명 참여중</span>
-                  <span id="dayInfo">{{ moment(exam.created_at).fromNow() }}</span>
+                  <span id="dayInfo">{{
+                    moment(exam.created_at).fromNow()
+                  }}</span>
                 </div>
               </div>
             </li>
@@ -74,12 +91,16 @@
             <li
               v-for="(exam, i) in examlist"
               :key="exam.id"
-              @click="moveToDetail(exam._id,exam.status)"
+              @click="moveToDetail(exam._id, exam.status)"
             >
               <!-- <em class="memberType tutor">초1수학</em> -->
               <div class="photo">
                 <img v-if="exam.thumbnail" :src="exam.thumbnail" alt="photo" />
-                <img v-else src="@/assets/images/home/스마트폰-사진.jpg" alt="photo" />
+                <img
+                  v-else
+                  src="@/assets/images/home/스마트폰-사진.jpg"
+                  alt="photo"
+                />
               </div>
               <div class="contentWrap">
                 <p class="title">
@@ -88,7 +109,9 @@
                 <p class="author">{{ exam.author.username }}</p>
                 <div class="listInfo">
                   <span>{{ exam.examinee.length }} 명 참여중</span>
-                  <span id="dayInfo">{{ moment(exam.created_at).fromNow() }}</span>
+                  <span id="dayInfo">{{
+                    moment(exam.created_at).fromNow()
+                  }}</span>
                 </div>
               </div>
             </li>
@@ -177,10 +200,6 @@ export default {
 </script>
 <style scoped>
 .container {
-  /* max-width:1000px; */
-  border-radius: 3px;
-  /* background: rgb(5, 4, 102); */
-  max-width: 1300px;
 }
 
 #pageWrap .pageWrap {

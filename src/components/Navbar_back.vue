@@ -8,11 +8,9 @@
       <span class="md-title" @click="moveTo()">HOME</span>
     </md-app-toolbar>
 
-    <md-app-drawer :md-active.sync="menuVisible" :md-persistent="isMobile">
-      <!-- <md-app-drawer
-      :md-permanent="showNavigation"
-      :md-active.sync="showNavigation"
-      >-->
+    <md-app-drawer :md-active.sync="menuVisible" md-persistent="full">
+      <!-- <md-app-drawer :md-permanent="showNavigation" :md-active.sync="showNavigation"> -->
+
       <md-toolbar class="md-transparent" md-elevation="0">
         <div class="md-toolbar-section-start">
           <md-button class="md-icon-button md-dense" @click="toggleMenu">
@@ -90,16 +88,16 @@ export default {
     menuVisible: true,
     showNavigation: true,
     showSidepanel: false,
+    // isMobile: "mini"
     searchWord: null
   }),
   computed: {
     ...mapState(["userInfo", "isLogin"]),
-    isMobile: () => {
-      if (window.screen.availWidth > 500) {
-        return "full";
+    isMobile: function() {
+      if (window.screen.availWidth < 500) {
+        return;
       } else {
-        let i = 0;
-        return i;
+        return "mini";
       }
     }
   },
@@ -122,18 +120,11 @@ export default {
 </script>
 
 <style scoped>
-.fixed {
-  position: fixed !important;
-  bottom: 20px;
-  right: 20px;
-  z-index: 9999999999;
-}
 .md-app-toolbar {
   box-shadow: 0px 1px 3px 0 rgba(0, 0, 0, 0.2);
   border-bottom: #fafafa;
   z-index: 99999;
 }
-
 .md-app-drawer {
   z-index: 10;
 }

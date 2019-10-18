@@ -11,7 +11,9 @@
         </el-col>
         <el-col :span="18">
           <div class="grid-content">
-            <md-button class="editBtn" @click="edit('Modalpop')">프로필편집</md-button>
+            <md-button class="editBtn" @click="edit('Modalpop')"
+              >프로필편집</md-button
+            >
           </div>
         </el-col>
       </el-row>
@@ -31,7 +33,11 @@
               <p>{{ moment(result.created_at).fromNow() }}</p>
             </div>
             <img v-if="result.thumbnail" :src="result.thumbnail" />
-            <img v-else src="@/assets/images/home/스마트폰-사진.jpg" alt="photo" />
+            <img
+              v-else
+              src="@/assets/images/home/스마트폰-사진.jpg"
+              alt="photo"
+            />
           </div>
         </div>
         <div class="content_2">
@@ -40,12 +46,19 @@
               <p>{{ exam.title }}</p>
             </div>
             <img v-if="exam.thumbnail" :src="exam.thumbnail" />
-            <img v-else src="@/assets/images/home/스마트폰-사진.jpg" alt="photo" />
+            <img
+              v-else
+              src="@/assets/images/home/스마트폰-사진.jpg"
+              alt="photo"
+            />
           </div>
         </div>
       </div>
 
-      <div id="background" :class="{ on: displayBackground == true ? true : false }">
+      <div
+        id="background"
+        :class="{ on: displayBackground == true ? true : false }"
+      >
         <component v-bind:is="currentComponent"></component>
         <!-- <Modalpop /> -->
       </div>
@@ -146,7 +159,7 @@ export default {
 .container {
   height: calc(100vh - 64px);
   background: #efefef;
-  overflow: hidden;
+  overflow: auto;
 }
 .grid-content {
   text-align: left;
