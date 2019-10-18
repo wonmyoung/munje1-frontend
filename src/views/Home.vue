@@ -3,12 +3,7 @@
     <div id="pageWrap">
       <div style="margin:30px auto;">
         <el-input placeholder="search" v-model="searchWord" class="search">
-          <el-button
-            slot="append"
-            icon="el-icon-search"
-            @keyup.enter="search"
-            @click="search"
-          ></el-button>
+          <el-button slot="append" icon="el-icon-search" @keyup.enter="search" @click="search"></el-button>
         </el-input>
       </div>
       <div class="configBox">
@@ -31,11 +26,7 @@
               <!-- <em class="memberType tutor">초1수학</em> -->
               <div class="photo">
                 <img v-if="exam.thumbnail" :src="exam.thumbnail" alt="photo" />
-                <img
-                  v-else
-                  src="@/assets/images/home/스마트폰-사진.jpg"
-                  alt="photo"
-                />
+                <img v-else src="@/assets/images/home/스마트폰-사진.jpg" alt="photo" />
               </div>
               <div class="contentWrap">
                 <p class="title">
@@ -44,9 +35,11 @@
                 <!-- <p class="author">{{ exam.author.username }}</p> -->
                 <div class="listInfo">
                   <span>{{ exam.examinee.length }} 명 참여중</span>
-                  <span id="dayInfo">{{
+                  <span id="dayInfo">
+                    {{
                     moment(exam.created_at).fromNow()
-                  }}</span>
+                    }}
+                  </span>
                 </div>
               </div>
             </li>
@@ -64,11 +57,7 @@
               <!-- <em class="memberType tutor">초1수학</em> -->
               <div class="photo">
                 <img v-if="exam.thumbnail" :src="exam.thumbnail" alt="photo" />
-                <img
-                  v-else
-                  src="@/assets/images/home/스마트폰-사진.jpg"
-                  alt="photo"
-                />
+                <img v-else src="@/assets/images/home/스마트폰-사진.jpg" alt="photo" />
               </div>
               <div class="contentWrap">
                 <p class="title">
@@ -77,13 +66,16 @@
                 <p class="author">{{ exam.author.username }}</p>
                 <div class="listInfo">
                   <span>{{ exam.examinee.length }} 명 참여중</span>
-                  <span id="dayInfo">{{
+                  <span id="dayInfo">
+                    {{
                     moment(exam.created_at).fromNow()
-                  }}</span>
+                    }}
+                  </span>
                 </div>
               </div>
             </li>
           </ul>
+          <a class="more" href="#">더보기</a>
         </div>
         <div class="exam">
           <p id="subtitle">최신 문제</p>
@@ -96,11 +88,7 @@
               <!-- <em class="memberType tutor">초1수학</em> -->
               <div class="photo">
                 <img v-if="exam.thumbnail" :src="exam.thumbnail" alt="photo" />
-                <img
-                  v-else
-                  src="@/assets/images/home/스마트폰-사진.jpg"
-                  alt="photo"
-                />
+                <img v-else src="@/assets/images/home/스마트폰-사진.jpg" alt="photo" />
               </div>
               <div class="contentWrap">
                 <p class="title">
@@ -109,13 +97,16 @@
                 <p class="author">{{ exam.author.username }}</p>
                 <div class="listInfo">
                   <span>{{ exam.examinee.length }} 명 참여중</span>
-                  <span id="dayInfo">{{
+                  <span id="dayInfo">
+                    {{
                     moment(exam.created_at).fromNow()
-                  }}</span>
+                    }}
+                  </span>
                 </div>
               </div>
             </li>
           </ul>
+          <a class="more" href="#">더보기</a>
         </div>
       </section>
     </div>
@@ -215,6 +206,7 @@ export default {
   flex-wrap: wrap;
   margin: 0 -10px;
 }
+
 #pageWrap .examList #subtitle {
   text-align: left;
   width: 100%;
@@ -225,6 +217,12 @@ export default {
 #pageWrap .examList .examWrap {
   border-bottom: 1px solid #dedede;
   margin: 20px 0 50px 0;
+}
+#pageWrap .examList .examWrap[data-v-fae5bece]:after,
+.exam {
+  content: "";
+  display: block;
+  clear: both;
 }
 #more {
   display: block;
@@ -302,6 +300,10 @@ export default {
 }
 #pageWrap .examList li:hover {
   box-shadow: 0 4px 5px 2px rgba(199, 199, 199, 0.4);
+}
+.more {
+  float: right;
+  margin-bottom: 20px;
 }
 @media all and (max-width: 500px) {
   #pageWrap .examList li {
