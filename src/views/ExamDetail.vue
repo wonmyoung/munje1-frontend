@@ -195,7 +195,7 @@
         </div>
       </div>
     </div>
-    <div class="menu" id="background" ref="menu">
+    <div class="menu" ref="menu">
       <h2 id="username">{{ userInfo.username }}</h2>
       <a id="menuTitle" @click="toggleMenutTable">
         나의 최근 성적
@@ -890,7 +890,7 @@ td {
   }
 
   #background {
-    position: fixed;
+    /* position: fixed; */
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.6);
