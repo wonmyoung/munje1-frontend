@@ -74,12 +74,7 @@ export default new Router({
       beforeEnter: requireAuth(),
       component: () => import("./views/Profile.vue")
     },
-    {
-      path: "/exam/detail/:id",
-      name: "detail",
-      // beforeEnter: requireAuth(),
-      component: () => import("./views/Detail.vue")
-    },
+
     {
       path: "/exam/examDetail/:id",
       name: "examDetail",

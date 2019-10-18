@@ -356,12 +356,12 @@ export default {
   mounted() {},
   methods: {
     handleMenu() {
-      if (this.$refs.menu.style.display == "none") {
-        this.$refs.menu.style.display = "block";
-        this.$refs.menu.style.display = "block";
-      } else {
-        this.$refs.menu.style.display = "none";
-      }
+      // if (this.$refs.menu.style.display == "none") {
+      //   this.$refs.menu.style.display = "block";
+      //   this.$refs.menu.style.display = "block";
+      // } else {
+      //   this.$refs.menu.style.display = "none";
+      // }
     },
     getExamInfo() {
       let accessToken = localStorage.getItem("accessToken");
