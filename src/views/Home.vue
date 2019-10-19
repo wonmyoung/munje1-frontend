@@ -45,6 +45,7 @@
             </li>
             <!-- <p id="more">더보기</p> -->
           </ul>
+          <a href="#" class="more">더보기</a>
         </div>
         <div class="exam examWrap">
           <p id="subtitle">인기 문제</p>

@@ -91,7 +91,6 @@ export default {
   // outline: 1px solid #ccc;
   background: #f9f9f9;
   padding: 20px;
-  margin-top: 20px;
 }
 
 #page1 .outLinks li {

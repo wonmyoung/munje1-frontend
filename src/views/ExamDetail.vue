@@ -780,6 +780,7 @@ h3 {
   border: 1px solid rgb(255, 255, 255);
   text-align: left;
   padding: 20px;
+  min-width: 210px;
 }
 .menu #title {
   font-size: 13px;
@@ -858,6 +859,11 @@ td {
   display: inline-block;
   z-index: 9999;
   display: none;
+}
+@media all and (max-width: 1065px) {
+  #subtitle[data-v-95bc19ec] {
+    margin-bottom: 10px;
+  }
 }
 @media all and (max-width: 822px) {
   .el-radio-group {
@@ -1129,6 +1135,7 @@ h4 {
   border: 1px solid #ccc;
   padding: 10px;
   border-radius: 5px;
+  display: inline-block;
 }
 td tr {
   width: 100%;
